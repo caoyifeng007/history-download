@@ -49,16 +49,16 @@
   </el-row>
   <el-row>
     <el-radio-group v-model="selectedType">
-      <el-radio-button :label="true" size="large">期货</el-radio-button>
-      <el-radio-button :label="false" size="large">期权</el-radio-button>
+      <el-radio-button label="期货" size="large">期货</el-radio-button>
+      <el-radio-button label="期权" size="large">期权</el-radio-button>
     </el-radio-group>
   </el-row>
   <el-row>
     <el-checkbox-group v-model="selectedDatas">
       <el-space prefix-cls="data-display" wrap :size="0">
+        <template v-if=""> </template>
         <el-checkbox
           style="width: 11rem"
-          class="datas"
           checked
           v-for="item in displayDatas"
           :key="item.name"
@@ -94,7 +94,7 @@ const { displayDatas, selectedDatas } = useDisplayDatas()
 
 const { selectedTimeGrade } = useTimeGrade()
 
-const selectedType = ref()
+const selectedType = ref('')
 
 const download = () => {
   let reqParams
