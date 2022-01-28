@@ -55,9 +55,9 @@
   </el-row>
   <el-row>
     <el-checkbox-group v-model="selectedDatas">
-      <el-space prefix-cls="data-display" wrap :size="30">
+      <el-space prefix-cls="data-display" wrap :size="0">
         <el-checkbox
-          style="width: 9rem"
+          style="width: 11rem"
           class="datas"
           checked
           v-for="item in displayDatas"
