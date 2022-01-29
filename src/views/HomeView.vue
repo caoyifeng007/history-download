@@ -48,24 +48,30 @@
     </el-select>
   </el-row>
   <el-row>
-    <el-radio-group v-model="selectedType">
+    <el-radio-group
+      v-show="
+        selectedSource == 'basicInfo' || selectedSource == 'deepInfo' || selectedSource == 'dayInfo'
+      "
+      v-model="selectedType"
+    >
       <el-radio-button label="期货" size="large">期货</el-radio-button>
       <el-radio-button label="期权" size="large">期权</el-radio-button>
     </el-radio-group>
   </el-row>
   <el-row>
     <el-checkbox-group v-model="selectedDatas">
-      <el-space prefix-cls="data-display" wrap :size="0">
-        <template v-if=""> </template>
-        <el-checkbox
-          style="width: 11rem"
-          checked
-          v-for="item in displayDatas"
-          :key="item.name"
-          :label="item.name"
-        >
-          {{ item.name }}
-        </el-checkbox>
+      <el-space wrap :size="0">
+        <template v-for="item in displayDatas">
+          <el-checkbox
+            v-if="selectedType == item.futureType"
+            style="width: 11rem"
+            checked
+            :key="item.name"
+            :label="item.name"
+          >
+            {{ item.name }}
+          </el-checkbox>
+        </template>
       </el-space>
     </el-checkbox-group>
   </el-row>
@@ -73,6 +79,7 @@
   <el-row>
     <el-col>
       <el-button type="primary" @click="download">分表下载</el-button>
+      <el-button type="primary" @click="tt">test</el-button>
     </el-col>
   </el-row>
 </template>
@@ -131,6 +138,7 @@ const tt = () => {
   console.log(selectedDays.value)
   console.log(selectedDayRange.value)
   console.log(selectedSource.value)
+  console.log(selectedDatas.value)
 }
 </script>
 
