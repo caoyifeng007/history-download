@@ -1,14 +1,18 @@
 <template>
-  <el-container>
-    <el-header>历史行情</el-header>
-    <el-main>
-      <router-view />
-    </el-main>
-    <!-- <el-footer>Footer</el-footer> -->
-  </el-container>
+  <el-config-provider :locale="zhCn">
+    <el-container>
+      <el-header>历史行情</el-header>
+      <el-main>
+        <router-view />
+      </el-main>
+      <!-- <el-footer>Footer</el-footer> -->
+    </el-container>
+  </el-config-provider>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+</script>
 
 <style>
 #app {
