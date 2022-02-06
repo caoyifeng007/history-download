@@ -1,7 +1,7 @@
 <template>
   <el-config-provider :locale="zhCn">
     <el-container>
-      <el-header>历史行情</el-header>
+      <el-header>{{ title }}</el-header>
       <el-main>
         <router-view />
       </el-main>
@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+const title = import.meta.env.VITE_APP_TITLE
 </script>
 
 <style>
