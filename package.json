@@ -1,6 +1,6 @@
 {
-  "name": "vue-latest-learning",
-  "version": "0.0.0",
+  "name": "history-download-frontend",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
