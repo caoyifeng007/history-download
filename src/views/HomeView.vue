@@ -1,44 +1,51 @@
 <template>
   <el-row>
-    数据类型:
-    <el-radio-group v-model="selectedTimeGrade">
-      <el-radio label="DayPicker" size="default" border>日终数据</el-radio>
-      <el-radio label="MinutePicker" size="default" border>分钟数据</el-radio>
-      <el-radio label="SnapPicker" size="default" border>快照历史数据</el-radio>
+    <p class="home-title">数据类型 :</p>
+    <el-radio-group v-model="selectedTimeGrade" class="home-radio m-l-20">
+      <el-radio label="DayPicker" size="default" border class="home-day">日终历史数据</el-radio>
+      <el-radio label="SnapPicker" size="default" border class="home-snap">快照历史数据</el-radio>
+      <el-radio label="MinutePicker" size="default" border class="home-minute"
+        >分钟历史数据</el-radio
+      >
     </el-radio-group>
   </el-row>
   <el-divider />
   <el-row>
-    下载日期:
-    <el-date-picker
-      v-if="!selectedPicker"
-      key="day"
-      v-model="selectedDays"
-      type="dates"
-      placeholder="请选择日期"
-      value-format="YYYY/MM/DD"
-      :disabled-date="disabledDate"
-      :shortcuts="shortcuts"
-    />
-    <el-date-picker
-      v-if="selectedPicker"
-      key="minute"
-      v-model="selectedDayRange"
-      type="daterange"
-      format="YYYY-MM-DD"
-      value-format="YYYY/MM/DD"
-      range-separator="To"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      :disabled-date="disabledDate"
-    />
-    <el-radio-group v-model="selectedPicker">
+    <div class="home-data-div d-f">
+      <p class="home-title">下载日期 :</p>
+      <div class="m-l-20 m-t-20 home-data" v-show="!selectedPicker">
+        <el-date-picker
+          key="day"
+          v-model="selectedDays"
+          type="dates"
+          placeholder="请选择日期"
+          value-format="YYYY/MM/DD"
+          :disabled-date="disabledDate"
+          :shortcuts="shortcuts"
+        />
+      </div>
+      <div class="m-l-20 m-t-20 home-data" v-show="selectedPicker">
+        <el-date-picker
+          style="width: 500px"
+          key="minute"
+          v-model="selectedDayRange"
+          type="daterange"
+          format="YYYY-MM-DD"
+          value-format="YYYY/MM/DD"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :disabled-date="disabledDate"
+        />
+      </div>
+    </div>
+    <el-radio-group v-model="selectedPicker" class="m-l-40 home-data-type">
       <el-radio :label="true" size="small">范围日期</el-radio>
       <el-radio :label="false" size="small">特定日期</el-radio>
     </el-radio-group>
 
-    行情类型:
-    <el-select v-model="selectedSource" clearable placeholder="Select">
+    <p class="home-title m-l-21">行情类型 :</p>
+    <el-select v-model="selectedSource" clearable placeholder="Select" class="m-t-20 m-l-10">
       <el-option
         v-for="item in options"
         :key="item.value"
@@ -47,24 +54,27 @@
       />
     </el-select>
   </el-row>
+  <div class="m-t-50"></div>
   <el-row>
     <el-radio-group
       v-show="
         selectedSource == 'basicInfo' || selectedSource == 'deepInfo' || selectedSource == 'dayInfo'
       "
       v-model="selectedType"
+      class="home-futures-or-option"
     >
-      <el-radio-button label="期货" size="large">期货</el-radio-button>
-      <el-radio-button label="期权" size="large">期权</el-radio-button>
+      <el-radio-button label="期货" size="large" class="home-futures">期货</el-radio-button>
+      <el-radio-button label="期权" size="large" class="home-option">期权</el-radio-button>
     </el-radio-group>
   </el-row>
   <el-row>
-    <el-checkbox-group v-model="selectedDatas">
+    <el-checkbox-group v-model="selectedDatas" class="home-datas">
       <el-space wrap :size="0">
         <template v-for="item in displayDatas">
           <el-checkbox
             v-if="selectedType == item.futureType"
-            style="width: 11rem"
+            style="width: 9rem"
+            class="datas"
             checked
             :key="item.name"
             :label="item.name"
@@ -75,12 +85,13 @@
       </el-space>
     </el-checkbox-group>
   </el-row>
+  <div class="m-t-50"></div>
   <el-divider />
-  <el-row>
-    <el-col>
-      <el-button type="primary" @click="download">分表下载</el-button>
-      <el-button type="primary" @click="tt">test</el-button>
-    </el-col>
+  <el-row class="home-button">
+    <!-- <el-col> -->
+    <el-button type="primary" @click="download">分表下载</el-button>
+    <el-button type="primary" @click="tt">test</el-button>
+    <!-- </el-col> -->
   </el-row>
 </template>
 
@@ -142,4 +153,142 @@ const tt = () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.home-title {
+  font-size: 20px;
+  color: #333;
+  font-weight: 700;
+}
+.m-l-10 {
+  margin-left: 10px;
+}
+.m-l-20 {
+  margin-left: 20px;
+}
+.m-t-20 {
+  margin-top: 20px;
+}
+.m-t-50 {
+  margin-top: 50px;
+}
+.m-l-40 {
+  margin-left: 40px;
+}
+.m-l-21 {
+  margin-left: 6%;
+}
+.d-f {
+  display: flex;
+}
+.home-data-div {
+  width: 615px;
+}
+</style>
+<style>
+.home-radio .el-radio.is-bordered {
+  background: #d8d8d8;
+  color: #000;
+}
+.home-radio .el-radio.is-bordered.is-checked {
+  background: #8f3132;
+}
+.home-radio .el-radio__input.is-checked + .el-radio__label {
+  color: #fff !important;
+}
+.home-radio .el-radio__inner {
+  border-radius: 0;
+  width: 20px;
+  height: 20px;
+  border: none;
+}
+.home-radio .el-radio__inner::after {
+  border: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 0;
+}
+.home-snap .el-radio__inner {
+  background: url(../assets/快照-红.svg) no-repeat 50% 50%;
+}
+.home-snap .el-radio__inner::after {
+  background: url(../assets/快照.svg) no-repeat 50% 50%;
+}
+.home-day .el-radio__inner {
+  background: url(../assets/历史数据-红.svg) no-repeat 50% 50%;
+}
+.home-day .el-radio__inner::after {
+  background: url(../assets/历史数据.svg) no-repeat 50% 50%;
+}
+.home-minute .el-radio__inner {
+  background: url(../assets/历史数据的副本--红.svg) no-repeat 50% 50%;
+}
+.home-minute .el-radio__inner::after {
+  background: url(../assets/历史数据的副本.svg) no-repeat 50% 50%;
+}
+.home-radio .is-checked .el-radio__inner {
+  border-color: transparent;
+  background: transparent;
+}
+.home-data .el-range-editor.is-active {
+  border-color: #8f3132;
+}
+.home-data .el-input__inner:focus {
+  border-color: #8f3132;
+}
+.home-data-type .el-radio__input.is-checked + .el-radio__label {
+  color: #8f3132;
+}
+.home-data-type .el-radio__input.is-checked .el-radio__inner {
+  border-color: #8f3132;
+  background: #8f3132;
+}
+
+.home-futures span {
+  width: 225px;
+  font-size: 20px;
+  clip-path: polygon(0 0, 93% 0, 100% 100%, 0% 100%);
+}
+.home-option span {
+  width: 240px;
+  font-size: 20px;
+  clip-path: polygon(0 0, 93% 0, 100% 100%, 7% 100%);
+  margin-left: -12px;
+}
+.home-futures-or-option .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  color: #fff;
+  background: #8f3132;
+}
+.home-futures-or-option .el-radio-button .el-radio-button__inner {
+  color: #000;
+  background: #d8d8d8;
+}
+.home-datas .datas {
+  width: 226px !important;
+  text-align: center;
+  display: block;
+  line-height: 38px;
+  height: 38px;
+  color: #fff;
+  background: #cc8586;
+}
+.home-button .el-button {
+  background: #8f3132;
+  color: #fff;
+}
+.home-datas .datas {
+  border: 1px solid #fff;
+}
+.datas .el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: #fff;
+  border-color: #8f3132;
+}
+.datas .el-checkbox__inner::after {
+  border-color: #8f3132;
+}
+.home-datas .el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #fff;
+}
+.home-datas .is-checked {
+  background-color: #8f3132;
+}
+</style>
