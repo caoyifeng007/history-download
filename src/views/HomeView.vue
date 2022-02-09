@@ -63,7 +63,7 @@
       <el-space wrap :size="0">
         <template v-for="item in displayDatas">
           <el-checkbox
-            v-if="selectedType == item.futureType"
+            v-if="selectedType == item.futureType || item.futureType == 'none'"
             style="width: 11rem"
             checked
             :key="item.name"
