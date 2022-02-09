@@ -208,22 +208,22 @@ const tt = () => {
   border-radius: 0;
 }
 .home-snap .el-radio__inner {
-  background: url(../assets/快照-红.svg) no-repeat 50% 50%;
+  background: url(../assets/snap-red.svg) no-repeat 50% 50%;
 }
 .home-snap .el-radio__inner::after {
-  background: url(../assets/快照.svg) no-repeat 50% 50%;
+  background: url(../assets/snap.svg) no-repeat 50% 50%;
 }
 .home-day .el-radio__inner {
-  background: url(../assets/历史数据-红.svg) no-repeat 50% 50%;
+  background: url(../assets/history-red.svg) no-repeat 50% 50%;
 }
 .home-day .el-radio__inner::after {
-  background: url(../assets/历史数据.svg) no-repeat 50% 50%;
+  background: url(../assets/history.svg) no-repeat 50% 50%;
 }
 .home-minute .el-radio__inner {
-  background: url(../assets/历史数据的副本--红.svg) no-repeat 50% 50%;
+  background: url(../assets/history-copy--red.svg) no-repeat 50% 50%;
 }
 .home-minute .el-radio__inner::after {
-  background: url(../assets/历史数据的副本.svg) no-repeat 50% 50%;
+  background: url(../assets/history-copy.svg) no-repeat 50% 50%;
 }
 .home-radio .is-checked .el-radio__inner {
   border-color: transparent;
