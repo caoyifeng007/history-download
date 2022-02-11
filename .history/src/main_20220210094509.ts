@@ -6,7 +6,6 @@ import router from '@/router'
 
 import * as ElIconModules from '@element-plus/icons-vue'
 
-const app = createApp(App)
 // 统一注册Icon图标
 for (const iconName in ElIconModules) {
   if (Reflect.has(ElIconModules, iconName)) {
@@ -14,6 +13,8 @@ for (const iconName in ElIconModules) {
     app.component(iconName, item)
   }
 }
+const app = createApp(App)
+
 app.use(createPinia())
 app.use(router)
 

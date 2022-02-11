@@ -2,19 +2,14 @@
   <el-row>
     <p class="home-title">数据类型 :</p>
     <el-radio-group v-model="selectedTimeGrade" class="home-radio m-l-20">
-      <el-radio label="DayPicker" size="default" border class="home-day">
-        <el-icon :size="20" >
-          <Finished /> </el-icon
-        >日终历史数据</el-radio
+      <el-radio label="DayPicker" size="default" border class="home-day"
+        ><i class="el-icon-edit"></i>日终历史数据</el-radio
       >
-      <el-radio label="SnapPicker" size="default" border class="home-snap">
-        <el-icon :size="20" >
-          <Camera /> </el-icon
-        >快照历史数据</el-radio>
+      <el-radio label="SnapPicker" size="default" border class="home-snap"
+        ><i class="el-icon-camera-solid"></i>快照历史数据</el-radio
+      >
       <el-radio label="MinutePicker" size="default" border class="home-minute"
-        ><el-icon :size="20" >
-          <Edit /> </el-icon
-        >分钟历史数据</el-radio
+        ><i class="el-icon-edit"></i>分钟历史数据</el-radio
       >
     </el-radio-group>
   </el-row>
@@ -196,7 +191,7 @@ const tt = () => {
 <style>
 .home-radio .el-radio.is-bordered {
   background: #d8d8d8;
-  color: #8f3132;
+  color: #000;
 }
 .home-radio .el-radio.is-bordered.is-checked {
   background: #8f3132;
@@ -216,29 +211,28 @@ const tt = () => {
   height: 22px;
   border-radius: 0;
 }
-.home-radio .el-radio__inner{
-  background-color:transparent;
+.home-snap .el-radio__inner {
+  background: url(../assets/snap-red.svg) no-repeat 50% 50%;
 }
-.home-radio  .el-radio__input.is-checked .el-radio__inner{
-  background: #8f3132;
+.home-snap .el-radio__inner::after {
+  background: url(../assets/snap.svg) no-repeat 50% 50%;
 }
-.home-radio  .el-radio__input.is-checked .el-radio__inner::after{
-  background: #8f3132;
+.home-day .el-radio__inner {
+  background: url(../assets/history-red.svg) no-repeat 50% 50%;
 }
-.home-radio .el-radio{
-  position: relative;
+.home-day .el-radio__inner::after {
+  background: url(../assets/history.svg) no-repeat 50% 50%;
 }
-.home-radio .el-icon{
-  position: absolute;
-  left:9px;
+.home-minute .el-radio__inner {
+  background: url(../assets/history-copy--red.svg) no-repeat 50% 50%;
 }
-.home-radio  .el-radio.is-bordered.is-checked .el-icon{
-  color:#fff;
+.home-minute .el-radio__inner::after {
+  background: url(../assets/history-copy.svg) no-repeat 50% 50%;
 }
-.home-data .el-date-editor--dates .el-icon{
-  margin-top:8px;
+.home-radio .is-checked .el-radio__inner {
+  border-color: transparent;
+  background: transparent;
 }
-
 .home-data .el-range-editor.is-active {
   border-color: #8f3132;
 }
