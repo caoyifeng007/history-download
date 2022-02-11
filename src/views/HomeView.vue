@@ -112,6 +112,7 @@ import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDataSources } from '@/hooks/useDataSources'
 import { useDisplayDatas } from '@/hooks/useDisplayDatas'
 import { useTimeGrade } from '@/hooks/useTimeGrade'
+import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 
 const { selectedDays, selectedDayRange, shortcuts, disabledDate, selectedPicker } = useDatePicker()
 
