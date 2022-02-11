@@ -1,8 +1,4 @@
 <template>
-  <el-icon :size="20">
-    <edit></edit>
-    <aim />
-  </el-icon>
   <el-row justify="center" align="middle">
     <el-col :xs="22" :sm="22" :md="22" :lg="6" :xl="6">
       <el-input
