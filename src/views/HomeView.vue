@@ -101,6 +101,7 @@
 
 <script setup lang="ts">
 import axIns from '@/request'
+import type { IData } from '@/request'
 import { ref } from 'vue'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
@@ -135,15 +136,15 @@ const download = () => {
     }
   }
   axIns
-    .get('/download', {
+    .get<IData>('/download', {
       params: reqParams,
     })
-    .then(({ status, data }) => {
-      if (status == 200 && data.validate == 'ok') {
-        console.log('response data is', data)
+    .then((res) => {
+      if (res.validate == 'ok') {
+        console.log('response data is', res.durl)
 
         const formNode = document.createElement('form')
-        formNode.setAttribute('action', data.dUrl)
+        formNode.setAttribute('action', res.durl)
 
         document.body.appendChild(formNode)
         formNode.submit()

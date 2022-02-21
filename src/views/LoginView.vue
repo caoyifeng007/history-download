@@ -35,6 +35,7 @@ import { ref, onMounted } from 'vue'
 import router from '@/router'
 
 import axIns from '@/request/index'
+import type { ILogin } from '@/request/index'
 
 let account = ref('')
 
@@ -48,8 +49,8 @@ let password = ref('')
 // })
 
 const login = () => {
-  axIns.get('/login').then((res) => {
-    if (res.data.validate == 'ok') {
+  axIns.get<ILogin>('/login').then((res) => {
+    if (res.validate == 'ok') {
       console.log('login success.')
 
       router.push({ path: '/home' })

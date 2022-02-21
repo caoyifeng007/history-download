@@ -32,11 +32,11 @@ export default defineConfig({
         target: 'http://localhost:8880',
         changeOrigin: true,
       },
-      '/login': {
+      '/v1/login': {
         target: 'http://localhost:8880',
         changeOrigin: true,
       },
-      '/download': {
+      '/v1/download': {
         target: 'http://localhost:8880',
         changeOrigin: true,
       },
