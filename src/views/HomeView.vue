@@ -104,7 +104,7 @@ import type { IDataResp } from '@/request'
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDataSources } from '@/hooks/useDataSources'
 import { useDisplayDatas } from '@/hooks/useDisplayDatas'
-import { TimeLevels } from '@/commons/enums'
+import { TimeLevels, Products } from '@/commons/enums'
 
 import { useHqyStore } from '@/stores'
 
@@ -113,7 +113,7 @@ const { timeLevel, date, rangePicker, product, category, selectedDatas } = store
 
 const { disabledDate } = useDatePicker()
 
-const { options, Products } = useDataSources(timeLevel, product)
+const { options } = useDataSources(timeLevel, product)
 
 const { displayDatas } = useDisplayDatas(product)
 

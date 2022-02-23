@@ -1,6 +1,6 @@
 import { ref, watch, Ref } from 'vue'
-import { Products } from '@/hooks/useDataSources'
 import type { DataItem } from '@/commons/types'
+import { Products } from '@/commons/enums'
 
 const basicDatas: DataItem[] = [
   { category: '期货', item: '品种1' },

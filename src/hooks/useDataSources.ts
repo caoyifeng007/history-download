@@ -64,7 +64,5 @@ export function useDataSources(timeLevel: Ref<string>, product: Ref<string>) {
     }
   )
 
-  return { options, Products }
+  return { options }
 }
-
-export { Products }
