@@ -1,14 +1,14 @@
 <template>
   <el-row>
     <p class="home-title">数据类型 :</p>
-    <el-radio-group v-model="selectedTimeGrade" class="home-radio m-l-20">
-      <el-radio label="DayPicker" size="default" border class="home-day">
+    <el-radio-group v-model="dataLevel" class="home-radio m-l-20">
+      <el-radio label="DayLevel" size="default" border class="home-day">
         <el-icon :size="20"> <Finished /> </el-icon>日终历史数据</el-radio
       >
-      <el-radio label="SnapPicker" size="default" border class="home-snap">
+      <el-radio label="SnapLevel" size="default" border class="home-snap">
         <el-icon :size="20"> <Camera /> </el-icon>快照历史数据</el-radio
       >
-      <el-radio label="MinutePicker" size="default" border class="home-minute"
+      <el-radio label="MinuteLevel" size="default" border class="home-minute"
         ><el-icon :size="20"> <Edit /> </el-icon>分钟历史数据</el-radio
       >
     </el-radio-group>
@@ -17,7 +17,7 @@
   <el-row>
     <div class="home-data-div d-f">
       <p class="home-title">下载日期 :</p>
-      <div class="m-l-20 m-t-20 home-data" v-show="!selectedPicker">
+      <div class="m-l-20 m-t-20 home-data" v-show="!rangePicker">
         <el-date-picker
           key="day"
           v-model="selectedDays"
@@ -25,10 +25,9 @@
           placeholder="请选择日期"
           value-format="YYYY/MM/DD"
           :disabled-date="disabledDate"
-          :shortcuts="shortcuts"
         />
       </div>
-      <div class="m-l-20 m-t-20 home-data" v-show="selectedPicker">
+      <div class="m-l-20 m-t-20 home-data" v-show="rangePicker">
         <el-date-picker
           style="width: 500px"
           key="minute"
@@ -43,7 +42,7 @@
         />
       </div>
     </div>
-    <el-radio-group v-model="selectedPicker" class="m-l-40 home-data-type">
+    <el-radio-group v-model="rangePicker" class="m-l-40 home-data-type">
       <el-radio :label="true" size="small">范围日期</el-radio>
       <el-radio :label="false" size="small">特定日期</el-radio>
     </el-radio-group>
@@ -100,30 +99,36 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { Edit, Camera, Finished } from '@element-plus/icons-vue'
+
+import { storeToRefs } from 'pinia'
+import { useHqyStore } from '@/stores'
+
 import axIns from '@/request'
 import type { IData } from '@/request'
-import { ref } from 'vue'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDataSources } from '@/hooks/useDataSources'
 import { useDisplayDatas } from '@/hooks/useDisplayDatas'
-import { useTimeGrade } from '@/hooks/useTimeGrade'
+// import { useDataLevel } from '@/hooks/useDataLevel'
 
-import { Edit, Camera, Finished } from '@element-plus/icons-vue'
+const mainStore = useHqyStore()
+const { dataLevel } = storeToRefs(mainStore)
 
-const { selectedDays, selectedDayRange, shortcuts, disabledDate, selectedPicker } = useDatePicker()
+const { selectedDays, selectedDayRange, disabledDate, rangePicker } = useDatePicker()
 
 const { selectedSource, options } = useDataSources()
 
 const { displayDatas, selectedDatas } = useDisplayDatas()
 
-const { selectedTimeGrade } = useTimeGrade()
+// const { dataLevel } = useDataLevel()
 
 const selectedType = ref('')
 
 const download = () => {
   let reqParams
-  if (selectedTimeGrade.value == 'DayPicker') {
+  if (rangePicker.value) {
     reqParams = {
       picker: 'minutePicker',
       startTime: selectedDayRange.value[0],
@@ -153,10 +158,11 @@ const download = () => {
 }
 
 const tt = () => {
-  console.log(selectedDays.value)
-  console.log(selectedDayRange.value)
-  console.log(selectedSource.value)
-  console.log(selectedDatas.value)
+  // console.log(selectedDays.value)
+  // console.log(selectedDayRange.value)
+  // console.log(selectedSource.value)
+  // console.log(selectedDatas.value)
+  console.log(dataLevel.value)
 }
 </script>
 

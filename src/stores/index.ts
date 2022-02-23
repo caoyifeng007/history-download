@@ -1,16 +1,10 @@
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore({
-  id: 'counter',
+export const useHqyStore = defineStore({
+  id: 'hqy',
   state: () => ({
-    counter: 110,
+    dataLevel: '',
   }),
-  getters: {
-    doubleCount: (state) => state.counter * 2,
-  },
-  actions: {
-    increment() {
-      this.counter++
-    },
-  },
+  getters: {},
+  actions: {},
 })

@@ -1,6 +1,10 @@
 import { ref, watch, onMounted } from 'vue'
-import { selectedTimeGrade } from '@/hooks/useTimeGrade'
 import { displayDatas } from '@/hooks/useDisplayDatas'
+
+// import { storeToRefs } from 'pinia'
+import { useHqyStore } from '@/stores'
+const mainStore = useHqyStore()
+// const { dataLevel } = storeToRefs(mainStore)
 
 export interface OptionItem {
   label: string
@@ -60,7 +64,7 @@ export function useDataSources() {
   })
 
   watch(
-    () => selectedTimeGrade.value,
+    () => mainStore.dataLevel,
     (v) => {
       if (v == 'DayPicker') {
         options.value = dayOptions

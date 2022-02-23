@@ -9,8 +9,7 @@ class HqyRequest {
 
     this.instance.interceptors.request.use(
       (config) => {
-        config.url = '/v1' + config.url
-        console.log(config.url)
+        console.log(config.params)
         return config
       },
       (err) => {
