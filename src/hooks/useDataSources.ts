@@ -1,88 +1,70 @@
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, Ref } from 'vue'
 import { displayDatas } from '@/hooks/useDisplayDatas'
-
-// import { storeToRefs } from 'pinia'
-import { useHqyStore } from '@/stores'
-const mainStore = useHqyStore()
-// const { dataLevel } = storeToRefs(mainStore)
-
-export interface OptionItem {
-  label: string
-  value: string
-}
+import { TimeLevels, Products } from '@/commons/enums'
+import type { OptionItem } from '@/commons/types'
 
 const dayOptions: OptionItem[] = [
   {
     label: '日终行情',
-    value: 'dayInfo',
+    value: Products.Day,
   },
   {
     label: '指数数据',
-    value: 'indexInfo',
+    value: Products.Index,
   },
 ]
 const minuteOptions: OptionItem[] = [
   {
     label: '基本行情',
-    value: 'basicInfo',
+    value: Products.Basic,
   },
   {
     label: '深度行情',
-    value: 'deepInfo',
+    value: Products.Deep,
   },
   {
     label: '指数数据',
-    value: 'indexInfo',
+    value: Products.Index,
   },
 ]
 const snapOptions: OptionItem[] = [
   {
     label: '基本行情',
-    value: 'basicInfo',
+    value: Products.Basic,
   },
   {
     label: '深度行情',
-    value: 'deepInfo',
+    value: Products.Deep,
   },
   {
     label: '指数数据',
-    value: 'indexInfo',
+    value: Products.Index,
   },
   {
     label: '场外数据',
-    value: 'outsideInfo',
+    value: Products.Out,
   },
 ]
 
-const selectedSource = ref('')
 const options = ref<OptionItem[]>()
 
-export function useDataSources() {
-  onMounted(() => {
-    // options.value = dayOptions
-    // selectedSource.value = 'dayInfo'
-  })
-
+export function useDataSources(dataLevel: Ref<string>, product: Ref<string>) {
   watch(
-    () => mainStore.dataLevel,
+    () => dataLevel.value,
     (v) => {
-      if (v == 'DayPicker') {
+      if (v == TimeLevels.DayLevel) {
         options.value = dayOptions
-        selectedSource.value = ''
-        displayDatas.value = []
-      } else if (v == 'MinutePicker') {
+      } else if (v == TimeLevels.MinuteLevel) {
         options.value = minuteOptions
-        selectedSource.value = ''
-        displayDatas.value = []
-      } else if (v == 'SnapPicker') {
+      } else if (v == TimeLevels.SnapLevel) {
         options.value = snapOptions
-        selectedSource.value = ''
-        displayDatas.value = []
       }
+      product.value = ''
+      displayDatas.value = []
     }
   )
 
-  return { selectedSource, options }
+  return { options, Products }
 }
 
-export { selectedSource }
+export { Products }

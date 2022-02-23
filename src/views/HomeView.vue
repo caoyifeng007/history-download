@@ -2,13 +2,13 @@
   <el-row>
     <p class="home-title">数据类型 :</p>
     <el-radio-group v-model="dataLevel" class="home-radio m-l-20">
-      <el-radio label="DayLevel" size="default" border class="home-day">
+      <el-radio :label="TimeLevels.DayLevel" size="default" border class="home-day">
         <el-icon :size="20"> <Finished /> </el-icon>日终历史数据</el-radio
       >
-      <el-radio label="SnapLevel" size="default" border class="home-snap">
+      <el-radio :label="TimeLevels.SnapLevel" size="default" border class="home-snap">
         <el-icon :size="20"> <Camera /> </el-icon>快照历史数据</el-radio
       >
-      <el-radio label="MinuteLevel" size="default" border class="home-minute"
+      <el-radio :label="TimeLevels.MinuteLevel" size="default" border class="home-minute"
         ><el-icon :size="20"> <Edit /> </el-icon>分钟历史数据</el-radio
       >
     </el-radio-group>
@@ -20,7 +20,7 @@
       <div class="m-l-20 m-t-20 home-data" v-show="!rangePicker">
         <el-date-picker
           key="day"
-          v-model="selectedDays"
+          v-model="date"
           type="dates"
           placeholder="请选择日期"
           value-format="YYYY/MM/DD"
@@ -31,7 +31,7 @@
         <el-date-picker
           style="width: 500px"
           key="minute"
-          v-model="selectedDayRange"
+          v-model="date"
           type="daterange"
           format="YYYY-MM-DD"
           value-format="YYYY/MM/DD"
@@ -43,12 +43,12 @@
       </div>
     </div>
     <el-radio-group v-model="rangePicker" class="m-l-40 home-data-type">
-      <el-radio :label="true" size="small">范围日期</el-radio>
-      <el-radio :label="false" size="small">特定日期</el-radio>
+      <el-radio :label="true" size="small" @click="date = ''">范围日期</el-radio>
+      <el-radio :label="false" size="small" @click="date = ''">特定日期</el-radio>
     </el-radio-group>
 
     <p class="home-title m-l-21">行情类型 :</p>
-    <el-select v-model="selectedSource" clearable placeholder="Select" class="m-t-20 m-l-10">
+    <el-select v-model="product" clearable placeholder="Select" class="m-t-20 m-l-10">
       <el-option
         v-for="item in options"
         :key="item.value"
@@ -60,10 +60,8 @@
   <div class="m-t-50"></div>
   <el-row>
     <el-radio-group
-      v-show="
-        selectedSource == 'basicInfo' || selectedSource == 'deepInfo' || selectedSource == 'dayInfo'
-      "
-      v-model="selectedType"
+      v-show="product == Products.Basic || product == Products.Deep || product == Products.Day"
+      v-model="category"
       class="home-futures-or-option"
     >
       <el-radio-button label="期货" size="large" class="home-futures">期货</el-radio-button>
@@ -73,16 +71,16 @@
   <el-row>
     <el-checkbox-group v-model="selectedDatas" class="home-datas">
       <el-space wrap :size="0">
-        <template v-for="item in displayDatas">
+        <template v-for="data in displayDatas">
           <el-checkbox
-            v-if="selectedType == item.futureType || item.futureType == 'none'"
+            v-if="category == data.category || data.category == 'none'"
             style="width: 9rem"
             class="datas"
             checked
-            :key="item.name"
-            :label="item.name"
+            :key="data.item"
+            :label="data.item"
           >
-            {{ item.name }}
+            {{ data.item }}
           </el-checkbox>
         </template>
       </el-space>
@@ -90,20 +88,18 @@
   </el-row>
   <div class="m-t-50"></div>
   <el-divider />
+
   <el-row class="home-button">
-    <!-- <el-col> -->
     <el-button type="primary" @click="download">分表下载</el-button>
-    <el-button type="primary" @click="tt">test</el-button>
-    <!-- </el-col> -->
+    <el-button type="primary" @click="ttt">test</el-button>
   </el-row>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 
-import { storeToRefs } from 'pinia'
-import { useHqyStore } from '@/stores'
+import { ref } from 'vue'
 
 import axIns from '@/request'
 import type { IData } from '@/request'
@@ -111,33 +107,31 @@ import type { IData } from '@/request'
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDataSources } from '@/hooks/useDataSources'
 import { useDisplayDatas } from '@/hooks/useDisplayDatas'
-// import { useDataLevel } from '@/hooks/useDataLevel'
+import { TimeLevels } from '@/commons/enums'
 
-const mainStore = useHqyStore()
-const { dataLevel } = storeToRefs(mainStore)
+import { useHqyStore } from '@/stores'
 
-const { selectedDays, selectedDayRange, disabledDate, rangePicker } = useDatePicker()
+const te = ref('')
 
-const { selectedSource, options } = useDataSources()
+const { dataLevel, date, rangePicker, product, category, selectedDatas } = storeToRefs(
+  useHqyStore()
+)
 
-const { displayDatas, selectedDatas } = useDisplayDatas()
+const { disabledDate } = useDatePicker()
 
-// const { dataLevel } = useDataLevel()
+const { options, Products } = useDataSources(dataLevel, product)
 
-const selectedType = ref('')
+const { displayDatas } = useDisplayDatas(product)
 
 const download = () => {
   let reqParams
   if (rangePicker.value) {
     reqParams = {
       picker: 'minutePicker',
-      startTime: selectedDayRange.value[0],
-      endTime: selectedDayRange.value[1],
     }
   } else {
     reqParams = {
       picker: 'dayPicker',
-      selectedDate: selectedDays.value,
     }
   }
   axIns
@@ -157,12 +151,8 @@ const download = () => {
     })
 }
 
-const tt = () => {
-  // console.log(selectedDays.value)
-  // console.log(selectedDayRange.value)
-  // console.log(selectedSource.value)
-  // console.log(selectedDatas.value)
-  console.log(dataLevel.value)
+function ttt() {
+  console.log(te.value)
 }
 </script>
 
