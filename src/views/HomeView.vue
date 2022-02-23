@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <p class="home-title">数据类型 :</p>
-    <el-radio-group v-model="dataLevel" class="home-radio m-l-20">
+    <el-radio-group v-model="timeLevel" class="home-radio m-l-20">
       <el-radio :label="TimeLevels.DayLevel" size="default" border class="home-day">
         <el-icon :size="20"> <Finished /> </el-icon>日终历史数据</el-radio
       >
@@ -91,7 +91,6 @@
 
   <el-row class="home-button">
     <el-button type="primary" @click="download">分表下载</el-button>
-    <el-button type="primary" @click="ttt">test</el-button>
   </el-row>
 </template>
 
@@ -99,10 +98,8 @@
 import { storeToRefs } from 'pinia'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 
-import { ref } from 'vue'
-
 import axIns from '@/request'
-import type { IData } from '@/request'
+import type { IDataResp } from '@/request'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDataSources } from '@/hooks/useDataSources'
@@ -111,15 +108,12 @@ import { TimeLevels } from '@/commons/enums'
 
 import { useHqyStore } from '@/stores'
 
-const te = ref('')
-
-const { dataLevel, date, rangePicker, product, category, selectedDatas } = storeToRefs(
-  useHqyStore()
-)
+const hqyStore = useHqyStore()
+const { timeLevel, date, rangePicker, product, category, selectedDatas } = storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
 
-const { options, Products } = useDataSources(dataLevel, product)
+const { options, Products } = useDataSources(timeLevel, product)
 
 const { displayDatas } = useDisplayDatas(product)
 
@@ -135,7 +129,7 @@ const download = () => {
     }
   }
   axIns
-    .get<IData>('/download', {
+    .get<IDataResp>('/download', {
       params: reqParams,
     })
     .then((res) => {
@@ -149,10 +143,6 @@ const download = () => {
         formNode.submit()
       }
     })
-}
-
-function ttt() {
-  console.log(te.value)
 }
 </script>
 

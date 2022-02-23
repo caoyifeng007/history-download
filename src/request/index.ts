@@ -45,13 +45,13 @@ export default new HqyRequest({
   timeout: 1000,
 })
 
-interface ILogin {
+interface ILoginResp {
   validate: string
 }
 
-interface IData {
+interface IDataResp {
   validate: string
   durl: string
 }
 
-export type { ILogin, IData }
+export type { ILoginResp, IDataResp }

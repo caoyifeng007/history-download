@@ -48,9 +48,9 @@ const snapOptions: OptionItem[] = [
 
 const options = ref<OptionItem[]>()
 
-export function useDataSources(dataLevel: Ref<string>, product: Ref<string>) {
+export function useDataSources(timeLevel: Ref<string>, product: Ref<string>) {
   watch(
-    () => dataLevel.value,
+    () => timeLevel.value,
     (v) => {
       if (v == TimeLevels.DayLevel) {
         options.value = dayOptions

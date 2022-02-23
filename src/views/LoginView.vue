@@ -30,32 +30,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
+import { ref } from 'vue'
 import router from '@/router'
 
-import axIns from '@/request/index'
-import type { ILogin } from '@/request/index'
+import { useHqyStore } from '@/stores'
+import axIns from '@/request'
+import type { ILoginResp } from '@/request'
 
-let account = ref('')
+const account = ref('')
+const password = ref('')
 
-let password = ref('')
+const hqyStore = useHqyStore()
 
-// let msg = ref('')
-// onMounted(() => {
-//   axIns.get('/ping').then((res) => {
-//     msg.value = res.data
-//   })
-// })
-
-const login = () => {
-  axIns.get<ILogin>('/login').then((res) => {
-    if (res.validate == 'ok') {
-      console.log('login success.')
-
-      router.push({ path: '/home' })
-    }
+async function login() {
+  const res = await axIns.get<ILoginResp>('/login', {
+    params: {
+      account,
+      password,
+    },
   })
+
+  if (res.validate == 'ok') {
+    hqyStore.displayDataInit(res)
+
+    router.push({ path: '/home' })
+  } else {
+    console.log('账号密码有误')
+  }
 }
 </script>
 

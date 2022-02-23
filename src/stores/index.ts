@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
+import type { ILoginResp } from '@/request'
 
 export const useHqyStore = defineStore({
   id: 'hqy',
   state: () => ({
-    dataLevel: '',
+    timeLevel: '',
     date: '',
     rangePicker: false,
     product: '',
@@ -11,5 +12,13 @@ export const useHqyStore = defineStore({
     selectedDatas: [] as string[],
   }),
   getters: {},
-  actions: {},
+  actions: {
+    displayDataInit(res: ILoginResp) {
+      console.log(res)
+
+      // this.$patch((state) => {
+      //   state.rangePicker = true
+      // })
+    },
+  },
 })
