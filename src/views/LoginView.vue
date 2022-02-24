@@ -43,12 +43,17 @@ const password = ref('')
 const hqyStore = useHqyStore()
 
 async function login() {
-  const res = await axIns.get<ILoginResp>('/login', {
-    params: {
+  console.log(account.value)
+  console.log(password.value)
+
+  const res = await axIns.post<ILoginResp>('/login', {
+    data: {
       account,
       password,
     },
   })
+
+  console.log(res)
 
   if (res.validate == 'ok') {
     hqyStore.displayDataInit(res)

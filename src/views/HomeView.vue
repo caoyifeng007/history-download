@@ -64,8 +64,8 @@
       v-model="category"
       class="home-futures-or-option"
     >
-      <el-radio-button label="期货" size="large" class="home-futures">期货</el-radio-button>
-      <el-radio-button label="期权" size="large" class="home-option">期权</el-radio-button>
+      <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
+      <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
     </el-radio-group>
   </el-row>
   <el-row>
@@ -117,32 +117,27 @@ const { options } = useDataSources(timeLevel, product)
 
 const { displayDatas } = useDisplayDatas(product)
 
-const download = () => {
-  let reqParams
-  if (rangePicker.value) {
-    reqParams = {
-      picker: 'minutePicker',
-    }
-  } else {
-    reqParams = {
-      picker: 'dayPicker',
-    }
+async function download() {
+  const res = await axIns.get<IDataResp>('/download', {
+    params: {
+      timeLevel,
+      date,
+      rangePicker,
+      product,
+      category,
+      selectedDatas,
+    },
+  })
+
+  if (res.validate == 'ok') {
+    console.log('response data is', res.durl)
+
+    const formNode = document.createElement('form')
+    formNode.setAttribute('action', res.durl)
+
+    document.body.appendChild(formNode)
+    formNode.submit()
   }
-  axIns
-    .get<IDataResp>('/download', {
-      params: reqParams,
-    })
-    .then((res) => {
-      if (res.validate == 'ok') {
-        console.log('response data is', res.durl)
-
-        const formNode = document.createElement('form')
-        formNode.setAttribute('action', res.durl)
-
-        document.body.appendChild(formNode)
-        formNode.submit()
-      }
-    })
 }
 </script>
 
