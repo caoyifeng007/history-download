@@ -43,25 +43,19 @@ const password = ref('')
 const hqyStore = useHqyStore()
 
 async function login() {
-  console.log(account.value)
-  console.log(password.value)
-
   const res = await axIns.post<ILoginResp>('/login', {
-    data: {
-      account,
-      password,
-    },
+    account: account.value,
+    password: password.value,
   })
 
-  console.log(res)
-
-  if (res.validate == 'ok') {
-    hqyStore.displayDataInit(res)
-
-    router.push({ path: '/home' })
-  } else {
+  if (res.validate != 'ok') {
     console.log('账号密码有误')
+    return
   }
+
+  hqyStore.displayDataInit(res)
+
+  router.push({ path: '/home' })
 }
 </script>
 

@@ -1,6 +1,19 @@
 import type { AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
 
+interface ILoginResp {
+  validate: string
+}
+
+interface IDataResp {
+  validate: string
+  durl: string
+}
+
+interface ILogin {
+  account: string
+  password: string
+}
 class HqyRequest {
   instance: AxiosInstance
 
@@ -35,8 +48,8 @@ class HqyRequest {
     return this.instance.get(url, config)
   }
 
-  post<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.post(url, config)
+  post<T>(url: string, data: ILogin, config?: AxiosRequestConfig): Promise<T> {
+    return this.instance.post(url, data, config)
   }
 }
 
@@ -44,14 +57,5 @@ export default new HqyRequest({
   // baseURL: process.env.VUE_APP_BASE_SERVER,
   timeout: 1000,
 })
-
-interface ILoginResp {
-  validate: string
-}
-
-interface IDataResp {
-  validate: string
-  durl: string
-}
 
 export type { ILoginResp, IDataResp }
