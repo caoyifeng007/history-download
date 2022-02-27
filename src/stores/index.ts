@@ -38,6 +38,9 @@ export const useHqyStore = defineStore({
       }
     },
     selection(state) {
+      if (state.product == Products.Index || state.product == Products.Out) {
+        return state.timeLevel + state.product
+      }
       return state.timeLevel + state.product + state.category
     },
     displayDatas(state) {

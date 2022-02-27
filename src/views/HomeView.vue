@@ -71,9 +71,15 @@
   <el-row>
     <el-checkbox-group v-model="selectedDatas" class="home-datas">
       <el-space wrap :size="0">
-        <template v-for="(value, index) in displayDatas" :key="value">
-          <el-checkbox v-if="value" style="width: 9rem" class="datas" checked :label="value">
-            {{ index }}
+        <template v-for="(value, key) in displayDatas" :key="value">
+          <el-checkbox
+            v-if="value"
+            style="width: 9rem"
+            class="datas"
+            checked
+            :label="(key as number)"
+          >
+            {{ key }}
           </el-checkbox>
         </template>
       </el-space>
