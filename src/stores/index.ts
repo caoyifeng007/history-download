@@ -12,6 +12,8 @@ export const useHqyStore = defineStore({
     product: '',
     category: '',
     selectedDatas: [] as string[],
+    selectedFtrDatas: [] as string[],
+    selectedOptDatas: [] as string[],
     daylvFtr: {} as Record<string, number>,
     daylvOpt: {} as Record<string, number>,
     daylvIdx: {} as Record<string, number>,
@@ -26,6 +28,8 @@ export const useHqyStore = defineStore({
     minlvL2Ftr: {} as Record<string, number>,
     minlvL2Opt: {} as Record<string, number>,
     minlvIdx: {} as Record<string, number>,
+    displayFtrDatas: {} as Record<string, number>,
+    displayOptDatas: {} as Record<string, number>,
   }),
   getters: {
     options(state) {
@@ -37,42 +41,55 @@ export const useHqyStore = defineStore({
         return minuteOptions
       }
     },
+    timeLvAndProduct(state) {
+      return state.timeLevel + state.product
+    },
     selection(state) {
       if (state.product == Products.Index || state.product == Products.Out) {
         return state.timeLevel + state.product
       }
       return state.timeLevel + state.product + state.category
     },
-    displayDatas(state) {
+    isFtrDatas(state) {
       switch (this.selection) {
         case TimeLevels.DayLevel + Products.Day + Categories.Ftr:
-          return state.daylvFtr
+          state.displayFtrDatas = state.daylvFtr
+          return true
         case TimeLevels.DayLevel + Products.Day + Categories.Opt:
-          return state.daylvOpt
-        case TimeLevels.DayLevel + Products.Index:
-          return state.daylvIdx
+          state.displayOptDatas = state.daylvOpt
+          return false
+        // case TimeLevels.DayLevel + Products.Index:
+        // return state.daylvIdx
         case TimeLevels.SnapLevel + Products.Basic + Categories.Ftr:
-          return state.snaplvL1Ftr
+          state.displayFtrDatas = state.snaplvL1Ftr
+          return true
         case TimeLevels.SnapLevel + Products.Basic + Categories.Opt:
-          return state.snaplvL1Opt
+          state.displayOptDatas = state.snaplvL1Opt
+          return false
         case TimeLevels.SnapLevel + Products.Deep + Categories.Ftr:
-          return state.snaplvL2Ftr
+          state.displayFtrDatas = state.snaplvL2Ftr
+          return true
         case TimeLevels.SnapLevel + Products.Deep + Categories.Opt:
-          return state.snaplvL2Opt
-        case TimeLevels.SnapLevel + Products.Index:
-          return state.snaplvIdx
-        case TimeLevels.SnapLevel + Products.Out:
-          return state.snaplvOtc
+          state.displayOptDatas = state.snaplvL2Opt
+          return false
+        // case TimeLevels.SnapLevel + Products.Index:
+        // return state.snaplvIdx
+        // case TimeLevels.SnapLevel + Products.Out:
+        // return state.snaplvOtc
         case TimeLevels.MinuteLevel + Products.Basic + Categories.Ftr:
-          return state.minlvL1Ftr
+          state.displayFtrDatas = state.minlvL1Ftr
+          return true
         case TimeLevels.MinuteLevel + Products.Basic + Categories.Opt:
-          return state.minlvL1Opt
+          state.displayOptDatas = state.minlvL1Ftr
+          return false
         case TimeLevels.MinuteLevel + Products.Deep + Categories.Ftr:
-          return state.minlvL2Ftr
+          state.displayFtrDatas = state.minlvL2Ftr
+          return true
         case TimeLevels.MinuteLevel + Products.Deep + Categories.Opt:
-          return state.minlvL2Opt
-        case TimeLevels.MinuteLevel + Products.Index:
-          return state.minlvIdx
+          state.displayOptDatas = state.minlvL2Opt
+          return false
+        // case TimeLevels.MinuteLevel + Products.Index:
+        // return state.minlvIdx
       }
 
       return ''

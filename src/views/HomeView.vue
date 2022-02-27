@@ -69,15 +69,30 @@
     </el-radio-group>
   </el-row>
   <el-row>
-    <el-checkbox-group v-model="selectedDatas" class="home-datas">
+    <el-checkbox-group v-model="selectedFtrDatas" v-show="isFtrDatas" class="home-datas">
       <el-space wrap :size="0">
-        <template v-for="(value, key) in displayDatas" :key="value">
+        <template v-for="(value, key) in displayFtrDatas" :key="value">
           <el-checkbox
             v-if="value"
             style="width: 9rem"
             class="datas"
             checked
-            :label="(key as number)"
+            :label="(key as string)"
+          >
+            {{ key }}
+          </el-checkbox>
+        </template>
+      </el-space>
+    </el-checkbox-group>
+    <el-checkbox-group v-model="selectedOptDatas" v-show="!isFtrDatas" class="home-datas">
+      <el-space wrap :size="0">
+        <template v-for="(value, key) in displayOptDatas" :key="value">
+          <el-checkbox
+            v-if="value"
+            style="width: 9rem"
+            class="datas"
+            checked
+            :label="(key as string)"
           >
             {{ key }}
           </el-checkbox>
@@ -107,8 +122,22 @@ import { TimeLevels, Products } from '@/commons/enums'
 import { useHqyStore } from '@/stores'
 
 const hqyStore = useHqyStore()
-const { timeLevel, date, rangePicker, product, category, selectedDatas, displayDatas, options } =
-  storeToRefs(hqyStore)
+const {
+  timeLevel,
+  date,
+  rangePicker,
+  product,
+  category,
+  selectedDatas,
+  // displayDatas,
+  options,
+  timeLvAndProduct,
+  selectedFtrDatas,
+  selectedOptDatas,
+  displayFtrDatas,
+  displayOptDatas,
+  isFtrDatas,
+} = storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
 
@@ -139,7 +168,14 @@ watch(
   () => timeLevel.value,
   (v) => {
     product.value = ''
-    displayDatas.value = {}
+    displayFtrDatas.value = {}
+    displayOptDatas.value = {}
+  }
+)
+watch(
+  () => timeLvAndProduct.value,
+  (v) => {
+    selectedDatas.value = []
   }
 )
 </script>
