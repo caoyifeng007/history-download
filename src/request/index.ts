@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from 'axios'
 
 interface ILoginResp {
   validate: string
+  data: any
 }
 
 interface IDataResp {

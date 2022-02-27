@@ -1,6 +1,4 @@
-import { ref, watch, Ref } from 'vue'
-import { displayDatas } from '@/hooks/useDisplayDatas'
-import { TimeLevels, Products } from '@/commons/enums'
+import { Products } from '@/commons/enums'
 import type { OptionItem } from '@/commons/types'
 
 const dayOptions: OptionItem[] = [
@@ -46,23 +44,4 @@ const snapOptions: OptionItem[] = [
   },
 ]
 
-const options = ref<OptionItem[]>()
-
-export function useDataSources(timeLevel: Ref<string>, product: Ref<string>) {
-  watch(
-    () => timeLevel.value,
-    (v) => {
-      if (v == TimeLevels.DayLevel) {
-        options.value = dayOptions
-      } else if (v == TimeLevels.MinuteLevel) {
-        options.value = minuteOptions
-      } else if (v == TimeLevels.SnapLevel) {
-        options.value = snapOptions
-      }
-      product.value = ''
-      displayDatas.value = []
-    }
-  )
-
-  return { options }
-}
+export { dayOptions, minuteOptions, snapOptions }

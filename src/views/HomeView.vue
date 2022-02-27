@@ -71,16 +71,9 @@
   <el-row>
     <el-checkbox-group v-model="selectedDatas" class="home-datas">
       <el-space wrap :size="0">
-        <template v-for="data in displayDatas">
-          <el-checkbox
-            v-if="category == data.category || data.category == 'none'"
-            style="width: 9rem"
-            class="datas"
-            checked
-            :key="data.item"
-            :label="data.item"
-          >
-            {{ data.item }}
+        <template v-for="(value, index) in displayDatas" :key="value">
+          <el-checkbox v-if="value" style="width: 9rem" class="datas" checked :label="value">
+            {{ index }}
           </el-checkbox>
         </template>
       </el-space>
@@ -95,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 
@@ -102,20 +96,15 @@ import axIns from '@/request'
 import type { IDataResp } from '@/request'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
-import { useDataSources } from '@/hooks/useDataSources'
-import { useDisplayDatas } from '@/hooks/useDisplayDatas'
 import { TimeLevels, Products } from '@/commons/enums'
 
 import { useHqyStore } from '@/stores'
 
 const hqyStore = useHqyStore()
-const { timeLevel, date, rangePicker, product, category, selectedDatas } = storeToRefs(hqyStore)
+const { timeLevel, date, rangePicker, product, category, selectedDatas, displayDatas, options } =
+  storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
-
-const { options } = useDataSources(timeLevel, product)
-
-const { displayDatas } = useDisplayDatas(product)
 
 async function download() {
   const res = await axIns.get<IDataResp>('/download', {
@@ -139,6 +128,14 @@ async function download() {
     formNode.submit()
   }
 }
+
+watch(
+  () => timeLevel.value,
+  (v) => {
+    product.value = ''
+    displayDatas.value = {}
+  }
+)
 </script>
 
 <style scoped>
