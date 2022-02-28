@@ -124,7 +124,7 @@ export const useHqyStore = defineStore({
   },
   actions: {
     displayDataInit(res: ILoginResp) {
-      console.log(res)
+      console.log('服务端返回数据: ', res)
 
       this.$patch((state) => {
         state.daylvFtr = res.data.respDaylvFtrMap

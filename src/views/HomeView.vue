@@ -23,7 +23,7 @@
           v-model="date"
           type="dates"
           placeholder="请选择日期"
-          value-format="YYYY/MM/DD"
+          value-format="YYYY-MM-DD"
           :disabled-date="disabledDate"
         />
       </div>
@@ -34,7 +34,7 @@
           v-model="date"
           type="daterange"
           format="YYYY-MM-DD"
-          value-format="YYYY/MM/DD"
+          value-format="YYYY-MM-DD"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -138,6 +138,7 @@
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
+import Qs from 'qs'
 
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
@@ -190,12 +191,15 @@ async function download() {
   }
   const res = await axIns.get<IDataResp>('/download', {
     params: {
-      timeLevel,
-      date,
-      rangePicker,
-      product,
-      category,
-      selDatas,
+      timeLevel: timeLevel.value,
+      date: date.value,
+      rangePicker: rangePicker.value,
+      product: product.value,
+      category: category.value,
+      ...selDatas,
+    },
+    paramsSerializer: function (params) {
+      return Qs.stringify(params, { arrayFormat: 'repeat' })
     },
   })
 
@@ -229,13 +233,6 @@ watch(
     date.value = ''
   }
 )
-// watch(
-//   () => timeLvAndProduct.value,
-//   (v) => {
-//     selectedFtrDatas.value = []
-//     selectedOptDatas.value = []
-//   }
-// )
 </script>
 
 <style scoped>

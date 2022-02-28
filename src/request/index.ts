@@ -1,9 +1,25 @@
 import type { AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
 
+interface subscribeInfo {
+  respDaylvFtrMap: { [x: string]: number }
+  respDaylvOptMap: { [x: string]: number }
+  respDaylvIdxMap: { [x: string]: number }
+  respSnaplvL1FtrMap: { [x: string]: number }
+  respSnaplvL1OptMap: { [x: string]: number }
+  respSnaplvL2FtrMap: { [x: string]: number }
+  respSnaplvL2OptMap: { [x: string]: number }
+  respSnaplvIdxMap: { [x: string]: number }
+  respSnaplvOtcMap: { [x: string]: number }
+  respMinlvL1FtrMap: { [x: string]: number }
+  respMinlvL1OptMap: { [x: string]: number }
+  respMinlvL2FtrMap: { [x: string]: number }
+  respMinlvL2OptMap: { [x: string]: number }
+  respMinlvIdxMap: { [x: string]: number }
+}
 interface ILoginResp {
   validate: string
-  data: any
+  data: subscribeInfo
 }
 
 interface IDataResp {
