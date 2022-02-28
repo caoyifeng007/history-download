@@ -59,7 +59,7 @@
   </el-row>
   <div class="m-t-50"></div>
   <el-row>
-    <el-radio-group v-show="!isIdxOrOut" v-model="category" class="home-futures-or-option">
+    <el-radio-group v-show="!isIdxOrOutDatas" v-model="category" class="home-futures-or-option">
       <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
       <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
     </el-radio-group>
@@ -142,6 +142,7 @@ import Qs from 'qs'
 
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
+import { Products } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { TimeLevels } from '@/commons/enums'
@@ -168,25 +169,28 @@ const {
   isOptDatas,
   isIdxDatas,
   isOtcDatas,
-  isIdxOrOut,
+  isIdxOrOutDatas,
 } = storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
 
 async function download() {
   let selDatas
-  if ((!isIdxOrOut.value && isFtrDatas.value) || (!isIdxOrOut.value && isOptDatas.value)) {
+  if (product.value == Products.Index) {
     selDatas = {
-      ftrDatas: selectedFtrDatas.value,
-      optDatas: selectedOptDatas.value,
-    }
-  } else if (isIdxOrOut && isIdxDatas.value) {
-    selDatas = {
+      // isIdxDatas: isIdxDatas.value,
       idxDatas: selectedIdxDatas.value,
     }
-  } else if (isIdxOrOut && isOtcDatas.value) {
+  } else if (product.value == Products.Out) {
     selDatas = {
+      // isOtcDatas: isIdxDatas.value,
       otcDatas: selectedOtcDatas.value,
+    }
+  } else {
+    selDatas = {
+      // isIdxOrOutDatas: isIdxOrOutDatas.value,
+      ftrDatas: selectedFtrDatas.value,
+      optDatas: selectedOptDatas.value,
     }
   }
   const res = await axIns.get<IDataResp>('/download', {
@@ -218,7 +222,7 @@ watch(
   () => timeLevel.value,
   (v) => {
     product.value = ''
-    isIdxOrOut.value = true
+    isIdxOrOutDatas.value = true
     category.value = ''
     displayFtrDatas.value = {}
     displayOptDatas.value = {}

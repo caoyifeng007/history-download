@@ -11,7 +11,7 @@ export const useHqyStore = defineStore({
     rangePicker: false,
     product: '',
     category: '',
-    isIdxOrOut: true,
+    isIdxOrOutDatas: true,
     selectedFtrDatas: [] as string[],
     selectedOptDatas: [] as string[],
     selectedIdxDatas: [] as string[],
@@ -47,14 +47,14 @@ export const useHqyStore = defineStore({
     },
     selection(state) {
       if (state.product == Products.Index || state.product == Products.Out) {
-        state.isIdxOrOut = true
+        state.isIdxOrOutDatas = true
         return state.timeLevel + state.product
       } else if (
         state.product == Products.Day ||
         state.product == Products.Basic ||
         state.product == Products.Deep
       ) {
-        state.isIdxOrOut = false
+        state.isIdxOrOutDatas = false
         return state.timeLevel + state.product + state.category
       }
     },
