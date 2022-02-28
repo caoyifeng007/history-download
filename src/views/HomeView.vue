@@ -59,11 +59,7 @@
   </el-row>
   <div class="m-t-50"></div>
   <el-row>
-    <el-radio-group
-      v-show="product == Products.Basic || product == Products.Deep || product == Products.Day"
-      v-model="category"
-      class="home-futures-or-option"
-    >
+    <el-radio-group v-show="!isIdxOrOut" v-model="category" class="home-futures-or-option">
       <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
       <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
     </el-radio-group>
@@ -84,9 +80,39 @@
         </template>
       </el-space>
     </el-checkbox-group>
-    <el-checkbox-group v-model="selectedOptDatas" v-show="!isFtrDatas" class="home-datas">
+    <el-checkbox-group v-model="selectedOptDatas" v-show="isOptDatas" class="home-datas">
       <el-space wrap :size="0">
         <template v-for="(value, key) in displayOptDatas" :key="value">
+          <el-checkbox
+            v-if="value"
+            style="width: 9rem"
+            class="datas"
+            checked
+            :label="(key as string)"
+          >
+            {{ key }}
+          </el-checkbox>
+        </template>
+      </el-space>
+    </el-checkbox-group>
+    <el-checkbox-group v-model="selectedIdxDatas" v-show="isIdxDatas" class="home-datas">
+      <el-space wrap :size="0">
+        <template v-for="(value, key) in displayIdxDatas" :key="value">
+          <el-checkbox
+            v-if="value"
+            style="width: 9rem"
+            class="datas"
+            checked
+            :label="(key as string)"
+          >
+            {{ key }}
+          </el-checkbox>
+        </template>
+      </el-space>
+    </el-checkbox-group>
+    <el-checkbox-group v-model="selectedOtcDatas" v-show="isOtcDatas" class="home-datas">
+      <el-space wrap :size="0">
+        <template v-for="(value, key) in displayOtcDatas" :key="value">
           <el-checkbox
             v-if="value"
             style="width: 9rem"
@@ -117,7 +143,7 @@ import axIns from '@/request'
 import type { IDataResp } from '@/request'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
-import { TimeLevels, Products } from '@/commons/enums'
+import { TimeLevels } from '@/commons/enums'
 
 import { useHqyStore } from '@/stores'
 
@@ -128,15 +154,20 @@ const {
   rangePicker,
   product,
   category,
-  selectedDatas,
-  // displayDatas,
   options,
-  timeLvAndProduct,
   selectedFtrDatas,
   selectedOptDatas,
+  selectedIdxDatas,
+  selectedOtcDatas,
   displayFtrDatas,
   displayOptDatas,
+  displayIdxDatas,
+  displayOtcDatas,
   isFtrDatas,
+  isOptDatas,
+  isIdxDatas,
+  isOtcDatas,
+  isIdxOrOut,
 } = storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
@@ -149,7 +180,6 @@ async function download() {
       rangePicker,
       product,
       category,
-      selectedDatas,
     },
   })
 
@@ -172,12 +202,13 @@ watch(
     displayOptDatas.value = {}
   }
 )
-watch(
-  () => timeLvAndProduct.value,
-  (v) => {
-    selectedDatas.value = []
-  }
-)
+// watch(
+//   () => timeLvAndProduct.value,
+//   (v) => {
+//     selectedFtrDatas.value = []
+//     selectedOptDatas.value = []
+//   }
+// )
 </script>
 
 <style scoped>
