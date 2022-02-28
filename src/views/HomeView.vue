@@ -43,8 +43,8 @@
       </div>
     </div>
     <el-radio-group v-model="rangePicker" class="m-l-40 home-data-type">
-      <el-radio :label="true" size="small" @click="date = ''">范围日期</el-radio>
-      <el-radio :label="false" size="small" @click="date = ''">特定日期</el-radio>
+      <el-radio :label="true" size="small">范围日期</el-radio>
+      <el-radio :label="false" size="small">特定日期</el-radio>
     </el-radio-group>
 
     <p class="home-title m-l-21">行情类型 :</p>
@@ -173,6 +173,21 @@ const {
 const { disabledDate } = useDatePicker()
 
 async function download() {
+  let selDatas
+  if ((!isIdxOrOut.value && isFtrDatas.value) || (!isIdxOrOut.value && isOptDatas.value)) {
+    selDatas = {
+      ftrDatas: selectedFtrDatas.value,
+      optDatas: selectedOptDatas.value,
+    }
+  } else if (isIdxOrOut && isIdxDatas.value) {
+    selDatas = {
+      idxDatas: selectedIdxDatas.value,
+    }
+  } else if (isIdxOrOut && isOtcDatas.value) {
+    selDatas = {
+      otcDatas: selectedOtcDatas.value,
+    }
+  }
   const res = await axIns.get<IDataResp>('/download', {
     params: {
       timeLevel,
@@ -180,6 +195,7 @@ async function download() {
       rangePicker,
       product,
       category,
+      selDatas,
     },
   })
 
@@ -198,8 +214,19 @@ watch(
   () => timeLevel.value,
   (v) => {
     product.value = ''
+    isIdxOrOut.value = true
+    category.value = ''
     displayFtrDatas.value = {}
     displayOptDatas.value = {}
+    displayIdxDatas.value = {}
+    displayOtcDatas.value = {}
+  }
+)
+
+watch(
+  () => rangePicker.value,
+  (v) => {
+    date.value = ''
   }
 )
 // watch(
