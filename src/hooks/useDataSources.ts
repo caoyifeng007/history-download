@@ -40,7 +40,7 @@ const snapOptions: OptionItem[] = [
   },
   {
     label: '场外数据',
-    value: Products.Out,
+    value: Products.Otc,
   },
 ]
 

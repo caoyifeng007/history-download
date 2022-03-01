@@ -59,13 +59,21 @@
   </el-row>
   <div class="m-t-50"></div>
   <el-row>
-    <el-radio-group v-show="!isIdxOrOutDatas" v-model="category" class="home-futures-or-option">
+    <el-radio-group
+      v-show="isDayProduct || isL1Product || isL2Product"
+      v-model="category"
+      class="home-futures-or-option"
+    >
       <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
       <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
     </el-radio-group>
   </el-row>
   <el-row>
-    <el-checkbox-group v-model="selectedFtrDatas" v-show="isFtrDatas" class="home-datas">
+    <el-checkbox-group
+      v-model="selectedFtrDatas"
+      v-show="currentGroup == ItemGroup.FtrItem"
+      class="home-datas"
+    >
       <el-space wrap :size="0">
         <template v-for="(value, key) in displayFtrDatas" :key="value">
           <el-checkbox
@@ -80,7 +88,11 @@
         </template>
       </el-space>
     </el-checkbox-group>
-    <el-checkbox-group v-model="selectedOptDatas" v-show="isOptDatas" class="home-datas">
+    <el-checkbox-group
+      v-model="selectedOptDatas"
+      v-show="currentGroup == ItemGroup.OptItem"
+      class="home-datas"
+    >
       <el-space wrap :size="0">
         <template v-for="(value, key) in displayOptDatas" :key="value">
           <el-checkbox
@@ -95,7 +107,11 @@
         </template>
       </el-space>
     </el-checkbox-group>
-    <el-checkbox-group v-model="selectedIdxDatas" v-show="isIdxDatas" class="home-datas">
+    <el-checkbox-group
+      v-model="selectedIdxDatas"
+      v-show="currentGroup == ItemGroup.IdxItem"
+      class="home-datas"
+    >
       <el-space wrap :size="0">
         <template v-for="(value, key) in displayIdxDatas" :key="value">
           <el-checkbox
@@ -110,7 +126,11 @@
         </template>
       </el-space>
     </el-checkbox-group>
-    <el-checkbox-group v-model="selectedOtcDatas" v-show="isOtcDatas" class="home-datas">
+    <el-checkbox-group
+      v-model="selectedOtcDatas"
+      v-show="currentGroup == ItemGroup.OtcItem"
+      class="home-datas"
+    >
       <el-space wrap :size="0">
         <template v-for="(value, key) in displayOtcDatas" :key="value">
           <el-checkbox
@@ -142,7 +162,7 @@ import Qs from 'qs'
 
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
-import { Products } from '@/commons/enums'
+import { Products, ItemGroup } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { TimeLevels } from '@/commons/enums'
@@ -165,11 +185,10 @@ const {
   displayOptDatas,
   displayIdxDatas,
   displayOtcDatas,
-  isFtrDatas,
-  isOptDatas,
-  isIdxDatas,
-  isOtcDatas,
-  isIdxOrOutDatas,
+  currentGroup,
+  isDayProduct,
+  isL1Product,
+  isL2Product,
 } = storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
@@ -181,7 +200,7 @@ async function download() {
       // isIdxDatas: isIdxDatas.value,
       idxDatas: selectedIdxDatas.value,
     }
-  } else if (product.value == Products.Out) {
+  } else if (product.value == Products.Otc) {
     selDatas = {
       // isOtcDatas: isIdxDatas.value,
       otcDatas: selectedOtcDatas.value,
@@ -222,12 +241,12 @@ watch(
   () => timeLevel.value,
   (v) => {
     product.value = ''
-    isIdxOrOutDatas.value = true
     category.value = ''
     displayFtrDatas.value = {}
     displayOptDatas.value = {}
     displayIdxDatas.value = {}
     displayOtcDatas.value = {}
+    currentGroup.value = ''
   }
 )
 

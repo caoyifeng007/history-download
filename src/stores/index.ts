@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { ILoginResp } from '@/request'
-import { TimeLevels, Products, Categories } from '@/commons/enums'
+import { TimeLevels, Products, Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
 
 export const useHqyStore = defineStore({
@@ -36,90 +36,131 @@ export const useHqyStore = defineStore({
     displayOtcDatas: {} as Record<string, number>,
   }),
   getters: {
-    options(state) {
-      if (state.timeLevel == TimeLevels.DayLevel) {
+    isDay(state) {
+      return state.timeLevel == TimeLevels.DayLevel ? true : false
+    },
+    isSnap(state) {
+      return state.timeLevel == TimeLevels.SnapLevel ? true : false
+    },
+    isMin(state) {
+      return state.timeLevel == TimeLevels.MinuteLevel ? true : false
+    },
+    isDayProduct(state) {
+      return state.product == Products.Day ? true : false
+    },
+    isL1Product(state) {
+      return state.product == Products.Basic ? true : false
+    },
+    isL2Product(state) {
+      return state.product == Products.Deep ? true : false
+    },
+    isIdxProduct(state) {
+      return state.product == Products.Index ? true : false
+    },
+    isOtcProduct(state) {
+      return state.product == Products.Otc ? true : false
+    },
+    isFtr(state) {
+      return state.category == Categories.Ftr ? true : false
+    },
+    isOpt(state) {
+      return state.category == Categories.Opt ? true : false
+    },
+    options() {
+      if (this.isDay) {
         return dayOptions
-      } else if (state.timeLevel == TimeLevels.SnapLevel) {
+      } else if (this.isSnap) {
         return snapOptions
-      } else if (state.timeLevel == TimeLevels.MinuteLevel) {
+      } else if (this.isMin) {
         return minuteOptions
       }
     },
-    selection(state) {
-      if (state.product == Products.Index || state.product == Products.Out) {
-        state.isIdxOrOutDatas = true
-        return state.timeLevel + state.product
-      } else if (
-        state.product == Products.Day ||
-        state.product == Products.Basic ||
-        state.product == Products.Deep
-      ) {
-        state.isIdxOrOutDatas = false
-        return state.timeLevel + state.product + state.category
-      }
-    },
-    isFtrDatas(state) {
-      switch (this.selection) {
-        case TimeLevels.DayLevel + Products.Day + Categories.Ftr:
-          state.displayFtrDatas = state.daylvFtr
-          return true
-        case TimeLevels.SnapLevel + Products.Basic + Categories.Ftr:
-          state.displayFtrDatas = state.snaplvL1Ftr
-          return true
-        case TimeLevels.SnapLevel + Products.Deep + Categories.Ftr:
-          state.displayFtrDatas = state.snaplvL2Ftr
-          return true
-        case TimeLevels.MinuteLevel + Products.Basic + Categories.Ftr:
-          state.displayFtrDatas = state.minlvL1Ftr
-          return true
-        case TimeLevels.MinuteLevel + Products.Deep + Categories.Ftr:
-          state.displayFtrDatas = state.minlvL2Ftr
-          return true
-      }
-
-      return false
-    },
-    isIdxDatas(state) {
-      switch (this.selection) {
-        case TimeLevels.DayLevel + Products.Index:
+    syncDisplayDatas(state) {
+      if (this.isDay) {
+        if (this.isDayProduct) {
+          if (this.isFtr) {
+            state.displayFtrDatas = state.daylvFtr
+            return ItemLists.DaylvFtr
+          } else if (this.isOpt) {
+            state.displayOptDatas = state.daylvOpt
+            return ItemLists.DaylvOpt
+          }
+        } else if (this.isIdxProduct) {
           state.displayIdxDatas = state.daylvIdx
-          return true
-        case TimeLevels.SnapLevel + Products.Index:
+          return ItemLists.DaylvIdx
+        }
+      } else if (this.isSnap) {
+        if (this.isL1Product) {
+          if (this.isFtr) {
+            state.displayFtrDatas = state.snaplvL1Ftr
+            return ItemLists.SnaplvL1Ftr
+          } else if (this.isOpt) {
+            state.displayOptDatas = state.snaplvL1Opt
+            return ItemLists.SnaplvL1Opt
+          }
+        } else if (this.isL2Product) {
+          if (this.isFtr) {
+            state.displayFtrDatas = state.snaplvL2Ftr
+            return ItemLists.SnaplvL2Ftr
+          } else if (this.isOpt) {
+            state.displayOptDatas = state.snaplvL2Opt
+            return ItemLists.SnaplvL2Opt
+          }
+        } else if (this.isIdxProduct) {
           state.displayIdxDatas = state.snaplvIdx
-          return true
-        case TimeLevels.MinuteLevel + Products.Index:
-          state.displayIdxDatas = state.minlvIdx
-          return true
-      }
-      return false
-    },
-    isOptDatas(state) {
-      switch (this.selection) {
-        case TimeLevels.DayLevel + Products.Day + Categories.Opt:
-          state.displayOptDatas = state.daylvOpt
-          return true
-        case TimeLevels.SnapLevel + Products.Basic + Categories.Opt:
-          state.displayOptDatas = state.snaplvL1Opt
-          return true
-        case TimeLevels.SnapLevel + Products.Deep + Categories.Opt:
-          state.displayOptDatas = state.snaplvL2Opt
-          return true
-        case TimeLevels.MinuteLevel + Products.Basic + Categories.Opt:
-          state.displayOptDatas = state.minlvL1Ftr
-          return true
-        case TimeLevels.MinuteLevel + Products.Deep + Categories.Opt:
-          state.displayOptDatas = state.minlvL2Opt
-          return true
-      }
-      return false
-    },
-    isOtcDatas(state) {
-      switch (this.selection) {
-        case TimeLevels.SnapLevel + Products.Out:
+          return ItemLists.SnaplvIdx
+        } else if (this.isOtcProduct) {
           state.displayOtcDatas = state.snaplvOtc
-          return true
+          return ItemLists.SnaplvOtc
+        }
+      } else if (this.isMin) {
+        if (this.isL1Product) {
+          if (this.isFtr) {
+            state.displayFtrDatas = state.minlvL1Ftr
+            return ItemLists.MinlvL1Ftr
+          } else if (this.isOpt) {
+            state.displayOptDatas = state.minlvL1Ftr
+            return ItemLists.MinlvL1Opt
+          }
+        } else if (this.isL2Product) {
+          if (this.isFtr) {
+            state.displayFtrDatas = state.minlvL2Ftr
+            return ItemLists.MinlvL2Ftr
+          } else if (this.isOpt) {
+            state.displayOptDatas = state.minlvL2Opt
+            return ItemLists.MinlvL2Opt
+          }
+        } else if (this.isIdxProduct) {
+          if (this.isIdxProduct) {
+            state.displayIdxDatas = state.minlvIdx
+            return ItemLists.MinlvIdx
+          }
+        }
       }
-      return false
+    },
+    currentGroup() {
+      switch (this.syncDisplayDatas) {
+        case ItemLists.DaylvFtr:
+        case ItemLists.SnaplvL1Ftr:
+        case ItemLists.SnaplvL2Ftr:
+        case ItemLists.MinlvL1Ftr:
+        case ItemLists.MinlvL2Ftr:
+          return ItemGroup.FtrItem
+        case ItemLists.DaylvOpt:
+        case ItemLists.SnaplvL1Opt:
+        case ItemLists.SnaplvL2Opt:
+        case ItemLists.MinlvL1Opt:
+        case ItemLists.MinlvL2Opt:
+          return ItemGroup.OptItem
+        case ItemLists.DaylvIdx:
+        case ItemLists.SnaplvIdx:
+        case ItemLists.MinlvIdx:
+          return ItemGroup.IdxItem
+        case ItemLists.SnaplvOtc:
+          return ItemGroup.OtcItem
+        default:
+          return ''
+      }
     },
   },
   actions: {
