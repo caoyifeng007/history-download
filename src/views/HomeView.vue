@@ -162,7 +162,7 @@ import Qs from 'qs'
 
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
-import { Products, ItemGroup } from '@/commons/enums'
+import { ItemGroup } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { TimeLevels } from '@/commons/enums'
@@ -195,19 +195,16 @@ const { disabledDate } = useDatePicker()
 
 async function download() {
   let selDatas
-  if (product.value == Products.Index) {
+  if (currentGroup.value == ItemGroup.IdxItem) {
     selDatas = {
-      // isIdxDatas: isIdxDatas.value,
       idxDatas: selectedIdxDatas.value,
     }
-  } else if (product.value == Products.Otc) {
+  } else if (currentGroup.value == ItemGroup.OtcItem) {
     selDatas = {
-      // isOtcDatas: isIdxDatas.value,
       otcDatas: selectedOtcDatas.value,
     }
   } else {
     selDatas = {
-      // isIdxOrOutDatas: isIdxOrOutDatas.value,
       ftrDatas: selectedFtrDatas.value,
       optDatas: selectedOptDatas.value,
     }
@@ -246,7 +243,6 @@ watch(
     displayOptDatas.value = {}
     displayIdxDatas.value = {}
     displayOtcDatas.value = {}
-    currentGroup.value = ''
   }
 )
 

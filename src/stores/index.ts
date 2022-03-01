@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { ILoginResp } from '@/request'
 import { TimeLevels, Products, Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
+import { datas } from '@/stores/serverDatas'
 
 export const useHqyStore = defineStore({
   id: 'hqy',
@@ -16,20 +17,6 @@ export const useHqyStore = defineStore({
     selectedOptDatas: [] as string[],
     selectedIdxDatas: [] as string[],
     selectedOtcDatas: [] as string[],
-    daylvFtr: {} as Record<string, number>,
-    daylvOpt: {} as Record<string, number>,
-    daylvIdx: {} as Record<string, number>,
-    snaplvL1Ftr: {} as Record<string, number>,
-    snaplvL1Opt: {} as Record<string, number>,
-    snaplvL2Ftr: {} as Record<string, number>,
-    snaplvL2Opt: {} as Record<string, number>,
-    snaplvIdx: {} as Record<string, number>,
-    snaplvOtc: {} as Record<string, number>,
-    minlvL1Ftr: {} as Record<string, number>,
-    minlvL1Opt: {} as Record<string, number>,
-    minlvL2Ftr: {} as Record<string, number>,
-    minlvL2Opt: {} as Record<string, number>,
-    minlvIdx: {} as Record<string, number>,
     displayFtrDatas: {} as Record<string, number>,
     displayOptDatas: {} as Record<string, number>,
     displayIdxDatas: {} as Record<string, number>,
@@ -79,60 +66,60 @@ export const useHqyStore = defineStore({
       if (this.isDay) {
         if (this.isDayProduct) {
           if (this.isFtr) {
-            state.displayFtrDatas = state.daylvFtr
+            state.displayFtrDatas = datas.daylvFtr
             return ItemLists.DaylvFtr
           } else if (this.isOpt) {
-            state.displayOptDatas = state.daylvOpt
+            state.displayOptDatas = datas.daylvOpt
             return ItemLists.DaylvOpt
           }
         } else if (this.isIdxProduct) {
-          state.displayIdxDatas = state.daylvIdx
+          state.displayIdxDatas = datas.daylvIdx
           return ItemLists.DaylvIdx
         }
       } else if (this.isSnap) {
         if (this.isL1Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = state.snaplvL1Ftr
+            state.displayFtrDatas = datas.snaplvL1Ftr
             return ItemLists.SnaplvL1Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = state.snaplvL1Opt
+            state.displayOptDatas = datas.snaplvL1Opt
             return ItemLists.SnaplvL1Opt
           }
         } else if (this.isL2Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = state.snaplvL2Ftr
+            state.displayFtrDatas = datas.snaplvL2Ftr
             return ItemLists.SnaplvL2Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = state.snaplvL2Opt
+            state.displayOptDatas = datas.snaplvL2Opt
             return ItemLists.SnaplvL2Opt
           }
         } else if (this.isIdxProduct) {
-          state.displayIdxDatas = state.snaplvIdx
+          state.displayIdxDatas = datas.snaplvIdx
           return ItemLists.SnaplvIdx
         } else if (this.isOtcProduct) {
-          state.displayOtcDatas = state.snaplvOtc
+          state.displayOtcDatas = datas.snaplvOtc
           return ItemLists.SnaplvOtc
         }
       } else if (this.isMin) {
         if (this.isL1Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = state.minlvL1Ftr
+            state.displayFtrDatas = datas.minlvL1Ftr
             return ItemLists.MinlvL1Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = state.minlvL1Ftr
+            state.displayOptDatas = datas.minlvL1Ftr
             return ItemLists.MinlvL1Opt
           }
         } else if (this.isL2Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = state.minlvL2Ftr
+            state.displayFtrDatas = datas.minlvL2Ftr
             return ItemLists.MinlvL2Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = state.minlvL2Opt
+            state.displayOptDatas = datas.minlvL2Opt
             return ItemLists.MinlvL2Opt
           }
         } else if (this.isIdxProduct) {
           if (this.isIdxProduct) {
-            state.displayIdxDatas = state.minlvIdx
+            state.displayIdxDatas = datas.minlvIdx
             return ItemLists.MinlvIdx
           }
         }
@@ -167,21 +154,21 @@ export const useHqyStore = defineStore({
     displayDataInit(res: ILoginResp) {
       console.log('服务端返回数据: ', res)
 
-      this.$patch((state) => {
-        state.daylvFtr = res.data.respDaylvFtrMap
-        state.daylvOpt = res.data.respDaylvOptMap
-        state.daylvIdx = res.data.respDaylvIdxMap
-        state.snaplvL1Ftr = res.data.respSnaplvL1FtrMap
-        state.snaplvL1Opt = res.data.respSnaplvL1OptMap
-        state.snaplvL2Ftr = res.data.respSnaplvL2FtrMap
-        state.snaplvL2Opt = res.data.respSnaplvL2OptMap
-        state.snaplvIdx = res.data.respSnaplvIdxMap
-        state.snaplvOtc = res.data.respSnaplvOtcMap
-        state.minlvL1Ftr = res.data.respMinlvL1FtrMap
-        state.minlvL1Opt = res.data.respMinlvL1OptMap
-        state.minlvL2Ftr = res.data.respMinlvL2FtrMap
-        state.minlvL2Opt = res.data.respMinlvL2OptMap
-        state.minlvIdx = res.data.respMinlvIdxMap
+      this.$patch(() => {
+        datas.daylvFtr = res.data.respDaylvFtrMap
+        datas.daylvOpt = res.data.respDaylvOptMap
+        datas.daylvIdx = res.data.respDaylvIdxMap
+        datas.snaplvL1Ftr = res.data.respSnaplvL1FtrMap
+        datas.snaplvL1Opt = res.data.respSnaplvL1OptMap
+        datas.snaplvL2Ftr = res.data.respSnaplvL2FtrMap
+        datas.snaplvL2Opt = res.data.respSnaplvL2OptMap
+        datas.snaplvIdx = res.data.respSnaplvIdxMap
+        datas.snaplvOtc = res.data.respSnaplvOtcMap
+        datas.minlvL1Ftr = res.data.respMinlvL1FtrMap
+        datas.minlvL1Opt = res.data.respMinlvL1OptMap
+        datas.minlvL2Ftr = res.data.respMinlvL2FtrMap
+        datas.minlvL2Opt = res.data.respMinlvL2OptMap
+        datas.minlvIdx = res.data.respMinlvIdxMap
       })
     },
   },
