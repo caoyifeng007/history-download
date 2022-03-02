@@ -197,16 +197,15 @@ async function download() {
   let selDatas
   if (currentGroup.value == ItemGroup.IdxItem) {
     selDatas = {
-      idxDatas: selectedIdxDatas.value,
+      items: selectedIdxDatas.value,
     }
   } else if (currentGroup.value == ItemGroup.OtcItem) {
     selDatas = {
-      otcDatas: selectedOtcDatas.value,
+      items: selectedOtcDatas.value,
     }
   } else {
     selDatas = {
-      ftrDatas: selectedFtrDatas.value,
-      optDatas: selectedOptDatas.value,
+      items: [selectedFtrDatas.value, selectedOptDatas.value],
     }
   }
   const res = await axIns.get<IDataResp>('/download', {
