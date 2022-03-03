@@ -157,17 +157,17 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import 'element-plus/es/components/message/style/css'
+import { ElMessage } from 'element-plus'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
 
+import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
-import { ItemGroup } from '@/commons/enums'
+import { ItemGroup, TimeLevels } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
-import { TimeLevels } from '@/commons/enums'
-
-import { useHqyStore } from '@/stores'
 
 const hqyStore = useHqyStore()
 const {
@@ -193,7 +193,41 @@ const {
 
 const { disabledDate } = useDatePicker()
 
+const open = (msg: string) => {
+  ElMessage({
+    message: msg,
+    showClose: true,
+    type: 'error',
+  })
+}
+
+function check() {
+  if (!timeLevel.value) {
+    open('请选择时间维度')
+    return
+  }
+  if (!date.value) {
+    open('请选择日期')
+    return
+  }
+  if (product.value == '') {
+    open('请选择品种')
+    return
+  }
+  if (
+    product.value != '' &&
+    selectedFtrDatas.value.length == 0 &&
+    selectedOptDatas.value.length == 0 &&
+    selectedIdxDatas.value.length == 0 &&
+    selectedOtcDatas.value.length == 0
+  ) {
+    open('请选择品种')
+    return
+  }
+}
+
 async function download() {
+  check()
   let selDatas
   if (currentGroup.value == ItemGroup.IdxItem) {
     selDatas = {
@@ -238,6 +272,10 @@ watch(
   (v) => {
     product.value = ''
     category.value = ''
+    selectedFtrDatas.value = []
+    selectedOptDatas.value = []
+    selectedIdxDatas.value = []
+    selectedOtcDatas.value = []
     displayFtrDatas.value = {}
     displayOptDatas.value = {}
     displayIdxDatas.value = {}
