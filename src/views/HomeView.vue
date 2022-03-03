@@ -115,10 +115,10 @@
       <el-space wrap :size="0">
         <template v-for="(value, key) in displayIdxDatas" :key="value">
           <el-checkbox
-            v-if="value"
+            v-if="value == 1"
             style="width: 9rem"
             class="datas"
-            checked
+            :checked="value == 1"
             :label="(key as string)"
           >
             {{ key }}
