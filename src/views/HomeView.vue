@@ -205,7 +205,8 @@ async function download() {
     }
   } else {
     selDatas = {
-      items: [selectedFtrDatas.value, selectedOptDatas.value],
+      ftr: selectedFtrDatas.value,
+      opt: selectedOptDatas.value,
     }
   }
   const res = await axIns.get<IDataResp>('/download', {
@@ -214,7 +215,6 @@ async function download() {
       date: date.value,
       rangePicker: rangePicker.value,
       product: product.value,
-      category: category.value,
       ...selDatas,
     },
     paramsSerializer: function (params) {

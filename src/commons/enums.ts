@@ -5,7 +5,7 @@ enum TimeLevels {
 }
 
 enum Products {
-  Day = 'day',
+  Day = 'DAY',
   Index = 'IDX',
   Basic = 'L1',
   Deep = 'L2',
