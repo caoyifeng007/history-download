@@ -7,6 +7,9 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { createHtmlPlugin } from 'vite-plugin-html'
+
+// const title = import.meta.env.VITE_APP_TITLE
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +17,13 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          title: 'abc',
+        },
+      },
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
