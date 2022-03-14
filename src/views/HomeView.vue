@@ -238,6 +238,9 @@ async function download() {
   if (res.validate == 'ok') {
     console.log('response data is', res.durl)
 
+    if (!res.durl) {
+      return
+    }
     const formNode = document.createElement('form')
     formNode.setAttribute('action', res.durl)
 
