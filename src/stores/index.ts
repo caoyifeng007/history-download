@@ -17,10 +17,10 @@ export const useHqyStore = defineStore({
     selectedOptDatas: [] as string[],
     selectedIdxDatas: [] as string[],
     selectedOtcDatas: [] as string[],
-    displayFtrDatas: {} as Record<string, number>,
-    displayOptDatas: {} as Record<string, number>,
-    displayIdxDatas: {} as Record<string, number>,
-    displayOtcDatas: {} as Record<string, number>,
+    displayFtrDatas: [] as string[],
+    displayOptDatas: [] as string[],
+    displayIdxDatas: [] as string[],
+    displayOtcDatas: [] as string[],
   }),
   getters: {
     isDay(state) {

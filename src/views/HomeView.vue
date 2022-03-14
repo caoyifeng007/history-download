@@ -75,15 +75,9 @@
       class="home-datas"
     >
       <el-space wrap :size="0">
-        <template v-for="(value, key) in displayFtrDatas" :key="value">
-          <el-checkbox
-            v-if="value"
-            style="width: 9rem"
-            class="datas"
-            checked
-            :label="(key as string)"
-          >
-            {{ key }}
+        <template v-for="data in displayFtrDatas" :key="data">
+          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+            {{ data }}
           </el-checkbox>
         </template>
       </el-space>
@@ -94,15 +88,9 @@
       class="home-datas"
     >
       <el-space wrap :size="0">
-        <template v-for="(value, key) in displayOptDatas" :key="value">
-          <el-checkbox
-            v-if="value"
-            style="width: 9rem"
-            class="datas"
-            checked
-            :label="(key as string)"
-          >
-            {{ key }}
+        <template v-for="data in displayOptDatas" :key="data">
+          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+            {{ data }}
           </el-checkbox>
         </template>
       </el-space>
@@ -113,15 +101,9 @@
       class="home-datas"
     >
       <el-space wrap :size="0">
-        <template v-for="(value, key) in displayIdxDatas" :key="value">
-          <el-checkbox
-            v-if="value == 1"
-            style="width: 9rem"
-            class="datas"
-            :checked="value == 1"
-            :label="(key as string)"
-          >
-            {{ key }}
+        <template v-for="data in displayIdxDatas" :key="data">
+          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+            {{ data }}
           </el-checkbox>
         </template>
       </el-space>
@@ -132,15 +114,9 @@
       class="home-datas"
     >
       <el-space wrap :size="0">
-        <template v-for="(value, key) in displayOtcDatas" :key="value">
-          <el-checkbox
-            v-if="value"
-            style="width: 9rem"
-            class="datas"
-            checked
-            :label="(key as string)"
-          >
-            {{ key }}
+        <template v-for="data in displayOtcDatas" :key="data">
+          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+            {{ data }}
           </el-checkbox>
         </template>
       </el-space>
@@ -201,18 +177,18 @@ const open = (msg: string) => {
   })
 }
 
-function check() {
+function check(): boolean {
   if (!timeLevel.value) {
     open('请选择时间维度')
-    return
+    return false
   }
   if (!date.value) {
     open('请选择日期')
-    return
+    return false
   }
   if (product.value == '') {
     open('请选择品种')
-    return
+    return false
   }
   if (
     product.value != '' &&
@@ -222,12 +198,15 @@ function check() {
     selectedOtcDatas.value.length == 0
   ) {
     open('请选择品种')
-    return
+    return false
   }
+  return true
 }
 
 async function download() {
-  check()
+  if (!check()) {
+    return
+  }
   let selDatas
   if (currentGroup.value == ItemGroup.IdxItem) {
     selDatas = {
@@ -276,10 +255,10 @@ watch(
     selectedOptDatas.value = []
     selectedIdxDatas.value = []
     selectedOtcDatas.value = []
-    displayFtrDatas.value = {}
-    displayOptDatas.value = {}
-    displayIdxDatas.value = {}
-    displayOtcDatas.value = {}
+    displayFtrDatas.value = []
+    displayOptDatas.value = []
+    displayIdxDatas.value = []
+    displayOtcDatas.value = []
   }
 )
 

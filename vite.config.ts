@@ -20,7 +20,7 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          title: 'abc',
+          title: '行情云历史分发',
         },
       },
     }),
