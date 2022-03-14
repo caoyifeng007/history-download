@@ -1,5 +1,6 @@
 import type { AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
+import cacheUtil from '@/util/cache'
 
 interface subscribeInfo {
   respDaylvFtrMap: string[]
@@ -20,6 +21,7 @@ interface subscribeInfo {
 interface ILoginResp {
   validate: string
   data: subscribeInfo
+  token: string
 }
 
 interface IDataResp {
@@ -39,6 +41,10 @@ class HqyRequest {
 
     this.instance.interceptors.request.use(
       (config) => {
+        const token = cacheUtil.getCache('token')
+        if (token) {
+          config.headers!.Authorization = `Token ${token}`
+        }
         config.url = '/v1' + config.url
         return config
       },

@@ -33,6 +33,7 @@
 import { ref } from 'vue'
 import router from '@/router'
 
+import cacheUtil from '@/util/cache'
 import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
@@ -48,10 +49,13 @@ async function login() {
     password: password.value,
   })
 
-  if (res.validate != 'ok') {
+  const { validate, token } = res
+  if (validate != 'ok') {
     console.log('账号密码有误')
     return
   }
+
+  cacheUtil.setCache('token', token)
 
   hqyStore.displayDataInit(res)
 
