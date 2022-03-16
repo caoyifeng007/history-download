@@ -236,13 +236,13 @@ async function download() {
   })
 
   if (res.validate == 'ok') {
-    console.log('response data is', res.durl)
+    console.log('response data is', res.dUrl)
 
-    if (!res.durl) {
+    if (!res.dUrl) {
       return
     }
     const formNode = document.createElement('form')
-    formNode.setAttribute('action', res.durl)
+    formNode.setAttribute('action', res.dUrl)
 
     document.body.appendChild(formNode)
     formNode.submit()

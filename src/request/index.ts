@@ -26,7 +26,7 @@ interface ILoginResp {
 
 interface IDataResp {
   validate: string
-  durl: string
+  dUrl: string
 }
 
 interface ILogin {

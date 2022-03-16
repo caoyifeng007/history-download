@@ -38,6 +38,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      '/contents': {
+        target: 'http://localhost:8880',
+        changeOrigin: true,
+      },
       '/ping': {
         target: 'http://localhost:8880',
         changeOrigin: true,
