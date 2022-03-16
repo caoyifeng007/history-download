@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { ILoginResp } from '@/request'
+import type { SubscribeInfo } from '@/request'
 import { TimeLevels, Products, Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
 import { datas } from '@/stores/serverDatas'
@@ -151,24 +151,24 @@ export const useHqyStore = defineStore({
     },
   },
   actions: {
-    displayDataInit(res: ILoginResp) {
-      console.log('服务端返回数据: ', res)
+    displayDataInit(data: SubscribeInfo) {
+      console.log('服务端返回数据: ', data)
 
       this.$patch(() => {
-        datas.daylvFtr = res.data.respDaylvFtrMap
-        datas.daylvOpt = res.data.respDaylvOptMap
-        datas.daylvIdx = res.data.respDaylvIdxMap
-        datas.snaplvL1Ftr = res.data.respSnaplvL1FtrMap
-        datas.snaplvL1Opt = res.data.respSnaplvL1OptMap
-        datas.snaplvL2Ftr = res.data.respSnaplvL2FtrMap
-        datas.snaplvL2Opt = res.data.respSnaplvL2OptMap
-        datas.snaplvIdx = res.data.respSnaplvIdxMap
-        datas.snaplvOtc = res.data.respSnaplvOtcMap
-        datas.minlvL1Ftr = res.data.respMinlvL1FtrMap
-        datas.minlvL1Opt = res.data.respMinlvL1OptMap
-        datas.minlvL2Ftr = res.data.respMinlvL2FtrMap
-        datas.minlvL2Opt = res.data.respMinlvL2OptMap
-        datas.minlvIdx = res.data.respMinlvIdxMap
+        datas.daylvFtr = data.respDaylvFtrMap
+        datas.daylvOpt = data.respDaylvOptMap
+        datas.daylvIdx = data.respDaylvIdxMap
+        datas.snaplvL1Ftr = data.respSnaplvL1FtrMap
+        datas.snaplvL1Opt = data.respSnaplvL1OptMap
+        datas.snaplvL2Ftr = data.respSnaplvL2FtrMap
+        datas.snaplvL2Opt = data.respSnaplvL2OptMap
+        datas.snaplvIdx = data.respSnaplvIdxMap
+        datas.snaplvOtc = data.respSnaplvOtcMap
+        datas.minlvL1Ftr = data.respMinlvL1FtrMap
+        datas.minlvL1Opt = data.respMinlvL1OptMap
+        datas.minlvL2Ftr = data.respMinlvL2FtrMap
+        datas.minlvL2Opt = data.respMinlvL2OptMap
+        datas.minlvIdx = data.respMinlvIdxMap
       })
     },
   },

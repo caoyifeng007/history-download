@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
 import cacheUtil from '@/util/cache'
 
-interface subscribeInfo {
+interface SubscribeInfo {
   respDaylvFtrMap: string[]
   respDaylvOptMap: string[]
   respDaylvIdxMap: string[]
@@ -20,7 +20,7 @@ interface subscribeInfo {
 }
 interface ILoginResp {
   validate: string
-  data: subscribeInfo
+  data: SubscribeInfo
   token: string
 }
 
@@ -81,4 +81,4 @@ export default new HqyRequest({
   timeout: 1000,
 })
 
-export type { ILoginResp, IDataResp }
+export type { ILoginResp, SubscribeInfo, IDataResp }

@@ -49,7 +49,7 @@ async function login() {
     password: password.value,
   })
 
-  const { validate, token } = res
+  const { validate, token, data } = res
   if (validate != 'ok') {
     console.log('账号密码有误')
     return
@@ -57,7 +57,7 @@ async function login() {
 
   cacheUtil.setCache('token', token)
 
-  hqyStore.displayDataInit(res)
+  hqyStore.displayDataInit(data)
 
   router.push({ path: '/home' })
 }
