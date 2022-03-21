@@ -303,80 +303,79 @@ watch(
 .home-data-div {
   width: 615px;
 }
-</style>
-<style>
-.home-radio .el-radio.is-bordered {
+
+.home-radio /deep/ .el-radio.is-bordered {
   background: #d8d8d8;
   color: #8f3132;
 }
-.home-radio .el-radio.is-bordered.is-checked {
+.home-radio /deep/ .el-radio.is-bordered.is-checked {
   background: #8f3132;
 }
-.home-radio .el-radio__input.is-checked + .el-radio__label {
+.home-radio /deep/ .el-radio__input.is-checked + .el-radio__label {
   color: #fff !important;
 }
-.home-radio .el-radio__inner {
+.home-radio /deep/ .el-radio__inner {
   border-radius: 0;
   width: 20px;
   height: 20px;
   border: none;
 }
-.home-radio .el-radio__inner {
+.home-radio /deep/ .el-radio__inner {
   background-color: transparent;
 }
-.home-radio .el-radio__input.is-checked .el-radio__inner {
+.home-radio /deep/ .el-radio__input.is-checked .el-radio__inner {
   background: #8f3132;
 }
-.home-radio .el-radio__input.is-checked .el-radio__inner::after {
+.home-radio /deep/ .el-radio__input.is-checked .el-radio__inner::after {
   background: #8f3132;
 }
-.home-radio .el-radio {
+.home-radio /deep/ .el-radio {
   position: relative;
 }
-.home-radio .el-icon {
+.home-radio /deep/ .el-icon {
   position: absolute;
   left: 9px;
 }
-.home-radio .el-radio.is-bordered.is-checked .el-icon {
+.home-radio /deep/ .el-radio.is-bordered.is-checked .el-icon {
   color: #fff;
 }
-.home-data .el-date-editor--dates .el-icon {
+.home-data /deep/ .el-date-editor--dates .el-icon {
   margin-top: 8px;
 }
-.home-data .el-range-editor.is-active {
+.home-data /deep/ .el-range-editor.is-active {
   border-color: #8f3132;
 }
-.home-data .el-input__inner:focus {
+.home-data /deep/ .el-input__inner:focus {
   border-color: #8f3132;
 }
-.home-data-type .el-radio__input.is-checked + .el-radio__label {
+.home-data-type /deep/ .el-radio__input.is-checked + .el-radio__label {
   color: #8f3132;
 }
-.home-data-type .el-radio__input.is-checked .el-radio__inner {
+.home-data-type /deep/ .el-radio__input.is-checked .el-radio__inner {
   border-color: #8f3132;
   background: #8f3132;
 }
 
-.home-futures span {
+.home-futures /deep/ span {
   width: 225px;
   font-size: 20px;
   clip-path: polygon(0 0, 93% 0, 100% 100%, 0% 100%);
 }
-.home-option span {
+.home-option /deep/ span {
   width: 240px;
   font-size: 20px;
   clip-path: polygon(0 0, 93% 0, 100% 100%, 7% 100%);
   margin-left: -12px;
 }
-.home-futures-or-option .el-radio-button__original-radio:checked + .el-radio-button__inner {
+.home-futures-or-option /deep/ .el-radio-button__original-radio:checked + .el-radio-button__inner {
   color: #fff;
   background: #8f3132;
 }
-.home-futures-or-option .el-radio-button .el-radio-button__inner {
+.home-futures-or-option /deep/ .el-radio-button .el-radio-button__inner {
   color: #000;
   background: #d8d8d8;
 }
-.home-datas .datas {
+.home-datas /deep/ .datas {
   width: 226px !important;
   text-align: center;
   display: block;
@@ -385,24 +384,24 @@ watch(
   color: #fff;
   background: #cc8586;
 }
-.home-button .el-button {
+.home-button /deep/ .el-button {
   background: #8f3132;
   color: #fff;
 }
-.home-datas .datas {
+.home-datas /deep/ .datas {
   border: 1px solid #fff;
 }
-.datas .el-checkbox__input.is-checked .el-checkbox__inner {
+.datas /deep/ .el-checkbox__input.is-checked .el-checkbox__inner {
   background-color: #fff;
   border-color: #8f3132;
 }
-.datas .el-checkbox__inner::after {
+.datas /deep/ .el-checkbox__inner::after {
   border-color: #8f3132;
 }
-.home-datas .el-checkbox__input.is-checked + .el-checkbox__label {
+.home-datas /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
   color: #fff;
 }
-.home-datas .is-checked {
+.home-datas /deep/ .is-checked {
   background-color: #8f3132;
 }
 </style>

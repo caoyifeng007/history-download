@@ -1,17 +1,17 @@
 <template>
   <el-row :gutter="20" justify="center" align="middle">
     <el-col :span="2">
-      <span class="right-text">席位号</span>
+      <span class="indicator">席位号</span>
     </el-col>
 
     <el-col :span="6">
-      <el-input v-model="account" placeholder="请输入席位号" maxlength="10" show-word-limit
-    /></el-col>
+      <el-input v-model="account" placeholder="请输入席位号" maxlength="10" />
+    </el-col>
   </el-row>
 
   <el-row :gutter="20" justify="center" align="middle">
     <el-col :span="2">
-      <span class="right-text">密码</span>
+      <span class="indicator">密码</span>
     </el-col>
 
     <el-col :span="6">
@@ -22,8 +22,8 @@
   <el-row justify="center" align="middle">
     <el-col>
       <el-button type="primary" @click="login">登录</el-button>
-    </el-col></el-row
-  >
+    </el-col>
+  </el-row>
 </template>
 
 <script setup lang="ts">
@@ -61,7 +61,7 @@ async function login() {
 </script>
 
 <style scoped>
-.right-text {
+.indicator {
   display: inline-block;
   text-align: right;
   width: 100%;
@@ -69,7 +69,9 @@ async function login() {
 .el-col {
   border-radius: 4px;
 }
-
+.el-input /deep/ .el-input__suffix {
+  align-items: center;
+}
 .el-row {
   margin-bottom: 20px;
 }
