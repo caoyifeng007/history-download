@@ -1,6 +1,6 @@
 <template>
-  <el-row justify="center" align="middle">
-    <el-col :span="2" class="indicate-bar">
+  <el-row :gutter="20" justify="center" align="middle">
+    <el-col :span="2">
       <span class="right-text">席位号</span>
     </el-col>
 
@@ -9,8 +9,8 @@
     /></el-col>
   </el-row>
 
-  <el-row justify="center" align="middle">
-    <el-col :span="2" class="indicate-bar">
+  <el-row :gutter="20" justify="center" align="middle">
+    <el-col :span="2">
       <span class="right-text">密码</span>
     </el-col>
 
@@ -61,12 +61,10 @@ async function login() {
 </script>
 
 <style scoped>
-/* .indicate-bar {
-  width: 5%;
-} */
 .right-text {
+  display: inline-block;
   text-align: right;
-  width: 5%;
+  width: 100%;
 }
 .el-col {
   border-radius: 4px;
@@ -75,7 +73,4 @@ async function login() {
 .el-row {
   margin-bottom: 20px;
 }
-/* .el-row {
-  height: 100%;
-} */
 </style>
