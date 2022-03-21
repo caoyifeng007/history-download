@@ -24,34 +24,34 @@ export const useHqyStore = defineStore({
   }),
   getters: {
     isDay(state) {
-      return state.timeLevel == TimeLevels.DayLevel ? true : false
+      return state.timeLevel == TimeLevels.DayLevel
     },
     isSnap(state) {
-      return state.timeLevel == TimeLevels.SnapLevel ? true : false
+      return state.timeLevel == TimeLevels.SnapLevel
     },
     isMin(state) {
-      return state.timeLevel == TimeLevels.MinuteLevel ? true : false
+      return state.timeLevel == TimeLevels.MinuteLevel
     },
     isDayProduct(state) {
-      return state.product == Products.Day ? true : false
+      return state.product == Products.Day
     },
     isL1Product(state) {
-      return state.product == Products.Basic ? true : false
+      return state.product == Products.Basic
     },
     isL2Product(state) {
-      return state.product == Products.Deep ? true : false
+      return state.product == Products.Deep
     },
     isIdxProduct(state) {
-      return state.product == Products.Index ? true : false
+      return state.product == Products.Index
     },
     isOtcProduct(state) {
-      return state.product == Products.Otc ? true : false
+      return state.product == Products.Otc
     },
     isFtr(state) {
-      return state.category == Categories.Ftr ? true : false
+      return state.category == Categories.Ftr
     },
     isOpt(state) {
-      return state.category == Categories.Opt ? true : false
+      return state.category == Categories.Opt
     },
     options() {
       if (this.isDay) {

@@ -1,25 +1,22 @@
 <template>
   <el-row justify="center" align="middle">
-    <el-col :xs="22" :sm="22" :md="22" :lg="6" :xl="6">
-      <el-input
-        v-model="account"
-        placeholder="请输入席位号"
-        maxlength="10"
-        show-word-limit
-        clearable
+    <el-col :span="2" class="indicate-bar">
+      <span class="right-text">席位号</span>
+    </el-col>
+
+    <el-col :span="6">
+      <el-input v-model="account" placeholder="请输入席位号" maxlength="10" show-word-limit
     /></el-col>
   </el-row>
 
   <el-row justify="center" align="middle">
-    <el-col :xs="22" :sm="22" :md="22" :lg="6" :xl="6">
-      <el-input
-        v-model="password"
-        placeholder="请输入密码"
-        maxlength="10"
-        type="password"
-        show-password
-        clearable
-    /></el-col>
+    <el-col :span="2" class="indicate-bar">
+      <span class="right-text">密码</span>
+    </el-col>
+
+    <el-col :span="6">
+      <el-input v-model="password" placeholder="请输入密码" type="password" show-password />
+    </el-col>
   </el-row>
 
   <el-row justify="center" align="middle">
@@ -64,6 +61,13 @@ async function login() {
 </script>
 
 <style scoped>
+/* .indicate-bar {
+  width: 5%;
+} */
+.right-text {
+  text-align: right;
+  width: 5%;
+}
 .el-col {
   border-radius: 4px;
 }
@@ -71,4 +75,7 @@ async function login() {
 .el-row {
   margin-bottom: 20px;
 }
+/* .el-row {
+  height: 100%;
+} */
 </style>
