@@ -52,7 +52,9 @@ async function login() {
     return
   }
 
-  cacheUtil.setCache('token', token)
+  if (token) {
+    cacheUtil.setCache('token', token)
+  }
 
   hqyStore.displayDataInit(data)
 

@@ -43,12 +43,14 @@ class HqyRequest {
       (config) => {
         const token = cacheUtil.getCache('token')
         if (token) {
-          config.headers!.Authorization = `Token ${token}`
+          // config.headers!.Authorization = `Token ${token}`
+          config.headers!.Authorization = token
         }
         config.url = '/v1' + config.url
         return config
       },
       (err) => {
+        console.error(err)
         return err
       }
     )
@@ -58,6 +60,7 @@ class HqyRequest {
         return data
       },
       (err) => {
+        console.error(err)
         return err
       }
     )
