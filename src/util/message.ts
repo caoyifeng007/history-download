@@ -1,11 +1,3 @@
-import { ElMessage } from 'element-plus'
+import { useToast } from 'vue-toastification'
 
-const open = (msg: string) => {
-  ElMessage({
-    message: msg,
-    showClose: true,
-    type: 'error',
-  })
-}
-
-export default open
+export default useToast()

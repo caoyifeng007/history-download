@@ -142,7 +142,7 @@ import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
 import { ItemGroup, TimeLevels } from '@/commons/enums'
-import open from '@/util/message'
+import toast from '@/util/message'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 
@@ -172,15 +172,15 @@ const { disabledDate } = useDatePicker()
 
 function check(): boolean {
   if (!timeLevel.value) {
-    open('请选择时间维度')
+    toast.warning('请选择时间维度')
     return false
   }
   if (!date.value) {
-    open('请选择日期')
+    toast.warning('请选择日期')
     return false
   }
   if (product.value == '') {
-    open('请选择品种')
+    toast.warning('请选择品种')
     return false
   }
   if (
@@ -190,7 +190,7 @@ function check(): boolean {
     selectedIdxDatas.value.length == 0 &&
     selectedOtcDatas.value.length == 0
   ) {
-    open('请选择品种')
+    toast.warning('请选择品种')
     return false
   }
   return true
@@ -242,7 +242,7 @@ async function download() {
     document.body.appendChild(formNode)
     formNode.submit()
   } else {
-    open(error)
+    toast.error(error)
     router.push({ path: '/' })
   }
 }

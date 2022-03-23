@@ -32,7 +32,7 @@ import router from '@/router'
 
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
-import open from '@/util/message'
+import toast from '@/util/message'
 import { useResetDatas } from '@/util/resetDatas'
 import { localToken, datas } from '@/stores/globalDatas'
 
@@ -53,7 +53,7 @@ async function login() {
     for (let k in error) {
       msg += error[k]
     }
-    open(msg)
+    toast.error(msg)
     return
   }
 
