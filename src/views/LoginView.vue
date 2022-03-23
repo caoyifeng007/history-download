@@ -33,8 +33,10 @@ import router from '@/router'
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
 import open from '@/util/message'
+import { useResetDatas } from '@/util/resetDatas'
 import { localToken, datas } from '@/stores/globalDatas'
 
+useResetDatas()
 const account = ref('')
 const password = ref('')
 
