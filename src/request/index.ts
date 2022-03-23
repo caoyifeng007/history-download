@@ -1,22 +1,22 @@
 import type { AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
-import cacheUtil from '@/util/cache'
+import { localToken } from '@/stores/globalDatas'
 
 interface SubscribeInfo {
-  respDaylvFtrMap: string[]
-  respDaylvOptMap: string[]
-  respDaylvIdxMap: string[]
-  respSnaplvL1FtrMap: string[]
-  respSnaplvL1OptMap: string[]
-  respSnaplvL2FtrMap: string[]
-  respSnaplvL2OptMap: string[]
-  respSnaplvIdxMap: string[]
-  respSnaplvOtcMap: string[]
-  respMinlvL1FtrMap: string[]
-  respMinlvL1OptMap: string[]
-  respMinlvL2FtrMap: string[]
-  respMinlvL2OptMap: string[]
-  respMinlvIdxMap: string[]
+  daylvFtr: string[]
+  daylvOpt: string[]
+  daylvIdx: string[]
+  snaplvL1Ftr: string[]
+  snaplvL1Opt: string[]
+  snaplvL2Ftr: string[]
+  snaplvL2Opt: string[]
+  snaplvIdx: string[]
+  snaplvOtc: string[]
+  minlvL1Ftr: string[]
+  minlvL1Opt: string[]
+  minlvL2Ftr: string[]
+  minlvL2Opt: string[]
+  minlvIdx: string[]
 }
 interface ILoginResp {
   validate: string
@@ -43,10 +43,8 @@ class HqyRequest {
 
     this.instance.interceptors.request.use(
       (config) => {
-        const token = cacheUtil.getCache('token')
-        if (token) {
-          // config.headers!.Authorization = `Token ${token}`
-          config.headers!.Authorization = token
+        if (localToken.value) {
+          config.headers!.Authorization = localToken.value
         }
         config.url = '/v1' + config.url
         return config

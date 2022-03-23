@@ -1,4 +1,8 @@
-const datas = {
+import { useLocalStorage } from '@vueuse/core'
+
+const localToken = useLocalStorage('token', '')
+
+const datas = useLocalStorage('serverDatas', {
   daylvFtr: [] as string[],
   daylvOpt: [] as string[],
   daylvIdx: [] as string[],
@@ -13,6 +17,6 @@ const datas = {
   minlvL2Ftr: [] as string[],
   minlvL2Opt: [] as string[],
   minlvIdx: [] as string[],
-}
+})
 
-export { datas }
+export { datas, localToken }

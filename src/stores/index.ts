@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
-import type { SubscribeInfo } from '@/request'
 import { TimeLevels, Products, Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
-import { datas } from '@/stores/serverDatas'
+import { datas } from '@/stores/globalDatas'
 
 export const useHqyStore = defineStore({
   id: 'hqy',
@@ -66,60 +65,60 @@ export const useHqyStore = defineStore({
       if (this.isDay) {
         if (this.isDayProduct) {
           if (this.isFtr) {
-            state.displayFtrDatas = datas.daylvFtr
+            state.displayFtrDatas = datas.value.daylvFtr
             return ItemLists.DaylvFtr
           } else if (this.isOpt) {
-            state.displayOptDatas = datas.daylvOpt
+            state.displayOptDatas = datas.value.daylvOpt
             return ItemLists.DaylvOpt
           }
         } else if (this.isIdxProduct) {
-          state.displayIdxDatas = datas.daylvIdx
+          state.displayIdxDatas = datas.value.daylvIdx
           return ItemLists.DaylvIdx
         }
       } else if (this.isSnap) {
         if (this.isL1Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = datas.snaplvL1Ftr
+            state.displayFtrDatas = datas.value.snaplvL1Ftr
             return ItemLists.SnaplvL1Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = datas.snaplvL1Opt
+            state.displayOptDatas = datas.value.snaplvL1Opt
             return ItemLists.SnaplvL1Opt
           }
         } else if (this.isL2Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = datas.snaplvL2Ftr
+            state.displayFtrDatas = datas.value.snaplvL2Ftr
             return ItemLists.SnaplvL2Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = datas.snaplvL2Opt
+            state.displayOptDatas = datas.value.snaplvL2Opt
             return ItemLists.SnaplvL2Opt
           }
         } else if (this.isIdxProduct) {
-          state.displayIdxDatas = datas.snaplvIdx
+          state.displayIdxDatas = datas.value.snaplvIdx
           return ItemLists.SnaplvIdx
         } else if (this.isOtcProduct) {
-          state.displayOtcDatas = datas.snaplvOtc
+          state.displayOtcDatas = datas.value.snaplvOtc
           return ItemLists.SnaplvOtc
         }
       } else if (this.isMin) {
         if (this.isL1Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = datas.minlvL1Ftr
+            state.displayFtrDatas = datas.value.minlvL1Ftr
             return ItemLists.MinlvL1Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = datas.minlvL1Ftr
+            state.displayOptDatas = datas.value.minlvL1Ftr
             return ItemLists.MinlvL1Opt
           }
         } else if (this.isL2Product) {
           if (this.isFtr) {
-            state.displayFtrDatas = datas.minlvL2Ftr
+            state.displayFtrDatas = datas.value.minlvL2Ftr
             return ItemLists.MinlvL2Ftr
           } else if (this.isOpt) {
-            state.displayOptDatas = datas.minlvL2Opt
+            state.displayOptDatas = datas.value.minlvL2Opt
             return ItemLists.MinlvL2Opt
           }
         } else if (this.isIdxProduct) {
           if (this.isIdxProduct) {
-            state.displayIdxDatas = datas.minlvIdx
+            state.displayIdxDatas = datas.value.minlvIdx
             return ItemLists.MinlvIdx
           }
         }
@@ -150,26 +149,5 @@ export const useHqyStore = defineStore({
       }
     },
   },
-  actions: {
-    displayDataInit(data: SubscribeInfo) {
-      console.log('服务端返回数据: ', data)
-
-      this.$patch(() => {
-        datas.daylvFtr = data.respDaylvFtrMap
-        datas.daylvOpt = data.respDaylvOptMap
-        datas.daylvIdx = data.respDaylvIdxMap
-        datas.snaplvL1Ftr = data.respSnaplvL1FtrMap
-        datas.snaplvL1Opt = data.respSnaplvL1OptMap
-        datas.snaplvL2Ftr = data.respSnaplvL2FtrMap
-        datas.snaplvL2Opt = data.respSnaplvL2OptMap
-        datas.snaplvIdx = data.respSnaplvIdxMap
-        datas.snaplvOtc = data.respSnaplvOtcMap
-        datas.minlvL1Ftr = data.respMinlvL1FtrMap
-        datas.minlvL1Opt = data.respMinlvL1OptMap
-        datas.minlvL2Ftr = data.respMinlvL2FtrMap
-        datas.minlvL2Opt = data.respMinlvL2OptMap
-        datas.minlvIdx = data.respMinlvIdxMap
-      })
-    },
-  },
+  actions: {},
 })

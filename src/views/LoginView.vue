@@ -30,16 +30,13 @@
 import { ref } from 'vue'
 import router from '@/router'
 
-import cacheUtil from '@/util/cache'
-import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
 import open from '@/util/message'
+import { localToken, datas } from '@/stores/globalDatas'
 
 const account = ref('')
 const password = ref('')
-
-const hqyStore = useHqyStore()
 
 async function login() {
   const res = await axIns.post<ILoginResp>('/login', {
@@ -49,21 +46,21 @@ async function login() {
 
   const { validate, token, data, error } = res
 
-  let msg = ''
-  for (let k in error) {
-    msg += error[k]
-  }
-
   if (validate != 'ok') {
+    let msg = ''
+    for (let k in error) {
+      msg += error[k]
+    }
     open(msg)
     return
   }
 
   if (token) {
-    cacheUtil.setCache('token', token)
+    localToken.value = token
   }
 
-  hqyStore.displayDataInit(data)
+  console.log('服务端返回数据: ', data)
+  datas.value = data
 
   router.push({ path: '/home' })
 }
