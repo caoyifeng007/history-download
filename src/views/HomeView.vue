@@ -132,9 +132,9 @@
 
 <script setup lang="ts">
 import { watch } from 'vue'
+import router from '@/router'
 import { storeToRefs } from 'pinia'
 import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
 
@@ -142,6 +142,7 @@ import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
 import { ItemGroup, TimeLevels } from '@/commons/enums'
+import open from '@/util/message'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 
@@ -168,14 +169,6 @@ const {
 } = storeToRefs(hqyStore)
 
 const { disabledDate } = useDatePicker()
-
-const open = (msg: string) => {
-  ElMessage({
-    message: msg,
-    showClose: true,
-    type: 'error',
-  })
-}
 
 function check(): boolean {
   if (!timeLevel.value) {
@@ -235,17 +228,22 @@ async function download() {
     },
   })
 
-  if (res.validate == 'ok') {
-    console.log('response data is', res.dUrl)
+  const { validate, dUrl, error } = res
 
-    if (!res.dUrl) {
+  if (validate == 'ok') {
+    console.log('response data is', dUrl)
+
+    if (!dUrl) {
       return
     }
     const formNode = document.createElement('form')
-    formNode.setAttribute('action', res.dUrl)
+    formNode.setAttribute('action', dUrl)
 
     document.body.appendChild(formNode)
     formNode.submit()
+  } else {
+    open(error)
+    router.push({ path: '/' })
   }
 }
 

@@ -29,20 +29,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import router from '@/router'
-import { ElMessage } from 'element-plus'
 
 import cacheUtil from '@/util/cache'
 import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
-
-const open = (msg: string) => {
-  ElMessage({
-    message: msg,
-    showClose: true,
-    type: 'error',
-  })
-}
+import open from '@/util/message'
 
 const account = ref('')
 const password = ref('')

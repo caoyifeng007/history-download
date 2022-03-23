@@ -28,6 +28,7 @@ interface ILoginResp {
 interface IDataResp {
   validate: string
   dUrl: string
+  error: string
 }
 
 interface ILogin {
