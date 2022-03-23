@@ -5,7 +5,7 @@
     </el-col>
 
     <el-col :span="6">
-      <el-input v-model="account" placeholder="请输入席位号" maxlength="10" />
+      <el-input v-model="account" placeholder="请输入席位号" maxlength="10" show-word-limit />
     </el-col>
   </el-row>
 
@@ -29,11 +29,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import router from '@/router'
+import { ElMessage } from 'element-plus'
 
 import cacheUtil from '@/util/cache'
 import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
+
+const open = (msg: string) => {
+  ElMessage({
+    message: msg,
+    showClose: true,
+    type: 'error',
+  })
+}
 
 const account = ref('')
 const password = ref('')
@@ -46,9 +55,15 @@ async function login() {
     password: password.value,
   })
 
-  const { validate, token, data } = res
+  const { validate, token, data, error } = res
+
+  let msg = ''
+  for (let k in error) {
+    msg += error[k]
+  }
+
   if (validate != 'ok') {
-    console.log('账号密码有误')
+    open(msg)
     return
   }
 

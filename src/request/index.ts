@@ -22,6 +22,7 @@ interface ILoginResp {
   validate: string
   data: SubscribeInfo
   token: string
+  error: Record<string, string>
 }
 
 interface IDataResp {
@@ -81,7 +82,7 @@ class HqyRequest {
 
 export default new HqyRequest({
   // baseURL: process.env.VUE_APP_BASE_SERVER,
-  timeout: 1000,
+  // timeout: 1000,
 })
 
 export type { ILoginResp, SubscribeInfo, IDataResp }
