@@ -1,37 +1,39 @@
 <template>
-  <el-row :gutter="20" justify="center" align="middle">
-    <el-col :span="2">
-      <span class="indicator">席位号</span>
-    </el-col>
+  <form @submit="onSubmit">
+    <el-row :gutter="20" justify="center" align="middle">
+      <el-col :span="2">
+        <span class="indicator">席位号</span>
+      </el-col>
 
-    <el-col :span="6" class="col-parent">
-      <el-input name="account" v-model="account" placeholder="请输入席位号" />
-      <span class="warn">{{ accountError }}</span>
-    </el-col>
-  </el-row>
+      <el-col :span="6" class="col-parent">
+        <el-input name="account" v-model="account" placeholder="请输入席位号" />
+        <span class="warn">{{ accountError }}</span>
+      </el-col>
+    </el-row>
 
-  <el-row :gutter="20" justify="center" align="middle">
-    <el-col :span="2">
-      <span class="indicator">密码</span>
-    </el-col>
+    <el-row :gutter="20" justify="center" align="middle">
+      <el-col :span="2">
+        <span class="indicator">密码</span>
+      </el-col>
 
-    <el-col :span="6" class="col-parent">
-      <el-input
-        name="password"
-        v-model="password"
-        placeholder="请输入密码"
-        type="password"
-        show-password
-      />
-      <span class="warn">{{ passwordError }}</span>
-    </el-col>
-  </el-row>
+      <el-col :span="6" class="col-parent">
+        <el-input
+          name="password"
+          v-model="password"
+          placeholder="请输入密码"
+          type="password"
+          show-password
+        />
+        <span class="warn">{{ passwordError }}</span>
+      </el-col>
+    </el-row>
 
-  <el-row justify="center" align="middle">
-    <el-col>
-      <el-button type="primary" @click="login">登录</el-button>
-    </el-col>
-  </el-row>
+    <el-row justify="center" align="middle">
+      <el-col>
+        <el-input type="submit">登录</el-input>
+      </el-col>
+    </el-row>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -43,10 +45,11 @@ import type { ILoginResp } from '@/request'
 import toast from '@/hooks/useNotification'
 import { useResetDatas } from '@/hooks/useResetDatas'
 import { useValidate } from '@/hooks/useValidate'
+
 import { localToken, datas } from '@/stores/globalDatas'
 
 useResetDatas()
-const { account, accountError, password, passwordError } = useValidate()
+const { account, accountError, password, passwordError, handleSubmit } = useValidate()
 
 async function login() {
   const res = await axIns.post<ILoginResp>('/login', {
@@ -74,6 +77,8 @@ async function login() {
 
   router.push({ path: '/home' })
 }
+
+const onSubmit = handleSubmit(login)
 </script>
 
 <style scoped>

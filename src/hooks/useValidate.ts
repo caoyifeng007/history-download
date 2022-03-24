@@ -10,11 +10,12 @@ export function useValidate() {
     password: string().required('密码不能为空'),
   })
 
-  useForm({
+  const { handleSubmit } = useForm({
     validationSchema: schema,
   })
 
   const { value: account, errorMessage: accountError } = useField<string>('account')
   const { value: password, errorMessage: passwordError } = useField<string>('password')
-  return { account, accountError, password, passwordError }
+
+  return { account, accountError, password, passwordError, handleSubmit }
 }
