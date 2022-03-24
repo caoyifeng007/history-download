@@ -4,9 +4,9 @@
       <span class="indicator">席位号</span>
     </el-col>
 
-    <el-col :span="6">
+    <el-col :span="6" class="col-parent">
       <el-input name="account" v-model="account" placeholder="请输入席位号" />
-      <span>{{ accountError }}</span>
+      <span class="warn">{{ accountError }}</span>
     </el-col>
   </el-row>
 
@@ -15,7 +15,7 @@
       <span class="indicator">密码</span>
     </el-col>
 
-    <el-col :span="6">
+    <el-col :span="6" class="col-parent">
       <el-input
         name="password"
         v-model="password"
@@ -23,7 +23,7 @@
         type="password"
         show-password
       />
-      <span>{{ passwordError }}</span>
+      <span class="warn">{{ passwordError }}</span>
     </el-col>
   </el-row>
 
@@ -88,7 +88,16 @@ async function login() {
 .el-input /deep/ .el-input__suffix {
   align-items: center;
 }
+.col-parent {
+  position: relative;
+}
+.warn {
+  top: 110%;
+  color: red;
+  left: 14px;
+  position: absolute;
+}
 .el-row {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 </style>
