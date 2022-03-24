@@ -1,7 +1,7 @@
 import { useForm, useField } from 'vee-validate'
 import { object, string } from 'yup'
 
-export function useValidate() {
+export function useLoginValidate() {
   const schema = object({
     account: string()
       .required('请输入席位号')

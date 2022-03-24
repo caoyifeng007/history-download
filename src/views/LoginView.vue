@@ -44,12 +44,12 @@ import type { ILoginResp } from '@/request'
 
 import toast from '@/hooks/useNotification'
 import { useResetDatas } from '@/hooks/useResetDatas'
-import { useValidate } from '@/hooks/useValidate'
+import { useLoginValidate } from '@/hooks/useValidate'
 
 import { localToken, datas } from '@/stores/globalDatas'
 
 useResetDatas()
-const { account, accountError, password, passwordError, handleSubmit } = useValidate()
+const { account, accountError, password, passwordError, handleSubmit } = useLoginValidate()
 
 async function login() {
   const res = await axIns.post<ILoginResp>('/login', {
