@@ -29,8 +29,11 @@
     </el-row>
 
     <el-row justify="center" align="middle">
-      <el-col>
-        <el-input type="submit">登录</el-input>
+      <el-col :span="1">
+        <!-- <input type="submit" value="登录" /> -->
+        <el-button>
+          <input type="submit" />
+        </el-button>
       </el-col>
     </el-row>
   </form>
