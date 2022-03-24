@@ -5,7 +5,8 @@
     </el-col>
 
     <el-col :span="6">
-      <el-input v-model="account" placeholder="请输入席位号" maxlength="10" show-word-limit />
+      <el-input name="account" v-model="account" placeholder="请输入席位号" />
+      <span>{{ accountError }}</span>
     </el-col>
   </el-row>
 
@@ -15,7 +16,14 @@
     </el-col>
 
     <el-col :span="6">
-      <el-input v-model="password" placeholder="请输入密码" type="password" show-password />
+      <el-input
+        name="password"
+        v-model="password"
+        placeholder="请输入密码"
+        type="password"
+        show-password
+      />
+      <span>{{ passwordError }}</span>
     </el-col>
   </el-row>
 
@@ -27,18 +35,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import router from '@/router'
 
 import axIns from '@/request'
 import type { ILoginResp } from '@/request'
-import toast from '@/util/message'
-import { useResetDatas } from '@/util/resetDatas'
+
+import toast from '@/hooks/useNotification'
+import { useResetDatas } from '@/hooks/useResetDatas'
+import { useValidate } from '@/hooks/useValidate'
 import { localToken, datas } from '@/stores/globalDatas'
 
 useResetDatas()
-const account = ref('')
-const password = ref('')
+const { account, accountError, password, passwordError } = useValidate()
 
 async function login() {
   const res = await axIns.post<ILoginResp>('/login', {

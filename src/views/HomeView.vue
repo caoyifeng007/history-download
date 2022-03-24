@@ -142,9 +142,9 @@ import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
 import { ItemGroup, TimeLevels } from '@/commons/enums'
-import toast from '@/util/message'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
+import toast from '@/hooks/useNotification'
 
 const hqyStore = useHqyStore()
 const {
