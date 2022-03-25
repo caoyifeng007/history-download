@@ -1,137 +1,144 @@
 <template>
-  <el-row>
-    <p class="home-title">数据类型 :</p>
-    <el-radio-group v-model="timeLevel" class="home-radio m-l-20">
-      <el-radio :label="TimeLevels.DayLevel" size="default" border class="home-day">
-        <el-icon :size="20"> <Finished /> </el-icon>日终历史数据</el-radio
-      >
-      <el-radio :label="TimeLevels.SnapLevel" size="default" border class="home-snap">
-        <el-icon :size="20"> <Camera /> </el-icon>快照历史数据</el-radio
-      >
-      <el-radio :label="TimeLevels.MinuteLevel" size="default" border class="home-minute"
-        ><el-icon :size="20"> <Edit /> </el-icon>分钟历史数据</el-radio
-      >
-    </el-radio-group>
-  </el-row>
-  <el-divider />
-  <el-row>
-    <div class="home-data-div d-f">
-      <p class="home-title">下载日期 :</p>
-      <div class="m-l-20 m-t-20 home-data" v-show="!rangePicker">
-        <el-date-picker
-          key="day"
-          v-model="date"
-          type="dates"
-          placeholder="请选择日期"
-          value-format="YYYY-MM-DD"
-          :disabled-date="disabledDate"
-        />
+  <form @submit="onSubmit">
+    <el-row>
+      <p class="home-title">数据类型 :</p>
+      <el-radio-group v-model="values.timeLevel" name="timeLevel" class="home-radio m-l-20">
+        <el-radio :label="TimeLevels.DayLevel" size="default" border class="home-day">
+          <el-icon :size="20"> <Finished /> </el-icon>日终历史数据</el-radio
+        >
+        <el-radio :label="TimeLevels.SnapLevel" size="default" border class="home-snap">
+          <el-icon :size="20"> <Camera /> </el-icon>快照历史数据</el-radio
+        >
+        <el-radio :label="TimeLevels.MinuteLevel" size="default" border class="home-minute"
+          ><el-icon :size="20"> <Edit /> </el-icon>分钟历史数据</el-radio
+        >
+      </el-radio-group>
+    </el-row>
+    <el-divider />
+    <el-row>
+      <div class="home-data-div d-f">
+        <p class="home-title">下载日期 :</p>
+        <div class="m-l-20 m-t-20 home-data" v-show="!values.rangePicker">
+          <el-date-picker
+            key="day"
+            v-model="values.date"
+            type="dates"
+            placeholder="请选择日期"
+            value-format="YYYY-MM-DD"
+            :disabled-date="disabledDate"
+          />
+        </div>
+        <div class="m-l-20 m-t-20 home-data" v-show="values.rangePicker">
+          <el-date-picker
+            style="width: 500px"
+            key="minute"
+            v-model="values.date"
+            type="daterange"
+            format="YYYY-MM-DD"
+            value-format="YYYY-MM-DD"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :disabled-date="disabledDate"
+          />
+        </div>
       </div>
-      <div class="m-l-20 m-t-20 home-data" v-show="rangePicker">
-        <el-date-picker
-          style="width: 500px"
-          key="minute"
-          v-model="date"
-          type="daterange"
-          format="YYYY-MM-DD"
-          value-format="YYYY-MM-DD"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :disabled-date="disabledDate"
+      <el-radio-group name="rangePicker" v-model="values.rangePicker" class="m-l-40 home-data-type">
+        <el-radio :label="true" size="small">范围日期</el-radio>
+        <el-radio :label="false" size="small">特定日期</el-radio>
+      </el-radio-group>
+
+      <p class="home-title m-l-21">行情类型 :</p>
+      <el-select
+        name="product"
+        v-model="values.product"
+        clearable
+        placeholder="Select"
+        class="m-t-20 m-l-10"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
         />
-      </div>
-    </div>
-    <el-radio-group v-model="rangePicker" class="m-l-40 home-data-type">
-      <el-radio :label="true" size="small">范围日期</el-radio>
-      <el-radio :label="false" size="small">特定日期</el-radio>
-    </el-radio-group>
+      </el-select>
+    </el-row>
+    <div class="m-t-50"></div>
+    <el-row>
+      <el-radio-group
+        v-show="isDayProduct || isL1Product || isL2Product"
+        v-model="category"
+        class="home-futures-or-option"
+      >
+        <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
+        <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
+      </el-radio-group>
+    </el-row>
+    <el-row>
+      <el-checkbox-group
+        v-model="selectedFtrDatas"
+        v-show="currentGroup == ItemGroup.FtrItem"
+        class="home-datas"
+      >
+        <el-space wrap :size="0">
+          <template v-for="data in displayFtrDatas" :key="data">
+            <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+              {{ data }}
+            </el-checkbox>
+          </template>
+        </el-space>
+      </el-checkbox-group>
+      <el-checkbox-group
+        v-model="selectedOptDatas"
+        v-show="currentGroup == ItemGroup.OptItem"
+        class="home-datas"
+      >
+        <el-space wrap :size="0">
+          <template v-for="data in displayOptDatas" :key="data">
+            <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+              {{ data }}
+            </el-checkbox>
+          </template>
+        </el-space>
+      </el-checkbox-group>
+      <el-checkbox-group
+        v-model="selectedIdxDatas"
+        v-show="currentGroup == ItemGroup.IdxItem"
+        class="home-datas"
+      >
+        <el-space wrap :size="0">
+          <template v-for="data in displayIdxDatas" :key="data">
+            <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+              {{ data }}
+            </el-checkbox>
+          </template>
+        </el-space>
+      </el-checkbox-group>
+      <el-checkbox-group
+        v-model="selectedOtcDatas"
+        v-show="currentGroup == ItemGroup.OtcItem"
+        class="home-datas"
+      >
+        <el-space wrap :size="0">
+          <template v-for="data in displayOtcDatas" :key="data">
+            <el-checkbox style="width: 9rem" class="datas" checked :label="data">
+              {{ data }}
+            </el-checkbox>
+          </template>
+        </el-space>
+      </el-checkbox-group>
+    </el-row>
+    <div class="m-t-50"></div>
+    <el-divider />
 
-    <p class="home-title m-l-21">行情类型 :</p>
-    <el-select v-model="product" clearable placeholder="Select" class="m-t-20 m-l-10">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </el-row>
-  <div class="m-t-50"></div>
-  <el-row>
-    <el-radio-group
-      v-show="isDayProduct || isL1Product || isL2Product"
-      v-model="category"
-      class="home-futures-or-option"
-    >
-      <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
-      <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
-    </el-radio-group>
-  </el-row>
-  <el-row>
-    <el-checkbox-group
-      v-model="selectedFtrDatas"
-      v-show="currentGroup == ItemGroup.FtrItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayFtrDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedOptDatas"
-      v-show="currentGroup == ItemGroup.OptItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayOptDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedIdxDatas"
-      v-show="currentGroup == ItemGroup.IdxItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayIdxDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedOtcDatas"
-      v-show="currentGroup == ItemGroup.OtcItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayOtcDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-  </el-row>
-  <div class="m-t-50"></div>
-  <el-divider />
-
-  <el-row class="home-button">
-    <el-button type="primary" @click="download">分表下载</el-button>
-  </el-row>
+    <el-row class="home-button">
+      <el-button type="primary" native-type="submit">分表下载</el-button>
+    </el-row>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import 'element-plus/es/components/message/style/css'
@@ -144,14 +151,20 @@ import type { IDataResp } from '@/request'
 import { ItemGroup, TimeLevels } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
+import { useDownloadValidate } from '@/hooks/useValidate'
+import { useDownloadOptionListen } from '@/hooks/useOptionListen'
 import toast from '@/hooks/useNotification'
 
 const hqyStore = useHqyStore()
+const { disabledDate } = useDatePicker()
+const { values, handleDownloadSubmit } = useDownloadValidate(hqyStore)
+useDownloadOptionListen(values, hqyStore)
+
+const onSubmit = handleDownloadSubmit((leagleVal) => {
+  console.log(leagleVal)
+})
+
 const {
-  timeLevel,
-  date,
-  rangePicker,
-  product,
   category,
   options,
   selectedFtrDatas,
@@ -168,31 +181,29 @@ const {
   isL2Product,
 } = storeToRefs(hqyStore)
 
-const { disabledDate } = useDatePicker()
-
 function check(): boolean {
-  if (!timeLevel.value) {
+  if (!values.timeLevel) {
     toast.warning('请选择时间维度')
     return false
   }
-  if (!date.value) {
+  if (!values.date) {
     toast.warning('请选择日期')
     return false
   }
-  if (product.value == '') {
+  if (values.product == '') {
     toast.warning('请选择品种')
     return false
   }
-  if (
-    product.value != '' &&
-    selectedFtrDatas.value.length == 0 &&
-    selectedOptDatas.value.length == 0 &&
-    selectedIdxDatas.value.length == 0 &&
-    selectedOtcDatas.value.length == 0
-  ) {
-    toast.warning('请选择品种')
-    return false
-  }
+  // if (
+  //   product.value != '' &&
+  //   selectedFtrDatas.value.length == 0 &&
+  //   selectedOptDatas.value.length == 0 &&
+  //   selectedIdxDatas.value.length == 0 &&
+  //   selectedOtcDatas.value.length == 0
+  // ) {
+  //   toast.warning('请选择品种')
+  //   return false
+  // }
   return true
 }
 
@@ -217,10 +228,10 @@ async function download() {
   }
   const res = await axIns.get<IDataResp>('/download', {
     params: {
-      timeLevel: timeLevel.value,
-      date: date.value,
-      rangePicker: rangePicker.value,
-      product: product.value,
+      timeLevel: values.timeLevel,
+      date: values.date,
+      rangePicker: values.rangePicker,
+      product: values.product,
       ...selDatas,
     },
     paramsSerializer: function (params) {
@@ -246,29 +257,6 @@ async function download() {
     router.push({ path: '/' })
   }
 }
-
-watch(
-  () => timeLevel.value,
-  (v) => {
-    product.value = ''
-    category.value = ''
-    selectedFtrDatas.value = []
-    selectedOptDatas.value = []
-    selectedIdxDatas.value = []
-    selectedOtcDatas.value = []
-    displayFtrDatas.value = []
-    displayOptDatas.value = []
-    displayIdxDatas.value = []
-    displayOtcDatas.value = []
-  }
-)
-
-watch(
-  () => rangePicker.value,
-  (v) => {
-    date.value = ''
-  }
-)
 </script>
 
 <style scoped>

@@ -1,25 +1,42 @@
-import { defineStore } from 'pinia'
+import { defineStore, StateTree } from 'pinia'
 import { TimeLevels, Products, Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
 import { datas } from '@/stores/globalDatas'
 
-export const useHqyStore = defineStore({
+export type HqyStateTree = StateTree & {
+  timeLevel: string
+  date: string[]
+  rangePicker: boolean
+  product: string
+  category: string
+  isIdxOrOutDatas: string[]
+  selectedFtrDatas: string[]
+  selectedOptDatas: string[]
+  selectedIdxDatas: string[]
+  selectedOtcDatas: string[]
+  displayFtrDatas: string[]
+  displayOptDatas: string[]
+  displayIdxDatas: string[]
+  displayOtcDatas: string[]
+}
+
+export const useHqyStore = defineStore<string, HqyStateTree>({
   id: 'hqy',
   state: () => ({
     timeLevel: '',
-    date: '',
+    date: [],
     rangePicker: false,
     product: '',
     category: '',
-    isIdxOrOutDatas: true,
-    selectedFtrDatas: [] as string[],
-    selectedOptDatas: [] as string[],
-    selectedIdxDatas: [] as string[],
-    selectedOtcDatas: [] as string[],
-    displayFtrDatas: [] as string[],
-    displayOptDatas: [] as string[],
-    displayIdxDatas: [] as string[],
-    displayOtcDatas: [] as string[],
+    isIdxOrOutDatas: [],
+    selectedFtrDatas: [],
+    selectedOptDatas: [],
+    selectedIdxDatas: [],
+    selectedOtcDatas: [],
+    displayFtrDatas: [],
+    displayOptDatas: [],
+    displayIdxDatas: [],
+    displayOtcDatas: [],
   }),
   getters: {
     isDay(state) {

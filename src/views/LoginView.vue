@@ -49,7 +49,9 @@ import { useLoginValidate } from '@/hooks/useValidate'
 import { localToken, datas } from '@/stores/globalDatas'
 
 useResetDatas()
-const { account, accountError, password, passwordError, handleSubmit } = useLoginValidate()
+const { account, accountError, password, passwordError, handleLoginSubmit } = useLoginValidate()
+
+const onSubmit = handleLoginSubmit(login)
 
 async function login() {
   const res = await axIns.post<ILoginResp>('/login', {
@@ -77,8 +79,6 @@ async function login() {
 
   router.push({ path: '/home' })
 }
-
-const onSubmit = handleSubmit(login)
 </script>
 
 <style scoped>
