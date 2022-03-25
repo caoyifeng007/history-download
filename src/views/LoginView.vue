@@ -5,7 +5,7 @@
         <span class="indicator">席位号</span>
       </el-col>
 
-      <el-col :span="6" class="col-parent">
+      <el-col :span="4" class="col-parent">
         <el-input name="account" v-model="account" placeholder="请输入席位号" />
         <span class="warn">{{ accountError }}</span>
       </el-col>
@@ -16,7 +16,7 @@
         <span class="indicator">密码</span>
       </el-col>
 
-      <el-col :span="6" class="col-parent">
+      <el-col :span="4" class="col-parent">
         <el-input
           name="password"
           v-model="password"
@@ -29,11 +29,8 @@
     </el-row>
 
     <el-row justify="center" align="middle">
-      <el-col :span="1">
-        <!-- <input type="submit" value="登录" /> -->
-        <el-button>
-          <input type="submit" />
-        </el-button>
+      <el-col :span="2">
+        <el-button type="primary" native-type="submit">登录</el-button>
       </el-col>
     </el-row>
   </form>
