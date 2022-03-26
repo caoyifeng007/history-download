@@ -1,9 +1,8 @@
 import { watch } from 'vue'
-import type { Store } from 'pinia'
 import { useForm, useField } from 'vee-validate'
 import { object, string, boolean, array } from 'yup'
-import type { HqyStateTree } from '@/stores'
 import { TimeLevels, Products } from '@/commons/enums'
+import { hqyStore } from '@/main'
 
 interface LoginForm {
   account: string
@@ -40,10 +39,9 @@ interface DownloadForm {
   date: string[]
   product: string
   rangePicker: boolean
-  vitems: string[]
 }
 
-export function useDownloadValidate(store: Store<string, HqyStateTree>) {
+export function useDownloadValidate() {
   const downloadSchema = object({
     timeLevel: string()
       .required('请选择时间维度')
@@ -61,10 +59,6 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
       .required('请选择产品类型')
       .oneOf([Products.Day, Products.Basic, Products.Deep, Products.Index, Products.Otc]),
     rangePicker: boolean().required(),
-    vitems: array().when('product', {
-      is: (value: string) => value != '',
-      then: (schema) => schema.min(3),
-    }),
   })
 
   const { values } = useForm<DownloadForm>({
@@ -73,14 +67,12 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
       date: [],
       product: '',
       rangePicker: false,
-      vitems: [],
     },
     validationSchema: downloadSchema,
   })
-  const { value: vitems } = useField<string[]>('vitems')
 
   watch(values, (newFormData) => {
-    store.$patch((state) => {
+    hqyStore.$patch((state) => {
       state.timeLevel = newFormData.timeLevel
       state.date = newFormData.date
       state.product = newFormData.product
@@ -88,7 +80,7 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
     })
   })
 
-  return { downloadSchema, values, vitems }
+  return { downloadSchema, values }
 }
 
 export type { DownloadForm }

@@ -76,6 +76,7 @@
   </el-row>
   <el-row>
     <el-checkbox-group
+      name="vFtrItems"
       v-model="selectedFtrDatas"
       v-show="currentGroup == ItemGroup.FtrItem"
       class="home-datas"
@@ -89,6 +90,7 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
+      name="vOptItems"
       v-model="selectedOptDatas"
       v-show="currentGroup == ItemGroup.OptItem"
       class="home-datas"
@@ -102,6 +104,7 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
+      name="vIdxItems"
       v-model="selectedIdxDatas"
       v-show="currentGroup == ItemGroup.IdxItem"
       class="home-datas"
@@ -115,8 +118,8 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
-      name="vitems"
-      v-model="vitems"
+      name="vOtcitems"
+      v-model="selectedOtcDatas"
       v-show="currentGroup == ItemGroup.OtcItem"
       class="home-datas"
     >
@@ -146,10 +149,9 @@ import 'element-plus/es/components/message/style/css'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
 
-import { useHqyStore } from '@/stores'
 import axIns from '@/request'
 import type { IDataResp } from '@/request'
-import { ItemGroup, TimeLevels } from '@/commons/enums'
+import { ItemGroup, Products, TimeLevels } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDownloadValidate } from '@/hooks/useValidate'
@@ -157,9 +159,14 @@ import { useDownloadOptionListen } from '@/hooks/useOptionListen'
 import toast from '@/hooks/useNotification'
 import { ValidationError } from 'yup'
 
-const hqyStore = useHqyStore()
+import { getActivePinia } from 'pinia'
+import { useHqyStore } from '@/stores'
+// vue和ts中获得store的时间点不同
+// import { hqyStore } from '@/main'
+const hqyStore = useHqyStore(getActivePinia())
+
 const { disabledDate } = useDatePicker()
-const { downloadSchema, values, vitems } = useDownloadValidate(hqyStore)
+const { downloadSchema, values } = useDownloadValidate()
 useDownloadOptionListen(values, hqyStore)
 
 const {
@@ -188,7 +195,6 @@ async function check() {
         product: values.product,
         rangePicker: values.rangePicker,
         timeLevel: values.timeLevel,
-        vitems: vitems.value,
       },
       { abortEarly: false }
     )
@@ -199,16 +205,27 @@ async function check() {
     return
   }
 
-  // if (
-  //   product.value != '' &&
-  //   selectedFtrDatas.value.length == 0 &&
-  //   selectedOptDatas.value.length == 0 &&
-  //   selectedIdxDatas.value.length == 0 &&
-  //   selectedOtcDatas.value.length == 0
-  // ) {
-  //   toast.warning('请选择品种')
-  //   return false
-  // }
+  if (
+    values.product == Products.Basic ||
+    values.product == Products.Deep ||
+    values.product == Products.Day
+  ) {
+    if (selectedFtrDatas.value.length <= 0 && selectedOptDatas.value.length <= 0) {
+      toast.warning('请选择品种')
+      return
+    }
+  } else if (values.product == Products.Index) {
+    if (selectedIdxDatas.value.length <= 0) {
+      toast.warning('请选择品种')
+      return
+    }
+  } else if (values.product == Products.Otc) {
+    if (selectedIdxDatas.value.length <= 0) {
+      toast.warning('请选择品种')
+      return
+    }
+  }
+
   // download()
 }
 
