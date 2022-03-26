@@ -3,7 +3,7 @@ import type { Store } from 'pinia'
 import { useForm, useField } from 'vee-validate'
 import { object, string, boolean, array } from 'yup'
 import type { HqyStateTree } from '@/stores'
-
+import { TimeLevels, Products } from '@/commons/enums'
 interface LoginForm {
   account: string
   password: string
@@ -18,14 +18,20 @@ export function useLoginValidate() {
     password: string().required('密码不能为空'),
   })
 
-  const { handleSubmit } = useForm<LoginForm>({
+  useForm<LoginForm>({
     validationSchema: loginSchema,
   })
 
   const { value: account, errorMessage: accountError } = useField<string>('account')
   const { value: password, errorMessage: passwordError } = useField<string>('password')
 
-  return { account, accountError, password, passwordError, handleLoginSubmit: handleSubmit }
+  return {
+    loginSchema,
+    account,
+    accountError,
+    password,
+    passwordError,
+  }
 }
 
 interface DownloadForm {
@@ -37,13 +43,26 @@ interface DownloadForm {
 
 export function useDownloadValidate(store: Store<string, HqyStateTree>) {
   const downloadSchema = object({
-    timeLevel: string().required('请选择时间维度'),
-    date: array().required('请选择日期').min(1, '日期不能为空'),
-    product: string().required('请选择产品类型'),
+    timeLevel: string()
+      .required('请选择时间维度')
+      .oneOf([TimeLevels.DayLevel, TimeLevels.SnapLevel, TimeLevels.MinuteLevel]),
+    date: array()
+      .ensure()
+      .required()
+      .of(
+        string()
+          .required()
+          .matches(/\d{4}-\d{2}-\d{2}/)
+      )
+      .min(1, '日期不能为空'),
+
+    product: string()
+      .required('请选择产品类型')
+      .oneOf([Products.Day, Products.Basic, Products.Deep, Products.Index, Products.Otc]),
     rangePicker: boolean().required(),
   })
 
-  const { handleSubmit, values } = useForm<DownloadForm>({
+  const { values } = useForm<DownloadForm>({
     initialValues: {
       timeLevel: '',
       date: [],
@@ -53,16 +72,20 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
     validationSchema: downloadSchema,
   })
 
-  watch(values, (newFormData) => {
-    store.$patch((state) => {
-      state.timeLevel = newFormData.timeLevel
-      state.date = newFormData.date
-      state.product = newFormData.product
-      state.rangePicker = newFormData.rangePicker
-    })
-  })
+  watch(
+    values,
+    (newFormData) => {
+      store.$patch((state) => {
+        state.timeLevel = newFormData.timeLevel
+        state.date = newFormData.date
+        state.product = newFormData.product
+        state.rangePicker = newFormData.rangePicker
+      })
+    },
+    { immediate: true }
+  )
 
-  return { values, handleDownloadSubmit: handleSubmit }
+  return { downloadSchema, values }
 }
 
 export type { DownloadForm }
