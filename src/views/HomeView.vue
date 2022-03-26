@@ -115,7 +115,8 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
-      v-model="selectedOtcDatas"
+      name="items"
+      v-model="items"
       v-show="currentGroup == ItemGroup.OtcItem"
       class="home-datas"
     >
@@ -128,6 +129,7 @@
       </el-space>
     </el-checkbox-group>
   </el-row>
+
   <div class="m-t-50"></div>
   <el-divider />
 
@@ -137,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import 'element-plus/es/components/message/style/css'
@@ -156,16 +159,12 @@ import { ValidationError } from 'yup'
 
 const hqyStore = useHqyStore()
 const { disabledDate } = useDatePicker()
-const { downloadSchema, values } = useDownloadValidate(hqyStore)
+const { downloadSchema, values, items } = useDownloadValidate(hqyStore)
 useDownloadOptionListen(values, hqyStore)
 
 const {
   category,
   options,
-  selectedFtrDatas,
-  selectedOptDatas,
-  selectedIdxDatas,
-  selectedOtcDatas,
   displayFtrDatas,
   displayOptDatas,
   displayIdxDatas,
@@ -175,6 +174,11 @@ const {
   isL1Product,
   isL2Product,
 } = storeToRefs(hqyStore)
+
+const selectedFtrDatas = ref([])
+const selectedOptDatas = ref([])
+const selectedIdxDatas = ref([])
+const selectedOtcDatas = ref([])
 
 async function check() {
   try {

@@ -9,11 +9,6 @@ export type HqyStateTree = StateTree & {
   rangePicker: boolean
   product: string
   category: string
-  isIdxOrOutDatas: string[]
-  selectedFtrDatas: string[]
-  selectedOptDatas: string[]
-  selectedIdxDatas: string[]
-  selectedOtcDatas: string[]
   displayFtrDatas: string[]
   displayOptDatas: string[]
   displayIdxDatas: string[]
@@ -28,11 +23,6 @@ export const useHqyStore = defineStore<string, HqyStateTree>({
     rangePicker: false,
     product: '',
     category: '',
-    isIdxOrOutDatas: [],
-    selectedFtrDatas: [],
-    selectedOptDatas: [],
-    selectedIdxDatas: [],
-    selectedOtcDatas: [],
     displayFtrDatas: [],
     displayOptDatas: [],
     displayIdxDatas: [],

@@ -4,6 +4,7 @@ import { useForm, useField } from 'vee-validate'
 import { object, string, boolean, array } from 'yup'
 import type { HqyStateTree } from '@/stores'
 import { TimeLevels, Products } from '@/commons/enums'
+
 interface LoginForm {
   account: string
   password: string
@@ -39,6 +40,7 @@ interface DownloadForm {
   date: string[]
   product: string
   rangePicker: boolean
+  items: string[]
 }
 
 export function useDownloadValidate(store: Store<string, HqyStateTree>) {
@@ -55,11 +57,14 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
           .matches(/\d{4}-\d{2}-\d{2}/)
       )
       .min(1, '日期不能为空'),
-
     product: string()
       .required('请选择产品类型')
       .oneOf([Products.Day, Products.Basic, Products.Deep, Products.Index, Products.Otc]),
     rangePicker: boolean().required(),
+    items: array().when('product', {
+      is: (val: string) => val == Products.Day || val == Products.Basic || val == Products.Deep,
+      then: (schema) => schema.min(2),
+    }),
   })
 
   const { values } = useForm<DownloadForm>({
@@ -68,24 +73,22 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
       date: [],
       product: '',
       rangePicker: false,
+      items: [],
     },
     validationSchema: downloadSchema,
   })
+  const { value: items, errorMessage: itemsError } = useField<string[]>('item')
 
-  watch(
-    values,
-    (newFormData) => {
-      store.$patch((state) => {
-        state.timeLevel = newFormData.timeLevel
-        state.date = newFormData.date
-        state.product = newFormData.product
-        state.rangePicker = newFormData.rangePicker
-      })
-    },
-    { immediate: true }
-  )
+  watch(values, (newFormData) => {
+    store.$patch((state) => {
+      state.timeLevel = newFormData.timeLevel
+      state.date = newFormData.date
+      state.product = newFormData.product
+      state.rangePicker = newFormData.rangePicker
+    })
+  })
 
-  return { downloadSchema, values }
+  return { downloadSchema, values, items }
 }
 
 export type { DownloadForm }
