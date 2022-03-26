@@ -40,7 +40,7 @@ interface DownloadForm {
   date: string[]
   product: string
   rangePicker: boolean
-  items: string[]
+  vitems: string[]
 }
 
 export function useDownloadValidate(store: Store<string, HqyStateTree>) {
@@ -61,9 +61,9 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
       .required('请选择产品类型')
       .oneOf([Products.Day, Products.Basic, Products.Deep, Products.Index, Products.Otc]),
     rangePicker: boolean().required(),
-    items: array().when('product', {
-      is: (val: string) => val == Products.Day || val == Products.Basic || val == Products.Deep,
-      then: (schema) => schema.min(2),
+    vitems: array().when('product', {
+      is: (value: string) => value != '',
+      then: (schema) => schema.min(3),
     }),
   })
 
@@ -73,11 +73,11 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
       date: [],
       product: '',
       rangePicker: false,
-      items: [],
+      vitems: [],
     },
     validationSchema: downloadSchema,
   })
-  const { value: items, errorMessage: itemsError } = useField<string[]>('item')
+  const { value: vitems } = useField<string[]>('vitems')
 
   watch(values, (newFormData) => {
     store.$patch((state) => {
@@ -88,7 +88,7 @@ export function useDownloadValidate(store: Store<string, HqyStateTree>) {
     })
   })
 
-  return { downloadSchema, values, items }
+  return { downloadSchema, values, vitems }
 }
 
 export type { DownloadForm }

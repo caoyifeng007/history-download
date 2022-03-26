@@ -115,8 +115,8 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
-      name="items"
-      v-model="items"
+      name="vitems"
+      v-model="vitems"
       v-show="currentGroup == ItemGroup.OtcItem"
       class="home-datas"
     >
@@ -159,7 +159,7 @@ import { ValidationError } from 'yup'
 
 const hqyStore = useHqyStore()
 const { disabledDate } = useDatePicker()
-const { downloadSchema, values, items } = useDownloadValidate(hqyStore)
+const { downloadSchema, values, vitems } = useDownloadValidate(hqyStore)
 useDownloadOptionListen(values, hqyStore)
 
 const {
@@ -188,6 +188,7 @@ async function check() {
         product: values.product,
         rangePicker: values.rangePicker,
         timeLevel: values.timeLevel,
+        vitems: vitems.value,
       },
       { abortEarly: false }
     )
