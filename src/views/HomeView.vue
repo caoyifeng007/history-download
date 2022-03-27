@@ -76,7 +76,6 @@
   </el-row>
   <el-row>
     <el-checkbox-group
-      name="vFtrItems"
       v-model="selectedFtrDatas"
       v-show="currentGroup == ItemGroup.FtrItem"
       class="home-datas"
@@ -90,7 +89,6 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
-      name="vOptItems"
       v-model="selectedOptDatas"
       v-show="currentGroup == ItemGroup.OptItem"
       class="home-datas"
@@ -104,7 +102,6 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
-      name="vIdxItems"
       v-model="selectedIdxDatas"
       v-show="currentGroup == ItemGroup.IdxItem"
       class="home-datas"
@@ -118,7 +115,6 @@
       </el-space>
     </el-checkbox-group>
     <el-checkbox-group
-      name="vOtcitems"
       v-model="selectedOtcDatas"
       v-show="currentGroup == ItemGroup.OtcItem"
       class="home-datas"
@@ -144,7 +140,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import router from '@/router'
-import { storeToRefs } from 'pinia'
+import { storeToRefs, getActivePinia } from 'pinia'
 import 'element-plus/es/components/message/style/css'
 import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
@@ -159,7 +155,6 @@ import { useDownloadOptionListen } from '@/hooks/useOptionListen'
 import toast from '@/hooks/useNotification'
 import { ValidationError } from 'yup'
 
-import { getActivePinia } from 'pinia'
 import { useHqyStore } from '@/stores'
 // vue和ts中获得store的时间点不同
 // import { hqyStore } from '@/main'
@@ -180,12 +175,12 @@ const {
   isDayProduct,
   isL1Product,
   isL2Product,
-} = storeToRefs(hqyStore)
 
-const selectedFtrDatas = ref([])
-const selectedOptDatas = ref([])
-const selectedIdxDatas = ref([])
-const selectedOtcDatas = ref([])
+  selectedFtrDatas,
+  selectedOptDatas,
+  selectedIdxDatas,
+  selectedOtcDatas,
+} = storeToRefs(hqyStore)
 
 async function check() {
   try {

@@ -15,6 +15,10 @@ export const useHqyStore = defineStore({
     displayOptDatas: [] as string[],
     displayIdxDatas: [] as string[],
     displayOtcDatas: [] as string[],
+    selectedFtrDatas: [] as string[],
+    selectedOptDatas: [] as string[],
+    selectedIdxDatas: [] as string[],
+    selectedOtcDatas: [] as string[],
   }),
   getters: {
     isDay(state) {
@@ -59,6 +63,9 @@ export const useHqyStore = defineStore({
     syncDisplayDatas(state) {
       if (this.isDay) {
         if (this.isDayProduct) {
+          // select data on load
+          // state.selectedFtrDatas = datas.value.daylvFtr
+          // state.selectedOptDatas = datas.value.daylvOpt
           if (this.isFtr) {
             state.displayFtrDatas = datas.value.daylvFtr
             return ItemLists.DaylvFtr
