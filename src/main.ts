@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
+import '@/css/style.css'
 import App from '@/App.vue'
 import router from '@/router'
 
+import { useHqyStore } from '@/stores'
 import Toast, { POSITION } from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
-
-import { useHqyStore } from './stores'
 
 const app = createApp(App)
 
