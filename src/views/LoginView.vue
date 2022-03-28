@@ -1,37 +1,20 @@
 <template>
-  <el-row :gutter="20" justify="center" align="middle">
-    <el-col :span="2">
-      <span class="indicator">席位号</span>
-    </el-col>
+  <span class="indicator">席位号</span>
 
-    <el-col :span="4" class="col-parent">
-      <el-input name="account" v-model="account" placeholder="请输入席位号" />
-      <span class="warn">{{ accountError }}</span>
-    </el-col>
-  </el-row>
+  <el-input name="account" v-model="account" placeholder="请输入席位号" />
+  <span class="warn">{{ accountError }}</span>
 
-  <el-row :gutter="20" justify="center" align="middle">
-    <el-col :span="2">
-      <span class="indicator">密码</span>
-    </el-col>
+  <span class="indicator">密码</span>
 
-    <el-col :span="4" class="col-parent">
-      <el-input
-        name="password"
-        v-model="password"
-        placeholder="请输入密码"
-        type="password"
-        show-password
-      />
-      <span class="warn">{{ passwordError }}</span>
-    </el-col>
-  </el-row>
-
-  <el-row justify="center" align="middle">
-    <el-col :span="2">
-      <el-button type="primary" @click="check">登录</el-button>
-    </el-col>
-  </el-row>
+  <el-input
+    name="password"
+    v-model="password"
+    placeholder="请输入密码"
+    type="password"
+    show-password
+  />
+  <span class="warn">{{ passwordError }}</span>
+  <el-button type="primary" @click="check">登录</el-button>
 </template>
 
 <script setup lang="ts">
@@ -87,26 +70,3 @@ function check() {
     })
 }
 </script>
-
-<style scoped>
-.indicator {
-  display: inline-block;
-  text-align: right;
-  width: 100%;
-}
-.el-col {
-  border-radius: 4px;
-}
-.col-parent {
-  position: relative;
-}
-.warn {
-  top: 110%;
-  color: red;
-  left: 14px;
-  position: absolute;
-}
-.el-row {
-  margin-bottom: 40px;
-}
-</style>
