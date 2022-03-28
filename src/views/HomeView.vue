@@ -19,7 +19,6 @@
       <p class="home-title">下载日期 :</p>
       <div class="m-l-20 m-t-20 home-data" v-show="!values.rangePicker">
         <el-date-picker
-          key="day"
           v-model="values.date"
           type="dates"
           placeholder="请选择日期"
@@ -29,8 +28,6 @@
       </div>
       <div class="m-l-20 m-t-20 home-data" v-show="values.rangePicker">
         <el-date-picker
-          style="width: 500px"
-          key="minute"
           v-model="values.date"
           type="daterange"
           format="YYYY-MM-DD"
@@ -322,10 +319,10 @@ async function download() {
 .home-radio /deep/ .el-radio__inner {
   background-color: transparent;
 }
-.home-radio /deep/ .el-radio__input.is-checked .el-radio__inner {
+.home-radio .el-radio__input.is-checked /deep/ .el-radio__inner {
   background: #8f3132;
 }
-.home-radio /deep/ .el-radio__input.is-checked .el-radio__inner::after {
+.home-radio .el-radio__input.is-checked /deep/ .el-radio__inner::after {
   background: #8f3132;
 }
 .home-radio /deep/ .el-radio {
@@ -335,10 +332,10 @@ async function download() {
   position: absolute;
   left: 9px;
 }
-.home-radio /deep/ .el-radio.is-bordered.is-checked .el-icon {
+.home-radio .el-radio.is-bordered.is-checked /deep/ .el-icon {
   color: #fff;
 }
-.home-data /deep/ .el-date-editor--dates .el-icon {
+.home-data .el-date-editor--dates /deep/ .el-icon {
   margin-top: 8px;
 }
 .home-data /deep/ .el-range-editor.is-active {
@@ -350,7 +347,7 @@ async function download() {
 .home-data-type /deep/ .el-radio__input.is-checked + .el-radio__label {
   color: #8f3132;
 }
-.home-data-type /deep/ .el-radio__input.is-checked .el-radio__inner {
+.home-data-type .el-radio__input.is-checked /deep/ .el-radio__inner {
   border-color: #8f3132;
   background: #8f3132;
 }
@@ -370,7 +367,7 @@ async function download() {
   color: #fff;
   background: #8f3132;
 }
-.home-futures-or-option /deep/ .el-radio-button .el-radio-button__inner {
+.home-futures-or-option .el-radio-button /deep/ .el-radio-button__inner {
   color: #000;
   background: #d8d8d8;
 }
@@ -390,7 +387,7 @@ async function download() {
 .home-datas /deep/ .datas {
   border: 1px solid #fff;
 }
-.datas /deep/ .el-checkbox__input.is-checked .el-checkbox__inner {
+.datas .el-checkbox__input.is-checked /deep/ .el-checkbox__inner {
   background-color: #fff;
   border-color: #8f3132;
 }

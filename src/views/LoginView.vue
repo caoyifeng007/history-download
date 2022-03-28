@@ -97,9 +97,6 @@ function check() {
 .el-col {
   border-radius: 4px;
 }
-.el-input /deep/ .el-input__suffix {
-  align-items: center;
-}
 .col-parent {
   position: relative;
 }
