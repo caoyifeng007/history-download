@@ -1,17 +1,11 @@
 <template>
   <p>数据类型 :</p>
   <el-radio-group v-model="values.timeLevel" name="timeLevel">
-    <el-radio :label="TimeLevels.DayLevel" size="default" border>
-      <el-icon :size="20"> <Finished /> </el-icon>日终历史数据
-    </el-radio>
+    <el-radio :label="TimeLevels.DayLevel" size="default" border> 日终历史数据 </el-radio>
 
-    <el-radio :label="TimeLevels.SnapLevel" size="default" border>
-      <el-icon :size="20"> <Camera /> </el-icon>快照历史数据
-    </el-radio>
+    <el-radio :label="TimeLevels.SnapLevel" size="default" border> 快照历史数据 </el-radio>
 
-    <el-radio :label="TimeLevels.MinuteLevel" size="default" border>
-      <el-icon :size="20"> <Edit /> </el-icon>分钟历史数据
-    </el-radio>
+    <el-radio :label="TimeLevels.MinuteLevel" size="default" border> 分钟历史数据 </el-radio>
   </el-radio-group>
 
   <el-divider />
@@ -116,8 +110,6 @@
 <script setup lang="ts">
 import router from '@/router'
 import { storeToRefs, getActivePinia } from 'pinia'
-import 'element-plus/es/components/message/style/css'
-import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
 
 import axIns from '@/request'
