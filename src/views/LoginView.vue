@@ -1,20 +1,33 @@
 <template>
-  <span class="indicator">席位号</span>
+  <div class="p-4 min-h-screen bg-gray-50 space-y-4">
+    <div class="max-w-screen-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
+      <div class="max-w-screen-lg mx-auto">
+        <span class="">席位号</span>
+        <div>
+          <el-input
+            class="bg-green-500 rounded-lg"
+            name="account"
+            v-model="account"
+            placeholder="请输入席位号"
+          />
+          <span>{{ accountError }}</span>
+        </div>
+      </div>
 
-  <el-input name="account" v-model="account" placeholder="请输入席位号" />
-  <span class="warn">{{ accountError }}</span>
-
-  <span class="indicator">密码</span>
-
-  <el-input
-    name="password"
-    v-model="password"
-    placeholder="请输入密码"
-    type="password"
-    show-password
-  />
-  <span class="warn">{{ passwordError }}</span>
-  <el-button type="primary" @click="check">登录</el-button>
+      <div class="flex">
+        <span>密码</span>
+        <el-input
+          name="password"
+          v-model="password"
+          placeholder="请输入密码"
+          type="password"
+          show-password
+        />
+        <span>{{ passwordError }}</span>
+      </div>
+      <el-button type="primary" @click="check">登录</el-button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
