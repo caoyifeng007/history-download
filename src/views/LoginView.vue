@@ -1,23 +1,26 @@
 <template>
   <div class="max-w-screen-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
     <div class="max-w-screen-lg mx-auto flex space-x-4">
-      <span class="w-1/5">席位号</span>
-      <div class="rounded-lg w-4/5">
+      <span class="w-2/5 text-right">席位号</span>
+      <div class="rounded-lg w-3/5">
         <el-input name="account" v-model="account" placeholder="请输入席位号" />
         <span>{{ accountError }}</span>
       </div>
     </div>
 
-    <div class="flex">
-      <span>密码</span>
-      <el-input
-        name="password"
-        v-model="password"
-        placeholder="请输入密码"
-        type="password"
-        show-password
-      />
-      <span>{{ passwordError }}</span>
+    <div class="max-w-screen-lg mx-auto flex space-x-4">
+      <span class="w-2/5 text-right">密码</span>
+      <div class="rounded-lg w-3/5">
+        <el-input
+          class="rounded-lg w-3/5"
+          name="password"
+          v-model="password"
+          placeholder="请输入密码"
+          type="password"
+          show-password
+        />
+        <span>{{ passwordError }}</span>
+      </div>
     </div>
     <el-button type="primary" @click="check">登录</el-button>
   </div>
