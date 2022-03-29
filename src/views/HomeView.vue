@@ -319,10 +319,10 @@ async function download() {
 .home-radio /deep/ .el-radio__inner {
   background-color: transparent;
 }
-.home-radio .el-radio__input.is-checked /deep/ .el-radio__inner {
+.home-radio /deep/ .el-radio__input.is-checked .el-radio__inner {
   background: #8f3132;
 }
-.home-radio .el-radio__input.is-checked /deep/ .el-radio__inner::after {
+.home-radio /deep/ .el-radio__input.is-checked .el-radio__inner::after {
   background: #8f3132;
 }
 .home-radio /deep/ .el-radio {
