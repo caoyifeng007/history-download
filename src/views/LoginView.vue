@@ -1,8 +1,8 @@
 <template>
   <div class="max-w-screen-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
-    <div class="max-w-screen-lg mx-auto flex space-x-4">
-      <span class="w-2/5 text-right">席位号</span>
-      <div class="rounded-lg w-3/5">
+    <div class="max-w-screen-lg mx-auto flex flex-row justify-center space-x-4">
+      <span class="text-right">席位号</span>
+      <div class="rounded-lg">
         <el-input name="account" v-model="account" placeholder="请输入席位号" />
         <span>{{ accountError }}</span>
       </div>
