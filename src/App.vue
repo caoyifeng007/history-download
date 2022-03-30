@@ -1,6 +1,6 @@
 <template>
   <el-config-provider :locale="zhCn">
-    <div class="p-4 min-h-screen bg-gray-50 space-y-4">
+    <div class="p-4 min-h-screen bg-gray-50">
       <router-view />
     </div>
   </el-config-provider>
