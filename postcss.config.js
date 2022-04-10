@@ -1,9 +1,8 @@
-// eslint-disable-next-line no-undef
+/* eslint-env node */
 module.exports = {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
-    // eslint-disable-next-line no-undef
-    ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
+    ...(import.meta.env.MODE === 'production' ? { cssnano: {} } : {}),
   },
 }
