@@ -112,8 +112,7 @@ import router from '@/router'
 import { storeToRefs, getActivePinia } from 'pinia'
 import Qs from 'qs'
 
-import axIns from '@/request'
-import type { IDataResp } from '@/request'
+import axIns, { type IDataResp } from '@/request'
 import { ItemGroup, Products, TimeLevels } from '@/commons/enums'
 
 import { useDatePicker } from '@/hooks/useDatePicker'

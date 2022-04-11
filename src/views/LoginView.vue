@@ -35,8 +35,7 @@
 <script setup lang="ts">
 import router from '@/router'
 
-import axIns from '@/request'
-import type { ILoginResp } from '@/request'
+import axIns, { type ILoginResp } from '@/request'
 
 import toast from '@/hooks/useNotification'
 import { useResetDatas } from '@/hooks/useResetDatas'

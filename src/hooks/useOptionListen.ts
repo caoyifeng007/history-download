@@ -1,21 +1,17 @@
 import { watch } from 'vue'
-import type { Store } from 'pinia'
-import type { HqyStateTree } from '@/stores'
-import type { DownloadForm } from '@/hooks/useValidate'
+import { hqyStore } from '@/main'
+import { type DownloadForm } from '@/hooks/useValidate'
 
-export function useDownloadOptionListen(
-  downloadForm: DownloadForm,
-  store: Store<string, HqyStateTree>
-) {
+export function useDownloadOptionListen(downloadForm: DownloadForm) {
   watch(
     () => downloadForm.timeLevel,
     () => {
       downloadForm.product = ''
-      store.category = ''
-      store.displayFtrDatas = []
-      store.displayOptDatas = []
-      store.displayIdxDatas = []
-      store.displayOtcDatas = []
+      hqyStore.category = ''
+      hqyStore.displayFtrDatas = []
+      hqyStore.displayOptDatas = []
+      hqyStore.displayIdxDatas = []
+      hqyStore.displayOtcDatas = []
     }
   )
 

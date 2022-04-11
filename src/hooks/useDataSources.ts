@@ -1,5 +1,5 @@
 import { Products } from '@/commons/enums'
-import type { OptionItem } from '@/commons/types'
+import { type OptionItem } from '@/commons/types'
 
 const dayOptions: OptionItem[] = [
   {
