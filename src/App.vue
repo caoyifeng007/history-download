@@ -1,5 +1,5 @@
 <template>
-  <transition
+  <!-- <transition
     enter-active-class="duration-500 ease-in-out"
     enter-from-class="translate-x-6 opacity-0"
     enter-to-class="translate-x-0 opacity-100"
@@ -8,8 +8,17 @@
     leave-to-class="translate-x-6 opacity-0"
   >
     <div v-show="t">111</div>
+  </transition> -->
+  <transition
+    type="animation"
+    enter-active-class="animate-wiggle"
+    leave-active-class="animate-wigglere"
+  >
+    <div v-show="t" class="inline-block">111</div>
   </transition>
+  <br />
   <button @click="t = !t">hit</button>
+  <!-- <div class="animate-wiggle">123</div> -->
 
   <el-config-provider :locale="zhCn">
     <div class="p-4 min-h-screen bg-gray-50">
