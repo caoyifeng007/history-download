@@ -1,4 +1,16 @@
 <template>
+  <transition
+    enter-active-class="duration-500 ease-in-out"
+    enter-from-class="translate-x-6 opacity-0"
+    enter-to-class="translate-x-0 opacity-100"
+    leave-active-class="duration-500 ease-in"
+    leave-from-class="translate-x-0 opacity-100"
+    leave-to-class="translate-x-6 opacity-0"
+  >
+    <div v-show="t">111</div>
+  </transition>
+  <button @click="t = !t">hit</button>
+
   <el-config-provider :locale="zhCn">
     <div class="p-4 min-h-screen bg-gray-50">
       <router-view />
@@ -8,9 +20,10 @@
 
 <script setup lang="ts">
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useHead } from '@vueuse/head'
 
+const t = ref(false)
 const title = import.meta.env.VITE_APP_TITLE
 const siteData = reactive({
   title,
