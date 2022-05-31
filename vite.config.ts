@@ -28,11 +28,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/v1/login': {
-        target: 'http://localhost:8880',
-        changeOrigin: true,
-      },
-      '/v1/download': {
+      '^/v1/.*': {
         target: 'http://localhost:8880',
         changeOrigin: true,
       },
