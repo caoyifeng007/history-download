@@ -2,7 +2,7 @@ import { watch } from 'vue'
 import { useForm, useField } from 'vee-validate'
 import { object, string, boolean, array } from 'yup'
 import { TimeLevels, Products } from '@/commons/enums'
-import { hqyStore } from '@/main'
+import { appStore } from '@/stores/modules/app'
 
 interface LoginForm {
   account: string
@@ -72,7 +72,7 @@ export function useDownloadValidate() {
   })
 
   watch(values, (newFormData) => {
-    hqyStore.$patch((state) => {
+    appStore.$patch((state) => {
       state.timeLevel = newFormData.timeLevel
       state.date = newFormData.date
       state.product = newFormData.product
