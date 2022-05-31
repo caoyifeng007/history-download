@@ -1,16 +1,10 @@
 <template>
   <el-row>
     <p class="home-title">数据类型 :</p>
-    <el-radio-group v-model="values.timeLevel" name="timeLevel" class="home-radio m-l-20">
-      <el-radio :label="TimeLevels.DayLevel" size="default" border class="home-day">
-        <el-icon :size="20"> <Finished /> </el-icon>日终历史数据</el-radio
-      >
-      <el-radio :label="TimeLevels.SnapLevel" size="default" border class="home-snap">
-        <el-icon :size="20"> <Camera /> </el-icon>快照历史数据</el-radio
-      >
-      <el-radio :label="TimeLevels.MinuteLevel" size="default" border class="home-minute"
-        ><el-icon :size="20"> <Edit /> </el-icon>分钟历史数据</el-radio
-      >
+    <el-radio-group v-model="values.timeLevel" name="timeLevel">
+      <template v-for="lv in timelvs" :key="lv.TimelvLabel">
+        <el-radio :label="lv.label" size="default" border> {{ lv.name }}</el-radio>
+      </template>
     </el-radio-group>
   </el-row>
   <el-divider />
@@ -136,9 +130,9 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { storeToRefs, getActivePinia } from 'pinia'
+import { storeToRefs } from 'pinia'
 import 'element-plus/es/components/message/style/css'
-import { Edit, Camera, Finished } from '@element-plus/icons-vue'
+// import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
 
 import axIns from '@/request'
@@ -151,14 +145,16 @@ import { useDownloadOptionListen } from '@/hooks/useOptionListen'
 import toast from '@/hooks/useNotification'
 import { ValidationError } from 'yup'
 
-import { useHqyStore } from '@/stores'
+import { timelvs } from '@/stores/globalDatas'
+
+import { useHqyStore } from '@/stores/modules/app'
 // vue和ts中获得store的时间点不同
 // import { hqyStore } from '@/main'
-const hqyStore = useHqyStore(getActivePinia())
+const appStore = useHqyStore()
 
 const { disabledDate } = useDatePicker()
 const { downloadSchema, values } = useDownloadValidate()
-useDownloadOptionListen(values, hqyStore)
+useDownloadOptionListen(values)
 
 const {
   category,
@@ -176,7 +172,7 @@ const {
   selectedOptDatas,
   selectedIdxDatas,
   selectedOtcDatas,
-} = storeToRefs(hqyStore)
+} = storeToRefs(appStore)
 
 async function check() {
   try {

@@ -19,13 +19,23 @@ interface SubscribeInfo {
   minlvL2Opt: string[]
   minlvIdx: string[]
 }
-interface ILoginResp {
+
+interface BaseResp {
   validate: string
-  data: SubscribeInfo
-  token: string
-  error: Record<string, string>
+  error: string
 }
 
+type ILoginResp = BaseResp & {
+  token: string
+}
+
+interface TimelvObj {
+  label: string
+  name: string
+}
+type ITimelvResp = BaseResp & {
+  timelvs: TimelvObj[]
+}
 interface IDataResp {
   validate: string
   dUrl: string
@@ -85,4 +95,4 @@ export default new HqyRequest({
   // timeout: 1000,
 })
 
-export type { ILoginResp, SubscribeInfo, IDataResp }
+export type { ILoginResp, IDataResp, ITimelvResp, TimelvObj }

@@ -38,13 +38,13 @@
 import router from '@/router'
 
 import axIns from '@/request'
-import type { ILoginResp } from '@/request'
+import { type ILoginResp, type ITimelvResp } from '@/request'
 
 import toast from '@/hooks/useNotification'
 import { useResetDatas } from '@/hooks/useResetDatas'
 import { useLoginValidate } from '@/hooks/useValidate'
 
-import { localToken, datas } from '@/stores/globalDatas'
+import { timelvs } from '@/stores/globalDatas'
 
 import { setToken } from '@/util/auth'
 

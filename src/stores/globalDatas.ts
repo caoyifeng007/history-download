@@ -1,4 +1,5 @@
 import { useLocalStorage } from '@vueuse/core'
+import { type TimelvObj } from '@/request'
 
 const localToken = useLocalStorage('token', '')
 
@@ -19,4 +20,6 @@ const datas = useLocalStorage('serverDatas', {
   minlvIdx: [] as string[],
 })
 
-export { datas, localToken }
+const timelvs = useLocalStorage<TimelvObj[]>('timelvs', [])
+
+export { datas, localToken, timelvs }
