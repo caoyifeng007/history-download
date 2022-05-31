@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
-import { localToken } from '@/stores/globalDatas'
+
+import { getToken } from '@/util/auth'
 
 interface SubscribeInfo {
   daylvFtr: string[]
@@ -32,7 +33,7 @@ interface IDataResp {
 }
 
 interface ILogin {
-  account: string
+  accountid: string
   password: string
 }
 class HqyRequest {
@@ -43,8 +44,8 @@ class HqyRequest {
 
     this.instance.interceptors.request.use(
       (config) => {
-        if (localToken.value) {
-          config.headers!.Authorization = localToken.value
+        if (getToken()) {
+          config.headers!.Authorization = getToken()
         }
         config.url = '/v1' + config.url
         return config

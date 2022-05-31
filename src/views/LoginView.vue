@@ -46,32 +46,34 @@ import { useLoginValidate } from '@/hooks/useValidate'
 
 import { localToken, datas } from '@/stores/globalDatas'
 
+import { setToken } from '@/util/auth'
+
 useResetDatas()
 const { loginSchema, account, accountError, password, passwordError } = useLoginValidate()
 
 async function login() {
-  const res = await axIns.post<ILoginResp>('/login', {
-    account: account.value,
+  const loginRes = await axIns.post<ILoginResp>('/login', {
+    accountid: account.value,
     password: password.value,
   })
 
-  const { validate, token, data, error } = res
-
-  if (validate != 'ok') {
-    let msg = ''
-    for (let k in error) {
-      msg += error[k]
-    }
-    toast.error(msg)
+  if (loginRes.validate != 'ok') {
+    // let msg = ''
+    // for (let k in error) {
+    //   msg += error[k]
+    // }
+    toast.error(loginRes.error)
     return
   }
 
-  if (token) {
-    localToken.value = token
+  if (loginRes.token) {
+    setToken(loginRes.token)
   }
 
-  console.log('服务端返回数据: ', data)
-  datas.value = data
+  const timelvRes = await axIns.get<ITimelvResp>('/timelv')
+
+  console.log('服务端返回的timelvs: ', timelvRes.timelvs)
+  timelvs.value = timelvRes.timelvs
 
   router.push({ path: '/home' })
 }
