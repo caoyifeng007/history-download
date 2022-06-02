@@ -29,12 +29,34 @@ type ILoginResp = BaseResp & {
   token: string
 }
 
+enum TimeLevels {
+  DayLevel = 'daylv',
+  MinuteLevel = 'minlv',
+  SnapLevel = 'snaplv',
+}
+
 interface TimelvObj {
-  label: string
+  label: TimeLevels
   name: string
 }
 type ITimelvResp = BaseResp & {
   timelvs: TimelvObj[]
+}
+
+enum Products {
+  Day = 'DAY',
+  Index = 'IDX',
+  Basic = 'L1',
+  Deep = 'L2',
+  Otc = 'OTC',
+}
+
+interface ProductObj {
+  label: Products
+  name: string
+}
+type IProductResp = BaseResp & {
+  products: ProductObj[]
 }
 interface IDataResp {
   validate: string
@@ -95,4 +117,13 @@ export default new HqyRequest({
   // timeout: 1000,
 })
 
-export type { ILoginResp, IDataResp, ITimelvResp, TimelvObj }
+export {
+  type ILoginResp,
+  type IDataResp,
+  type ITimelvResp,
+  type TimelvObj,
+  type IProductResp,
+  type ProductObj,
+  TimeLevels,
+  Products,
+}

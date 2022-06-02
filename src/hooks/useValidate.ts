@@ -1,8 +1,9 @@
 import { watch } from 'vue'
 import { useForm, useField } from 'vee-validate'
 import { object, string, boolean, array } from 'yup'
-import { TimeLevels, Products } from '@/commons/enums'
+import { Products } from '@/request'
 import { appStore } from '@/stores/modules/app'
+import { TimeLevels } from '@/request'
 
 interface LoginForm {
   account: string
@@ -37,7 +38,6 @@ export function useLoginValidate() {
 interface DownloadForm {
   timeLevel: string
   date: string[]
-  product: string
   rangePicker: boolean
 }
 
@@ -65,7 +65,6 @@ export function useDownloadValidate() {
     initialValues: {
       timeLevel: '',
       date: [],
-      product: '',
       rangePicker: false,
     },
     validationSchema: downloadSchema,
@@ -75,7 +74,6 @@ export function useDownloadValidate() {
     appStore.$patch((state) => {
       state.timeLevel = newFormData.timeLevel
       state.date = newFormData.date
-      state.product = newFormData.product
       state.rangePicker = newFormData.rangePicker
     })
   })

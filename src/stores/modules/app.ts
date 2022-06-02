@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { TimeLevels, Products, Categories, ItemLists, ItemGroup } from '@/commons/enums'
+import { Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
 import { datas } from '@/stores/globalDatas'
+import { TimeLevels, Products, type ProductObj } from '@/request'
 
 export const useHqyStore = defineStore({
   id: 'hqy',
@@ -9,7 +10,8 @@ export const useHqyStore = defineStore({
     timeLevel: '',
     date: [] as string[],
     rangePicker: false,
-    product: '',
+    selProd: '',
+    products: [] as ProductObj[],
     category: '',
     displayFtrDatas: [] as string[],
     displayOptDatas: [] as string[],
@@ -30,20 +32,23 @@ export const useHqyStore = defineStore({
     isMin(state) {
       return state.timeLevel == TimeLevels.MinuteLevel
     },
-    isDayProduct(state) {
-      return state.product == Products.Day
+    isDayProduct: (state) => {
+      return state.selProd == Products.Day
     },
     isL1Product(state) {
-      return state.product == Products.Basic
+      return state.selProd == Products.Basic
     },
     isL2Product(state) {
-      return state.product == Products.Deep
+      return state.selProd == Products.Deep
+    },
+    isCategoryProd() {
+      return this.isDayProduct || this.isL1Product || this.isL2Product
     },
     isIdxProduct(state) {
-      return state.product == Products.Index
+      return state.selProd == Products.Index
     },
     isOtcProduct(state) {
-      return state.product == Products.Otc
+      return state.selProd == Products.Otc
     },
     isFtr(state) {
       return state.category == Categories.Ftr

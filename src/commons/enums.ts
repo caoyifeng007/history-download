@@ -1,17 +1,3 @@
-enum TimeLevels {
-  DayLevel = 'daylv',
-  MinuteLevel = 'minlv',
-  SnapLevel = 'snaplv',
-}
-
-enum Products {
-  Day = 'DAY',
-  Index = 'IDX',
-  Basic = 'L1',
-  Deep = 'L2',
-  Otc = 'OTC',
-}
-
 enum Categories {
   Ftr = 'ftr',
   Opt = 'opt',
@@ -41,4 +27,4 @@ enum ItemGroup {
   OtcItem = 'otcItem',
 }
 
-export { TimeLevels, Products, Categories, ItemLists, ItemGroup }
+export { Categories, ItemLists, ItemGroup }

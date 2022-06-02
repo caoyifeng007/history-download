@@ -1,125 +1,18 @@
 <template>
   <el-row>
-    <p class="home-title">数据类型 :</p>
-    <el-radio-group v-model="values.timeLevel" name="timeLevel">
-      <template v-for="lv in timelvs" :key="lv.TimelvLabel">
-        <el-radio :label="lv.label" size="default" border> {{ lv.name }}</el-radio>
-      </template>
-    </el-radio-group>
+    <TimeLv />
   </el-row>
   <el-divider />
   <el-row>
-    <div class="home-data-div d-f">
-      <p class="home-title">下载日期 :</p>
-      <div class="m-l-20 m-t-20 home-data" v-show="!values.rangePicker">
-        <el-date-picker
-          v-model="values.date"
-          type="dates"
-          placeholder="请选择日期"
-          value-format="YYYY-MM-DD"
-          :disabled-date="disabledDate"
-        />
-      </div>
-      <div class="m-l-20 m-t-20 home-data" v-show="values.rangePicker">
-        <el-date-picker
-          v-model="values.date"
-          type="daterange"
-          format="YYYY-MM-DD"
-          value-format="YYYY-MM-DD"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :disabled-date="disabledDate"
-        />
-      </div>
-    </div>
-    <el-radio-group name="rangePicker" v-model="values.rangePicker" class="m-l-40 home-data-type">
-      <el-radio :label="true" size="small">范围日期</el-radio>
-      <el-radio :label="false" size="small">特定日期</el-radio>
-    </el-radio-group>
-
-    <p class="home-title m-l-21">行情类型 :</p>
-    <el-select
-      name="product"
-      v-model="values.product"
-      clearable
-      placeholder="Select"
-      class="m-t-20 m-l-10"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
+    <DatePicker />
+    <ProductPicker />
   </el-row>
   <div class="m-t-50"></div>
-  <el-row>
-    <el-radio-group
-      v-show="isDayProduct || isL1Product || isL2Product"
-      v-model="category"
-      class="home-futures-or-option"
-    >
-      <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
-      <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
-    </el-radio-group>
-  </el-row>
-  <el-row>
-    <el-checkbox-group
-      v-model="selectedFtrDatas"
-      v-show="currentGroup == ItemGroup.FtrItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayFtrDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedOptDatas"
-      v-show="currentGroup == ItemGroup.OptItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayOptDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedIdxDatas"
-      v-show="currentGroup == ItemGroup.IdxItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayIdxDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedOtcDatas"
-      v-show="currentGroup == ItemGroup.OtcItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayOtcDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-  </el-row>
 
+  <el-row>
+    <CategorySwitch />
+  </el-row>
+  <DataDisplay />
   <div class="m-t-50"></div>
   <el-divider />
 
@@ -129,6 +22,12 @@
 </template>
 
 <script setup lang="ts">
+import TimeLv from '@/views/home/TimeLv.vue'
+import DatePicker from '@/views/home/DatePicker.vue'
+import ProductPicker from '@/views/home/ProductPicker.vue'
+import DataDisplay from '@/views/home/DataDisplay.vue'
+import CategorySwitch from '@/views/home/CategorySwitch.vue'
+
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import 'element-plus/es/components/message/style/css'
@@ -136,42 +35,30 @@ import 'element-plus/es/components/message/style/css'
 import Qs from 'qs'
 
 import axIns from '@/request'
-import type { IDataResp } from '@/request'
-import { ItemGroup, Products, TimeLevels } from '@/commons/enums'
+import { type IDataResp, Products } from '@/request'
+import { ItemGroup } from '@/commons/enums'
 
-import { useDatePicker } from '@/hooks/useDatePicker'
 import { useDownloadValidate } from '@/hooks/useValidate'
 import { useDownloadOptionListen } from '@/hooks/useOptionListen'
 import toast from '@/hooks/useNotification'
 import { ValidationError } from 'yup'
-
-import { timelvs } from '@/stores/globalDatas'
 
 import { useHqyStore } from '@/stores/modules/app'
 // vue和ts中获得store的时间点不同
 // import { hqyStore } from '@/main'
 const appStore = useHqyStore()
 
-const { disabledDate } = useDatePicker()
 const { downloadSchema, values } = useDownloadValidate()
 useDownloadOptionListen(values)
 
 const {
-  category,
-  options,
-  displayFtrDatas,
-  displayOptDatas,
-  displayIdxDatas,
-  displayOtcDatas,
   currentGroup,
-  isDayProduct,
-  isL1Product,
-  isL2Product,
-
   selectedFtrDatas,
   selectedOptDatas,
   selectedIdxDatas,
   selectedOtcDatas,
+  selProd,
+  isCategoryProd,
 } = storeToRefs(appStore)
 
 async function check() {
@@ -179,7 +66,6 @@ async function check() {
     await downloadSchema.validate(
       {
         date: values.date,
-        product: values.product,
         rangePicker: values.rangePicker,
         timeLevel: values.timeLevel,
       },
@@ -192,21 +78,17 @@ async function check() {
     return
   }
 
-  if (
-    values.product == Products.Basic ||
-    values.product == Products.Deep ||
-    values.product == Products.Day
-  ) {
+  if (isCategoryProd) {
     if (selectedFtrDatas.value.length <= 0 && selectedOptDatas.value.length <= 0) {
       toast.warning('请选择品种')
       return
     }
-  } else if (values.product == Products.Index) {
+  } else if (selProd.value == Products.Index) {
     if (selectedIdxDatas.value.length <= 0) {
       toast.warning('请选择品种')
       return
     }
-  } else if (values.product == Products.Otc) {
+  } else if (selProd.value == Products.Otc) {
     if (selectedIdxDatas.value.length <= 0) {
       toast.warning('请选择品种')
       return
@@ -237,7 +119,7 @@ async function download() {
       timeLevel: values.timeLevel,
       date: values.date,
       rangePicker: values.rangePicker,
-      product: values.product,
+      product: selProd.value,
       ...selDatas,
     },
     paramsSerializer: function (params) {

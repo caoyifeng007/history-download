@@ -1,4 +1,4 @@
-import { Products } from '@/commons/enums'
+import { Products } from '@/request'
 import type { OptionItem } from '@/commons/types'
 
 const dayOptions: OptionItem[] = [
