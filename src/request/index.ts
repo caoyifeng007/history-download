@@ -58,6 +58,26 @@ interface ProductObj {
 type IProductResp = BaseResp & {
   products: ProductObj[]
 }
+
+enum Item {
+  C = 'C',
+  A = 'A',
+  L = 'L',
+  I = 'I',
+  IDX1 = 'IDX1',
+  IDX2 = 'IDX2',
+}
+
+interface ItemObj {
+  label: Item
+  name: string
+  item_type: number
+  product: Products
+}
+
+type IItemResp = BaseResp & {
+  items: ItemObj[]
+}
 interface IDataResp {
   validate: string
   dUrl: string
@@ -124,6 +144,8 @@ export {
   type TimelvObj,
   type IProductResp,
   type ProductObj,
+  type IItemResp,
+  type ItemObj,
   TimeLevels,
   Products,
 }

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { Categories, ItemLists, ItemGroup } from '@/commons/enums'
 import { dayOptions, minuteOptions, snapOptions } from '@/hooks/useDataSources'
 import { datas } from '@/stores/globalDatas'
-import { TimeLevels, Products, type ProductObj } from '@/request'
+import { TimeLevels, Products, type ProductObj, type ItemObj } from '@/request'
 
 export const useHqyStore = defineStore({
   id: 'hqy',
@@ -12,7 +12,11 @@ export const useHqyStore = defineStore({
     rangePicker: false,
     selProd: '',
     products: [] as ProductObj[],
-    category: '',
+    category: 'ftr',
+    disData1: [] as ItemObj[],
+    disData2: [] as ItemObj[],
+    selData1: [] as string[],
+    selData2: [] as string[],
     displayFtrDatas: [] as string[],
     displayOptDatas: [] as string[],
     displayIdxDatas: [] as string[],
@@ -23,37 +27,37 @@ export const useHqyStore = defineStore({
     selectedOtcDatas: [] as string[],
   }),
   getters: {
-    isDay(state) {
+    isDay(state): boolean {
       return state.timeLevel == TimeLevels.DayLevel
     },
-    isSnap(state) {
+    isSnap(state): boolean {
       return state.timeLevel == TimeLevels.SnapLevel
     },
-    isMin(state) {
+    isMin(state): boolean {
       return state.timeLevel == TimeLevels.MinuteLevel
     },
-    isDayProduct: (state) => {
+    isDayProduct(state): boolean {
       return state.selProd == Products.Day
     },
-    isL1Product(state) {
+    isL1Product(state): boolean {
       return state.selProd == Products.Basic
     },
-    isL2Product(state) {
+    isL2Product(state): boolean {
       return state.selProd == Products.Deep
     },
-    isCategoryProd() {
+    isCategoryProd(): boolean {
       return this.isDayProduct || this.isL1Product || this.isL2Product
     },
-    isIdxProduct(state) {
+    isIdxProduct(state): boolean {
       return state.selProd == Products.Index
     },
-    isOtcProduct(state) {
+    isOtcProduct(state): boolean {
       return state.selProd == Products.Otc
     },
-    isFtr(state) {
+    isFtr(state): boolean {
       return state.category == Categories.Ftr
     },
-    isOpt(state) {
+    isOpt(state): boolean {
       return state.category == Categories.Opt
     },
     options() {

@@ -1,53 +1,24 @@
 <template>
   <el-row>
     <el-checkbox-group
-      v-model="selectedFtrDatas"
-      v-show="currentGroup == ItemGroup.FtrItem"
+      v-model="selData1"
+      v-show="ftrCondition || normalCondition"
       class="home-datas"
     >
       <el-space wrap :size="0">
-        <template v-for="data in displayFtrDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
+        <template v-for="item in disData1" :key="item.label">
+          <el-checkbox style="width: 9rem" class="datas" checked :label="item.label">
+            {{ item.name }}
           </el-checkbox>
         </template>
       </el-space>
     </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedOptDatas"
-      v-show="currentGroup == ItemGroup.OptItem"
-      class="home-datas"
-    >
+
+    <el-checkbox-group v-model="selData2" v-show="optCondition" class="home-datas">
       <el-space wrap :size="0">
-        <template v-for="data in displayOptDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedIdxDatas"
-      v-show="currentGroup == ItemGroup.IdxItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayIdxDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
-          </el-checkbox>
-        </template>
-      </el-space>
-    </el-checkbox-group>
-    <el-checkbox-group
-      v-model="selectedOtcDatas"
-      v-show="currentGroup == ItemGroup.OtcItem"
-      class="home-datas"
-    >
-      <el-space wrap :size="0">
-        <template v-for="data in displayOtcDatas" :key="data">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="data">
-            {{ data }}
+        <template v-for="item in disData2" :key="item.label">
+          <el-checkbox style="width: 9rem" class="datas" checked :label="item.label">
+            {{ item.name }}
           </el-checkbox>
         </template>
       </el-space>
@@ -57,21 +28,13 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { ItemGroup } from '@/commons/enums'
 import { useHqyStore } from '@/stores/modules/app'
-// vue和ts中获得store的时间点不同
-// import { hqyStore } from '@/main'
-const appStore = useHqyStore()
-const {
-  displayFtrDatas,
-  displayOptDatas,
-  displayIdxDatas,
-  displayOtcDatas,
-  currentGroup,
 
-  selectedFtrDatas,
-  selectedOptDatas,
-  selectedIdxDatas,
-  selectedOtcDatas,
-} = storeToRefs(appStore)
+const { disData1, disData2, selData1, selData2, isCategoryProd, isFtr, isOpt } = storeToRefs(
+  useHqyStore()
+)
+
+const ftrCondition = isCategoryProd && isFtr
+const normalCondition = !isCategoryProd
+const optCondition = isCategoryProd && isOpt
 </script>

@@ -16,10 +16,12 @@ import { useDownloadValidate } from '@/hooks/useValidate'
 import { storeToRefs } from 'pinia'
 import { useHqyStore } from '@/stores/modules/app'
 
-const { products, selProd } = storeToRefs(useHqyStore())
+const { products, selProd, disData1, disData2 } = storeToRefs(useHqyStore())
 const { values } = useDownloadValidate()
 
 async function timelvChange() {
+  disData1.value = []
+  disData2.value = []
   selProd.value = ''
 
   console.log('timelv is : ', values.timeLevel)

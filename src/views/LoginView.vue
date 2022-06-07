@@ -70,7 +70,7 @@ async function login() {
     setToken(loginRes.token)
   }
 
-  const timelvRes = await axIns.get<ITimelvResp>('/timelv')
+  const timelvRes = await axIns.get<ITimelvResp>('/timelvs')
 
   console.log('服务端返回的timelvs: ', timelvRes.timelvs)
   timelvs.value = timelvRes.timelvs
