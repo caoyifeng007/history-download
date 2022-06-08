@@ -30,95 +30,61 @@ import CategorySwitch from '@/views/home/CategorySwitch.vue'
 
 import router from '@/router'
 import { storeToRefs } from 'pinia'
+import { useHqyStore } from '@/stores/modules/app'
 import 'element-plus/es/components/message/style/css'
-// import { Edit, Camera, Finished } from '@element-plus/icons-vue'
 import Qs from 'qs'
 
 import axIns from '@/request'
-import { type IDataResp, Products } from '@/request'
-import { ItemGroup } from '@/commons/enums'
+import { type IDataResp } from '@/request'
 
-import { useDownloadValidate } from '@/hooks/useValidate'
-import { useDownloadOptionListen } from '@/hooks/useOptionListen'
 import toast from '@/hooks/useNotification'
-import { ValidationError } from 'yup'
 
-import { useHqyStore } from '@/stores/modules/app'
-// vue和ts中获得store的时间点不同
-// import { hqyStore } from '@/main'
-const appStore = useHqyStore()
-
-const { downloadSchema, values } = useDownloadValidate()
-useDownloadOptionListen(values)
-
-const {
-  currentGroup,
-  selectedFtrDatas,
-  selectedOptDatas,
-  selectedIdxDatas,
-  selectedOtcDatas,
-  selProd,
-  isCategoryProd,
-} = storeToRefs(appStore)
+const { timeLevel, date, rangePicker, selData1, selData2, selProd, isCategoryProd } = storeToRefs(
+  useHqyStore()
+)
 
 async function check() {
-  try {
-    await downloadSchema.validate(
-      {
-        date: values.date,
-        rangePicker: values.rangePicker,
-        timeLevel: values.timeLevel,
-      },
-      { abortEarly: false }
-    )
-  } catch (e) {
-    const err = e as ValidationError
-    console.log(err.errors)
-    toast.warning(err.errors[0])
+  if (timeLevel.value == '') {
+    toast.warning('请选择时间维度')
+    return
+  }
+  if (!date.value || date.value.length == 0) {
+    toast.warning('请选择日期')
     return
   }
 
   if (isCategoryProd) {
-    if (selectedFtrDatas.value.length <= 0 && selectedOptDatas.value.length <= 0) {
+    if (selData1.value.length <= 0 && selData2.value.length <= 0) {
       toast.warning('请选择品种')
       return
     }
-  } else if (selProd.value == Products.Index) {
-    if (selectedIdxDatas.value.length <= 0) {
-      toast.warning('请选择品种')
-      return
-    }
-  } else if (selProd.value == Products.Otc) {
-    if (selectedIdxDatas.value.length <= 0) {
+  } else {
+    if (selData1.value.length <= 0) {
       toast.warning('请选择品种')
       return
     }
   }
 
-  // download()
+  download()
 }
 
 async function download() {
   let selDatas
-  if (currentGroup.value == ItemGroup.IdxItem) {
+  if (!isCategoryProd.value) {
     selDatas = {
-      items: selectedIdxDatas.value,
-    }
-  } else if (currentGroup.value == ItemGroup.OtcItem) {
-    selDatas = {
-      items: selectedOtcDatas.value,
+      items: selData1.value,
     }
   } else {
     selDatas = {
-      ftr: selectedFtrDatas.value,
-      opt: selectedOptDatas.value,
+      ftr: selData1.value,
+      opt: selData2.value,
     }
   }
   const res = await axIns.get<IDataResp>('/download', {
     params: {
-      timeLevel: values.timeLevel,
-      date: values.date,
-      rangePicker: values.rangePicker,
+      timeLevel: timeLevel.value,
+      date: date.value,
+      rangePicker: rangePicker,
       product: selProd.value,
       ...selDatas,
     },
@@ -142,7 +108,7 @@ async function download() {
     formNode.submit()
   } else {
     toast.error(error)
-    router.push({ path: '/' })
+    // router.push({ path: '/' })
   }
 }
 </script>

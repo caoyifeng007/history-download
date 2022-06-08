@@ -31,7 +31,6 @@ const change = async () => {
     return
   }
   const items = itemResp.items
-  console.log('isCategoryProd: ', isCategoryProd)
 
   if (isCategoryProd) {
     items.forEach((item) => {

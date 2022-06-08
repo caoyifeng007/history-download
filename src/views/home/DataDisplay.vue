@@ -1,10 +1,6 @@
 <template>
   <el-row>
-    <el-checkbox-group
-      v-model="selData1"
-      v-show="ftrCondition || normalCondition"
-      class="home-datas"
-    >
+    <el-checkbox-group v-model="selData1" v-show="isFtr || !isCategoryProd" class="home-datas">
       <el-space wrap :size="0">
         <template v-for="item in disData1" :key="item.label">
           <el-checkbox style="width: 9rem" class="datas" checked :label="item.label">
@@ -14,7 +10,7 @@
       </el-space>
     </el-checkbox-group>
 
-    <el-checkbox-group v-model="selData2" v-show="optCondition" class="home-datas">
+    <el-checkbox-group v-model="selData2" v-show="isOpt" class="home-datas">
       <el-space wrap :size="0">
         <template v-for="item in disData2" :key="item.label">
           <el-checkbox style="width: 9rem" class="datas" checked :label="item.label">
@@ -33,8 +29,4 @@ import { useHqyStore } from '@/stores/modules/app'
 const { disData1, disData2, selData1, selData2, isCategoryProd, isFtr, isOpt } = storeToRefs(
   useHqyStore()
 )
-
-const ftrCondition = isCategoryProd && isFtr
-const normalCondition = !isCategoryProd
-const optCondition = isCategoryProd && isOpt
 </script>
