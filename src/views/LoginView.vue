@@ -1,37 +1,35 @@
 <template>
-  <el-row :gutter="20" justify="center" align="middle">
-    <el-col :span="2">
-      <span class="indicator">席位号</span>
-    </el-col>
+  <div class="max-w-md mt-32 mx-auto bg-white p-8 rounded-xl shadow-2xl space-y-6">
+    <div class="justify-center items-center flex flex-row space-x-4">
+      <span class="text-right w-1/6">席位号</span>
+      <div class="rounded-lg w-3/5 relative">
+        <el-input class="" name="account" v-model="account" placeholder="请输入席位号" />
+        <span class="text-red-500 font-bold absolute -bottom-6 left-0">{{ accountError }}</span>
+      </div>
+    </div>
 
-    <el-col :span="4" class="col-parent">
-      <el-input name="account" v-model="account" placeholder="请输入席位号" />
-      <span class="warn">{{ accountError }}</span>
-    </el-col>
-  </el-row>
+    <div class="justify-center items-center flex flex-row space-x-4">
+      <span class="text-right w-1/6">密码</span>
+      <div class="rounded-lg w-3/5 relative">
+        <el-input
+          class="rounded-lg"
+          name="password"
+          v-model="password"
+          placeholder="请输入密码"
+          type="password"
+          show-password
+        />
+        <span class="text-red-500 font-bold absolute -bottom-6 left-0">{{ passwordError }}</span>
+      </div>
+    </div>
 
-  <el-row :gutter="20" justify="center" align="middle">
-    <el-col :span="2">
-      <span class="indicator">密码</span>
-    </el-col>
-
-    <el-col :span="4" class="col-parent">
-      <el-input
-        name="password"
-        v-model="password"
-        placeholder="请输入密码"
-        type="password"
-        show-password
-      />
-      <span class="warn">{{ passwordError }}</span>
-    </el-col>
-  </el-row>
-
-  <el-row justify="center" align="middle">
-    <el-col :span="2">
-      <el-button type="primary" @click="check">登录</el-button>
-    </el-col>
-  </el-row>
+    <el-button
+      class="mx-auto bg-black py-2 px-5 text-white block rounded-lg transform hover:scale-110 hover:bg-blue-400 transition"
+      @click="check"
+    >
+      登录</el-button
+    >
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -89,26 +87,3 @@ function check() {
     })
 }
 </script>
-
-<style scoped>
-.indicator {
-  display: inline-block;
-  text-align: right;
-  width: 100%;
-}
-.el-col {
-  border-radius: 4px;
-}
-.col-parent {
-  position: relative;
-}
-.warn {
-  top: 110%;
-  color: red;
-  left: 14px;
-  position: absolute;
-}
-.el-row {
-  margin-bottom: 40px;
-}
-</style>

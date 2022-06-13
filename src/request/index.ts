@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig } from 'axios'
+import { type AxiosRequestConfig } from 'axios'
 import axios, { AxiosInstance } from 'axios'
 
 import { getToken } from '@/util/auth'

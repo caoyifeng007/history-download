@@ -9,6 +9,7 @@ import Toast, { POSITION } from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 
 const app = createApp(App)
+const head = createHead()
 
 const options = {
   position: POSITION.TOP_RIGHT,
