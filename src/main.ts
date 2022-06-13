@@ -1,7 +1,9 @@
 import { createApp } from 'vue'
 
 import { store } from '@/stores'
-// import '@/css/style.css'
+import { createHead } from '@vueuse/head'
+import '@/css/style.css'
+
 import App from '@/App.vue'
 import router from '@/router'
 
@@ -15,6 +17,6 @@ const options = {
   position: POSITION.TOP_RIGHT,
 }
 
-app.use(Toast, options).use(store).use(router)
+app.use(Toast, options).use(store).use(router).use(head)
 
 app.mount('#app')
