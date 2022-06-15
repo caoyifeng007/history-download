@@ -1,25 +1,25 @@
 <template>
-  <el-row>
-    <el-checkbox-group v-model="selData1" v-show="isFtr || !isCategoryProd" class="home-datas">
-      <el-space wrap :size="0">
+  <div>
+    <el-checkbox-group v-model="selData1" v-show="isFtr || !isCategoryProd">
+      <div class="flex flex-wrap">
         <template v-for="item in disData1" :key="item.label">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="item.label">
+          <el-checkbox checked :label="item.label">
             {{ item.name }}
           </el-checkbox>
         </template>
-      </el-space>
+      </div>
     </el-checkbox-group>
 
-    <el-checkbox-group v-model="selData2" v-show="isOpt" class="home-datas">
-      <el-space wrap :size="0">
+    <el-checkbox-group v-model="selData2" v-show="isOpt">
+      <div class="flex flex-wrap">
         <template v-for="item in disData2" :key="item.label">
-          <el-checkbox style="width: 9rem" class="datas" checked :label="item.label">
+          <el-checkbox checked :label="item.label">
             {{ item.name }}
           </el-checkbox>
         </template>
-      </el-space>
+      </div>
     </el-checkbox-group>
-  </el-row>
+  </div>
 </template>
 
 <script setup lang="ts">

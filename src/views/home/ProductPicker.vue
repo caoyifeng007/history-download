@@ -1,8 +1,10 @@
 <template>
-  <p>行情类型 :</p>
-  <el-select name="product" v-model="selProd" clearable @change="change" placeholder="Select">
-    <el-option v-for="p in products" :key="p.label" :label="p.name" :value="p.label" />
-  </el-select>
+  <div class="flex items-center">
+    <p class="mr-4">行情类型 :</p>
+    <el-select name="product" v-model="selProd" clearable @change="change" placeholder="请选择">
+      <el-option v-for="p in products" :key="p.label" :label="p.name" :value="p.label" />
+    </el-select>
+  </div>
 </template>
 
 <script setup lang="ts">

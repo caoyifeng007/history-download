@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-show="isCategoryProd" v-model="category" class="home-futures-or-option">
+  <el-radio-group v-show="isCategoryProd" v-model="category">
     <el-radio-button label="ftr" size="large" class="home-futures">期货</el-radio-button>
     <el-radio-button label="opt" size="large" class="home-option">期权</el-radio-button>
   </el-radio-group>

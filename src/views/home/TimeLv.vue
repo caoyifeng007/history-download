@@ -1,10 +1,12 @@
 <template>
-  <p class="home-title">数据类型 :</p>
-  <el-radio-group v-model="values.timeLevel" name="timeLevel" @change="timelvChange">
-    <template v-for="lv in timelvs" :key="lv.TimelvLabel">
-      <el-radio :label="lv.label" size="default" border> {{ lv.name }}</el-radio>
-    </template>
-  </el-radio-group>
+  <div class="border-b-2 divide-gray-500 flex items-center m-8 p-8 flex-wrap">
+    <p class="mr-4">数据类型 :</p>
+    <el-radio-group v-model="values.timeLevel" name="timeLevel" @change="timelvChange">
+      <template v-for="lv in timelvs" :key="lv.TimelvLabel">
+        <el-radio :label="lv.label" size="default" border> {{ lv.name }}</el-radio>
+      </template>
+    </el-radio-group>
+  </div>
 </template>
 
 <script setup lang="ts">

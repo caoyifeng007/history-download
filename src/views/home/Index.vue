@@ -1,20 +1,18 @@
 <template>
-  <div class="container mx-auto space-y-10">
-    <div class="border-b-2 divide-gray-500">
-      <TimeLv />
-    </div>
+  <div class="mx-auto p-16">
+    <TimeLv />
 
-    <div>
-      <DatePicker />
+    <div class="flex p-8 m-8 mb-0">
+      <DatePicker class="mr-48" />
       <ProductPicker />
     </div>
 
-    <div>
+    <div class="p-8 m-8 mt-0">
       <CategorySwitch />
       <DataDisplay />
     </div>
 
-    <div>
+    <div class="p-8 m-8">
       <el-button type="primary" @click="check">分表下载</el-button>
     </div>
   </div>
