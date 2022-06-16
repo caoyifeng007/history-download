@@ -3,7 +3,9 @@
     <p class="mr-4">数据类型 :</p>
     <el-radio-group v-model="values.timeLevel" name="timeLevel" @change="timelvChange">
       <template v-for="lv in timelvs" :key="lv.TimelvLabel">
-        <el-radio :label="lv.label" size="default" border> {{ lv.name }}</el-radio>
+        <el-radio :label="lv.label" border>
+          {{ lv.name }}
+        </el-radio>
       </template>
     </el-radio-group>
   </div>
@@ -36,3 +38,21 @@ async function timelvChange() {
   products.value = productsResp.products
 }
 </script>
+
+<style scoped lang="less">
+.el-radio {
+  @apply w-32 h-8 p-0 flex items-center justify-center font-serif;
+  &.is-checked {
+    @apply bg-black border-gray-500;
+    :deep(.el-radio__label) {
+      @apply text-white;
+    }
+  }
+  :deep(.el-radio__label) {
+    @apply pl-0;
+  }
+  :deep(.el-radio__input) {
+    @apply hidden;
+  }
+}
+</style>

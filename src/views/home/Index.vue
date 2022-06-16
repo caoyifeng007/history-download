@@ -13,7 +13,12 @@
     </div>
 
     <div class="p-8 m-8">
-      <el-button type="primary" @click="check">分表下载</el-button>
+      <el-button
+        class="bg-black text-white rounded-lg transform hover:scale-110 hover:bg-black transition-transform duration-300"
+        @click="check"
+      >
+        分表下载
+      </el-button>
     </div>
   </div>
 </template>

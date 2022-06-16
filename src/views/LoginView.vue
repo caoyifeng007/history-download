@@ -27,8 +27,8 @@
       class="mx-auto bg-black py-2 px-5 text-white block rounded-lg transform hover:scale-110 hover:bg-blue-400 transition"
       @click="check"
     >
-      登录</el-button
-    >
+      登录
+    </el-button>
   </div>
 </template>
 

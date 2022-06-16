@@ -14,7 +14,7 @@ import { useHead } from '@vueuse/head'
 const title = import.meta.env.VITE_APP_TITLE
 const siteData = reactive({
   title,
-  description: `My beautiful website`,
+  description: `DCE history download`,
 })
 
 useHead({
@@ -34,5 +34,9 @@ useHead({
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+:root {
+  --el-color-primary: #303133;
+  color: var(--el-color-primary);
 }
 </style>
