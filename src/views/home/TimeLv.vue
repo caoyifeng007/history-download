@@ -3,8 +3,8 @@
     <p class="mr-4">数据类型 :</p>
     <el-radio-group v-model="values.timeLevel" name="timeLevel" @change="timelvChange">
       <template v-for="lv in timelvs" :key="lv.TimelvLabel">
-        <el-radio :label="lv.label" border>
-          {{ lv.name }}
+        <el-radio :label="lv.FCode" border>
+          {{ lv.FValue }}
         </el-radio>
       </template>
     </el-radio-group>

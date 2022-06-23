@@ -30,31 +30,32 @@ type ILoginResp = BaseResp & {
 }
 
 enum TimeLevels {
-  DayLevel = 'daylv',
-  MinuteLevel = 'minlv',
-  SnapLevel = 'snaplv',
+  SnapLevel = 'PS0001',
+  MinuteLevel = 'PS0002',
+  DayLevel = 'PS0003',
 }
 
 interface TimelvObj {
-  label: TimeLevels
-  name: string
+  FCode: TimeLevels
+  FValue: string
 }
 type ITimelvResp = BaseResp & {
   timelvs: TimelvObj[]
 }
 
 enum Products {
-  Day = 'DAY',
-  Index = 'IDX',
-  Basic = 'L1',
-  Deep = 'L2',
-  Otc = 'OTC',
+  Basic = 'DCE_L1',
+  Deep = 'DCE_L2',
+  Day = 'DCE_DE',
+  Index = 'DCE_IDX',
+  Otc = 'DCE_OTC',
 }
 
 interface ProductObj {
-  label: Products
-  name: string
+  FCode: Products
+  FValue: string
 }
+
 type IProductResp = BaseResp & {
   products: ProductObj[]
 }
@@ -64,20 +65,26 @@ enum Item {
   A = 'A',
   L = 'L',
   I = 'I',
-  IDX1 = 'IDX1',
-  IDX2 = 'IDX2',
+  m = 'm',
+  y = 'y',
+  jd = 'jd',
+  pfsm01 = 'pfsm01',
+  pfm002 = 'pfm002',
 }
 
 interface ItemObj {
-  label: Item
-  name: string
-  item_type: number
-  product: Products
+  VarietyId: Item
+  VarietyName: string
+  VarietyType: number
 }
 
 type IItemResp = BaseResp & {
-  items: ItemObj[]
+  items: {
+    Total: number
+    Data: ItemObj[]
+  }
 }
+
 interface IDataResp {
   validate: string
   dUrl: string

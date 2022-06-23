@@ -3,8 +3,8 @@
     <el-checkbox-group v-model="selData1" v-show="isFtr || !isCategoryProd">
       <div class="flex flex-wrap">
         <template v-for="item in disData1" :key="item.label">
-          <el-checkbox checked :label="item.label">
-            {{ item.name }}
+          <el-checkbox checked :label="item.VarietyId">
+            {{ item.VarietyName }}
           </el-checkbox>
         </template>
       </div>
@@ -13,8 +13,8 @@
     <el-checkbox-group v-model="selData2" v-show="isOpt">
       <div class="flex flex-wrap">
         <template v-for="item in disData2" :key="item.label">
-          <el-checkbox checked :label="item.label">
-            {{ item.name }}
+          <el-checkbox checked :label="item.VarietyId">
+            {{ item.VarietyName }}
           </el-checkbox>
         </template>
       </div>

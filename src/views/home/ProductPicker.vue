@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <p class="mr-4">行情类型 :</p>
     <el-select name="product" v-model="selProd" clearable @change="change" placeholder="请选择">
-      <el-option v-for="p in products" :key="p.label" :label="p.name" :value="p.label" />
+      <el-option v-for="p in products" :key="p.FCode" :label="p.FValue" :value="p.FCode" />
     </el-select>
   </div>
 </template>
@@ -34,21 +34,18 @@ const change = async () => {
   }
   const items = itemResp.items
 
-  if (isCategoryProd) {
-    items.forEach((item) => {
-      if (item.item_type == 1) {
+  console.log(items)
+
+  for (const item of items.Data) {
+    if (isCategoryProd.value) {
+      if (item.VarietyType == 1) {
         disData1.value.push(item)
-      } else if (item.item_type == 2) {
-        disData2.value.push(item)
-      } else if (item.item_type == 0) {
-        disData1.value.push(item)
+      } else if (item.VarietyType == 2) {
         disData2.value.push(item)
       }
-    })
-  } else {
-    items.forEach((item) => {
+    } else {
       disData1.value.push(item)
-    })
+    }
   }
 }
 </script>
